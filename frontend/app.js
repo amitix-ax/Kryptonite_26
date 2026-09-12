@@ -131,14 +131,6 @@ document.addEventListener('DOMContentLoaded', () => {
     simData = data;
     if (!data.steps || !data.steps.length) return;
 
-    // SHIFT TIMESTAMPS TO CURRENT DATE (Real-time simulation)
-    const nowSecs = Math.floor(Date.now() / 1000);
-    const lastSecs = data.steps[data.steps.length - 1].t;
-    const timeShift = nowSecs - lastSecs;
-    data.steps.forEach(s => {
-      if (s.t !== undefined) s.t += timeShift;
-    });
-
     // Map: trajectory, sea ice, stations, route, vessels
     mapCtrl.renderTrajectory(data.steps);
     mapCtrl.renderSeaIce(data.sea_ice_bounds);
