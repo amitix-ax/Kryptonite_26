@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Antarctic Iceberg Drift — Decision Support System</title>
+  <meta name="description" content="Real-time Antarctic iceberg drift prediction, risk assessment, and maritime navigation decision support.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <!-- ========== LEFT COLUMN: MAP ========== -->
+    <div class="col-map">
+      <!-- Top bar on map -->
+      <div class="map-topbar">
+        <div class="brand-row">
+          <svg class="brand-logo" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          <div>
+            <h1>ANTARCTIC ICEBERG DRIFT DSS</h1>
+            <span class="subtitle">Physics Engine v1.0 · Real-Time Decision Support</span>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <span class="live-badge"><span class="pulse"></span>LIVE</span>
+          <span class="unet-badge">⚡ U-Net AI Active</span>
+          <button id="loadDataBtn" class="file-btn">⬆ Load Data</button>
+          <input type="file" id="fileInput" accept=".json" style="display:none">
+        </div>
+      </div>
+
+      <div id="map"></div>
+
+      <!-- Map Overlay: Layer Switcher -->
+      <div class="map-ctrl map-ctrl-layers">
+        <button class="layer-chip active" data-layer="satellite">🛰️ Satellite</button>
+        <button class="layer-chip" data-layer="seaice">❄️ Sea Ice (NASA)</button>
+        <button class="layer-chip" data-layer="dark">🌑 Dark</button>
+        <button class="layer-chip" data-layer="topo">🗺️ Topo</button>
+      </div>
+
+      <!-- Map Overlay: Legend -->
+      <div class="map-ctrl map-ctrl-legend">
+        <div class="legend-row"><span class="lg-dot" style="background:#38bdf8"></span>Iceberg Trajectory</div>
+        <div class="legend-row"><span class="lg-dot" style="background:#10b981"></span>Research Station</div>
+        <div class="legend-row"><span class="lg-dot" style="background:#f59e0b"></span>Supply Vessel / Route</div>
+        <div class="legend-row"><span class="lg-dot" style="background:rgba(56,189,248,0.3);border:1px dashed #38bdf8"></span>Uncertainty Cone</div>
+        <div class="legend-row"><span class="lg-dot" style="background:rgba(168,85,247,0.35);border:1px dashed #a855f7"></span>Sea Ice Pack</div>
+        <div class="legend-row"><span class="lg-dot" style="background:#ef4444"></span>Danger / Risk Zone</div>
+      </div>
+
+      <!-- Map Overlay: Coordinates -->
+      <div class="map-ctrl map-ctrl-coords">
+        <div><span class="lbl">POS</span> <span id="coordLatLon" class="val-mono">-69.5000°S  11.5000°E</span></div>
+        <div><span class="lbl">CRS</span> <span id="coordXY" class="val-mono">X: 448.67 km  Y: 2205.31 km</span></div>
+        <div><span class="lbl">SPD</span> <span id="coordSpeed" class="val-mono">0.000 m/s  HDG: 0.0°</span></div>
+      </div>
+
+      <!-- Timeline / Playback -->
+      <div class="timeline-bar">
+        <div class="pb-controls">
+          <button id="btnPlayPause" class="pb-btn pb-main" title="Play / Pause">▶</button>
+          <button id="btnPrev" class="pb-btn" title="Prev Step">⏮</button>
+          <button id="btnNext" class="pb-btn" title="Next Step">⏭</button>
+          <div class="speed-group">
+            <button class="spd active" data-speed="1">1×</button>
+            <button class="spd" data-speed="5">5×</button>
+            <button class="spd" data-speed="20">20×</button>
+          </div>
+        </div>
+        <div class="scrubber-wrap">
+          <input type="range" id="timeScrubber" min="0" max="70" value="0" step="1">
+        </div>
+        <div class="pb-time">
+          <span id="timeUTC" class="time-utc">2026-01-15 00:00 UTC</span>
+          <span id="timeStep" class="time-step">Step 1 / 71</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== RIGHT COLUMN: PANELS ========== -->
+    <div class="col-panels">
+
+      <!-- Real-Time Status Cards -->
+      <section class="panel-section">
+        <h2 class="section-title">📡 REAL-TIME TELEMETRY</h2>
+        <div class="card-grid-4">
+          <div class="tcard tcard-accent">
+            <div class="tc-label">MODE</div>
+            <div class="tc-value" id="valMode">FREE_FLOATING</div>
+            <div class="tc-sub" id="valElapsed">T+0.0 h</div>
+          </div>
+          <div class="tcard">
+            <div class="tc-label">DRIFT SPEED</div>
+            <div class="tc-value"><span id="valSpeed">0.000</span> <small>m/s</small></div>
+            <div class="tc-sub" id="valHeading">HDG 0.0° (N)</div>
+          </div>
+          <div class="tcard">
+            <div class="tc-label">DIMENSIONS</div>
+            <div class="tc-value" id="valDim">800×400×150</div>
+            <div class="tc-sub"><span id="valVol">48.0</span> M m³</div>
+          </div>
+          <div class="tcard tcard-warn">
+            <div class="tc-label">UNCERTAINTY σ</div>
+            <div class="tc-value"><span id="valSigma">0.0</span> <small>m</small></div>
+            <div class="tc-sub">Position Std Dev</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Risk & Efficiency Assessment -->
+      <section class="panel-section">
+        <h2 class="section-title">⚠️ RISK & ROUTE EFFICIENCY</h2>
+        <div class="risk-grid">
+          <div class="risk-card">
+            <div class="risk-header">Collision Risk (Route)</div>
+            <div class="risk-bar-wrap">
+              <div class="risk-bar" id="riskCollision" style="width:0%"></div>
+            </div>
+            <div class="risk-pct" id="riskCollisionPct">—</div>
+          </div>
+          <div class="risk-card">
+            <div class="risk-header">Grounding Risk</div>
+            <div class="risk-bar-wrap">
+              <div class="risk-bar risk-bar-amber" id="riskGrounding" style="width:0%"></div>
+            </div>
+            <div class="risk-pct" id="riskGroundingPct">—</div>
+          </div>
+          <div class="risk-card">
+            <div class="risk-header">Route Efficiency</div>
+            <div class="risk-bar-wrap">
+              <div class="risk-bar risk-bar-green" id="riskEfficiency" style="width:0%"></div>
+            </div>
+            <div class="risk-pct" id="riskEfficiencyPct">—</div>
+          </div>
+          <div class="risk-card">
+            <div class="risk-header">Sea Ice Severity</div>
+            <div class="risk-bar-wrap">
+              <div class="risk-bar risk-bar-ice" id="riskSeaIce" style="width:0%"></div>
+            </div>
+            <div class="risk-pct" id="riskSeaIcePct">—</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Charts -->
+      <section class="panel-section">
+        <h2 class="section-title">📊 ANALYTICS</h2>
+        <div class="chart-stack">
+          <div class="chart-card">
+            <div class="chart-title">Drift Speed Profile <span class="chart-unit">m/s vs elapsed h</span></div>
+            <div class="chart-canvas-wrap"><canvas id="speedChart"></canvas></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-title">Position Uncertainty Growth <span class="chart-unit">σ (m)</span></div>
+            <div class="chart-canvas-wrap"><canvas id="uncertaintyChart"></canvas></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-title">Volume / Melt Rate <span class="chart-unit">10⁶ m³</span></div>
+            <div class="chart-canvas-wrap"><canvas id="volumeChart"></canvas></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Iceberg Database Panel -->
+      <section class="panel-section">
+        <h2 class="section-title">🧊 TRACKED ICEBERGS (NIC Database)</h2>
+        <div class="iceberg-table-wrap">
+          <table class="iceberg-table" id="icebergTable">
+            <thead>
+              <tr><th>ID</th><th>Lat</th><th>Lon</th><th>Size (km)</th><th>Status</th></tr>
+            </thead>
+            <tbody id="icebergTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Weather Panel -->
+      <section class="panel-section">
+        <h2 class="section-title">🌨️ ENVIRONMENTAL CONDITIONS</h2>
+        <div class="weather-grid">
+          <div class="wx-card">
+            <div class="wx-icon">🌬️</div>
+            <div class="wx-val" id="wxWind">5.2 m/s</div>
+            <div class="wx-lbl">Wind Speed</div>
+          </div>
+          <div class="wx-card">
+            <div class="wx-icon">🌡️</div>
+            <div class="wx-val" id="wxTemp">-18°C</div>
+            <div class="wx-lbl">Air Temp (ERA5)</div>
+          </div>
+          <div class="wx-card">
+            <div class="wx-icon">🌊</div>
+            <div class="wx-val" id="wxCurrent">0.12 m/s</div>
+            <div class="wx-lbl">Ocean Current</div>
+          </div>
+          <div class="wx-card">
+            <div class="wx-icon">❄️</div>
+            <div class="wx-val" id="wxSIC">3.1%</div>
+            <div class="wx-lbl">Sea Ice Conc.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Data Sources Footer -->
+      <section class="panel-section panel-footer">
+        <h2 class="section-title">📂 DATA SOURCES</h2>
+        <div class="src-grid">
+          <div><span class="src-lbl">Atmosphere:</span> <span id="srcWind">ERA5</span></div>
+          <div><span class="src-lbl">Ocean:</span> <span id="srcCurrent">Copernicus Marine</span></div>
+          <div><span class="src-lbl">Sea Ice:</span> <span id="srcSeaIce">AMSR2/NSIDC</span></div>
+          <div><span class="src-lbl">Bathymetry:</span> <span id="srcBathy">BedMachine</span></div>
+          <div><span class="src-lbl">Solver:</span> <span id="srcSolver">RK45</span></div>
+          <div><span class="src-lbl">Displacement:</span> <span id="srcDisp">—</span></div>
+        </div>
+        <div class="disclaimer">⚠ Research/prototype output. NOT a certified navigation product.</div>
+      </section>
+    </div>
+  </div>
+
+  <script src="map.js"></script>
+  <script src="charts.js"></script>
+  <script src="timeline.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+# Default physics configuration. All values here are literature-typical
+# DEFAULTS, not validated constants -- see src/iceberg_model/physics/constants.py
+# and config/physics_config.py docstrings for sourcing notes and caveats.
+
+fluids:
+  rho_seawater: 1027.0     # kg/m^3
+  rho_air: 1.225            # kg/m^3
+  rho_ice: 900.0            # kg/m^3 (UNVALIDATED DEFAULT, tune per iceberg population)
+
+drag:
+  c_dw: 1.5   # ocean drag coefficient (UNVALIDATED DEFAULT)
+  c_da: 1.3   # wind drag coefficient (UNVALIDATED DEFAULT)
+  c_dsi: 1.0  # sea-ice drag coefficient (UNVALIDATED DEFAULT)
+
+grounding:
+  enabled: true
+  friction_coefficient_mu: 0.4   # UNVALIDATED DEFAULT
+  normal_force_model: weight_minus_buoyancy
+
+melting:
+  enabled: true
+  basal_melt_enabled: true
+  lateral_melt_enabled: true
+  wave_erosion_enabled: true
+  min_dimension_m: 1.0
+
+pressure_gradient:
+  enabled: false  # requires SSH gradient field; never fabricated when unavailable
+
+sea_ice_drag:
+  enabled: true
+  fallback_velocity_source: ocean_current
+
+temporal_interpolation:
+  allow_extrapolation: false
+  method: linear
+
+solver:
+  kind: RK45
+  rtol: 1.0e-6
+  atol: 1.0e-8
+  max_step_seconds: null
+
+crs:
+  working_crs: "EPSG:3031"     # Antarctic Polar Stereographic
+  geographic_crs: "EPSG:4326"
+
+ocean_drag_mode: depth_averaged
+coriolis_enabled: true

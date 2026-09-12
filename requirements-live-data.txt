@@ -1,0 +1,8 @@
+# Live-data fetcher dependencies (pyproject.toml's
+# [project.optional-dependencies].live-data) -- ERA5 (cdsapi), NASA
+# Earthdata/NSIDC (earthaccess), and Copernicus Marine (copernicusmarine).
+# See docs/data_pipeline.md "Automatic live data ingestion" for setup.
+cdsapi>=0.7
+earthaccess>=0.10
+copernicusmarine>=1.3
+python-dotenv>=1.0

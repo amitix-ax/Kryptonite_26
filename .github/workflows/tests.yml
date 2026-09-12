@@ -1,0 +1,55 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install system dependencies (GDAL/GEOS for rasterio/geopandas)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gdal-bin libgdal-dev libgeos-dev
+
+      - name: Install package + test dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -e .
+          pip install pytest-cov
+
+      - name: Run test suite
+        run: pytest -q --cov=iceberg_model --cov-report=term-missing
+
+      - name: Run example scripts (synthetic data, no external network needed)
+        run: |
+          python examples/synthetic_iceberg.py
+          python examples/synthetic_environment.py
+          python examples/run_real_data.py
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install ruff
+        run: pip install ruff
+      - name: Run ruff (non-blocking, informational)
+        run: ruff check src/ tests/ examples/ --exit-zero

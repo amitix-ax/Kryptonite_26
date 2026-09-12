@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "iceberg-model"
+version = "0.1.0"
+description = "Physics-first Antarctic iceberg drift, grounding, and melting engine (pre-ML)."
+requires-python = ">=3.11"
+readme = "README.md"
+dependencies = [
+    "numpy>=1.26",
+    "scipy>=1.11",
+    "pandas>=2.1",
+    "xarray>=2023.12",
+    "rasterio>=1.3",
+    "pyproj>=3.6",
+    "shapely>=2.0",
+    "geopandas>=0.14",
+    "pydantic>=2.5",
+    "matplotlib>=3.8",
+    "pyyaml>=6.0",
+    "pytest>=7.4",
+]
+
+[project.optional-dependencies]
+optional = ["netCDF4>=1.6", "h5py>=3.10", "scikit-image>=0.22", "numba>=0.58", "torch>=2.1"]
+live-data = ["cdsapi>=0.7", "earthaccess>=0.10", "copernicusmarine>=1.3", "python-dotenv>=1.0"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+src = ["src"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+ignore = ["E501"]  # line length handled by formatter/reviewer judgment, not a hard gate
+
+[tool.mypy]
+python_version = "3.11"
+mypy_path = "src"
+ignore_missing_imports = true
+warn_unused_ignores = true
+# Kept permissive intentionally: the codebase uses Optional[...] heavily
+# for the "missing data must never become a valid value" pattern, and a
+# strict mypy pass is a good follow-up project, not a blocker for this one.
+disallow_untyped_defs = false

@@ -1,0 +1,16 @@
+# Core requirements. Generated from pyproject.toml's [project.dependencies]
+# -- keep the two in sync. Prefer `pip install -e .` for development;
+# this file exists for environments that expect a requirements.txt
+# (Docker builds, CI caches, some deployment tooling).
+numpy>=1.26
+scipy>=1.11
+pandas>=2.1
+xarray>=2023.12
+rasterio>=1.3
+pyproj>=3.6
+shapely>=2.0
+geopandas>=0.14
+pydantic>=2.5
+matplotlib>=3.8
+pyyaml>=6.0
+pytest>=7.4
