@@ -17,3 +17,5 @@ temp_kryptonite/
 node_modules/
 *.nc
 *.npy
+
+.vercel

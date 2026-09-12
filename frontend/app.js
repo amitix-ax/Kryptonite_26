@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const mapCtrl = new IcebergMap('map');
   const charts = new DashboardCharts();
   let simData = null;
+  let nicIcebergs = [];
 
   mapCtrl.init(-69.5, 30.0, 4);
 
@@ -13,6 +14,89 @@ document.addEventListener('DOMContentLoaded', () => {
     mapCtrl.updateStep(step, active);
     updateTelemetry(step, idx);
     updateRisk(step, idx, simData);
+  });
+
+  // ---- ROUTE PLANNER ----
+  const routePlanner = new RoutePlanner(mapCtrl, (routeData) => {
+    // Route updated callback — recalculate fuel and update risk corridors
+    if (routeData) {
+      fuelCalc.calculateForRoute(routeData);
+      renderRiskCorridors(routeData.riskCorridors);
+      renderRouteSummary(routeData);
+    } else {
+      fuelCalc.calculateForRoute(null);
+      renderRiskCorridors([]);
+      renderRouteSummary(null);
+    }
+  });
+  window._routePlanner = routePlanner; // Expose for inline onclick handlers
+
+  // ---- FUEL CALCULATOR ----
+  const fuelCalc = new FuelCalculator((fuelResult) => {
+    // When vessel specs change, re-run calc if we have route data
+    if (!fuelResult && routePlanner.lastRouteResult) {
+      fuelCalc.calculateForRoute(routePlanner.lastRouteResult);
+    }
+  });
+
+  // ---- CONFIDENCE TRACKER ----
+  const confTracker = new ConfidenceTracker(() => {
+    // Auto-refresh callback: reload data and recalculate
+    console.log('[ConfTracker] Auto-refresh triggered');
+    if (routePlanner.lastRouteResult) {
+      // Recalculate route with current hazards
+      routePlanner._recalculate();
+    }
+  });
+
+  // ---- ROUTE PLANNER BUTTON BINDINGS ----
+  document.getElementById('rpBtnStart').addEventListener('click', () => {
+    routePlanner.enterPlacementMode('start');
+    setActivePlacementBtn('rpBtnStart');
+  });
+  document.getElementById('rpBtnEnd').addEventListener('click', () => {
+    routePlanner.enterPlacementMode('end');
+    setActivePlacementBtn('rpBtnEnd');
+  });
+  document.getElementById('rpBtnWaypoint').addEventListener('click', () => {
+    routePlanner.enterPlacementMode('waypoint');
+    setActivePlacementBtn('rpBtnWaypoint');
+  });
+  document.getElementById('rpBtnClear').addEventListener('click', () => {
+    routePlanner.clearAll();
+  });
+
+  function setActivePlacementBtn(activeId) {
+    ['rpBtnStart', 'rpBtnEnd', 'rpBtnWaypoint'].forEach(id => {
+      document.getElementById(id).classList.remove('active');
+    });
+    document.getElementById(activeId).classList.add('active');
+
+    // Clear active state when placement completes
+    const checkInterval = setInterval(() => {
+      if (!routePlanner.placementMode) {
+        document.getElementById(activeId).classList.remove('active');
+        clearInterval(checkInterval);
+      }
+    }, 200);
+  }
+
+  // ---- ROUTE PLANNER PANEL TOGGLE ----
+  const rpToggle = document.getElementById('rpToggle');
+  const rpBody = document.getElementById('rpBody');
+  let rpCollapsed = false;
+  rpToggle.addEventListener('click', () => {
+    rpCollapsed = !rpCollapsed;
+    rpBody.style.display = rpCollapsed ? 'none' : '';
+    rpToggle.textContent = rpCollapsed ? '+' : '—';
+  });
+
+  // ---- VESSEL SPECS COLLAPSE TOGGLE ----
+  const fcHeader = document.getElementById('fcSpecsHeader');
+  const fcBody = document.getElementById('fcSpecsBody');
+  fcHeader.addEventListener('click', () => {
+    fcBody.classList.toggle('open');
+    fcHeader.classList.toggle('open');
   });
 
   // Auto-load data
@@ -47,15 +131,26 @@ document.addEventListener('DOMContentLoaded', () => {
     simData = data;
     if (!data.steps || !data.steps.length) return;
 
+    // SHIFT TIMESTAMPS TO CURRENT DATE (Real-time simulation)
+    const nowSecs = Math.floor(Date.now() / 1000);
+    const lastSecs = data.steps[data.steps.length - 1].t;
+    const timeShift = nowSecs - lastSecs;
+    data.steps.forEach(s => {
+      if (s.t !== undefined) s.t += timeShift;
+    });
+
     // Map: trajectory, sea ice, stations, route, vessels
     mapCtrl.renderTrajectory(data.steps);
     mapCtrl.renderSeaIce(data.sea_ice_bounds);
     mapCtrl.renderStationsAndRoute(data.stations, data.route || data.route_waypoints_lonlat, data.vessels);
 
     // NIC Iceberg Database (real Antarctic icebergs)
-    const nicIcebergs = generateNICIcebergs(data);
+    nicIcebergs = generateNICIcebergs(data);
     mapCtrl.renderIcebergDatabase(nicIcebergs);
     populateIcebergTable(nicIcebergs);
+
+    // Pass hazard data to route planner
+    routePlanner.setHazards(nicIcebergs, data.sea_ice_bounds);
 
     // Charts
     charts.init(data.steps);
@@ -76,6 +171,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Weather panel (from simulation context)
     updateWeather(data);
+
+    // Mark data as fresh
+    confTracker.markDataUpdated();
 
     // Initial step
     timeline._emit();
@@ -112,7 +210,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const progress = idx / Math.max(totalSteps - 1, 1);
 
     // Collision Risk: based on proximity to shipping route and speed
-    // Higher speed + closer to route = higher risk
     const routeProximityKm = estimateRouteProximity(step, data.route);
     const collisionRisk = Math.min(100, Math.max(2,
       (1 / Math.max(routeProximityKm, 1)) * 150 * (1 + step.speed * 10)
@@ -216,6 +313,90 @@ document.addEventListener('DOMContentLoaded', () => {
     // SIC from metadata
     const sicStr = data.metadata?.data_sources?.sea_ice || '';
     document.getElementById('wxSIC').textContent = sicStr.includes('fallback') ? '3.1%' : '~15%';
+  }
+
+  // ---- RISKY CORRIDORS PANEL ----
+  function renderRiskCorridors(corridors) {
+    const container = document.getElementById('riskCorridorList');
+    if (!container) return;
+
+    if (!corridors || corridors.length === 0) {
+      container.innerHTML = '<div class="rc-empty">Plan a route to identify risk corridors</div>';
+      return;
+    }
+
+    // Sort by severity: CRITICAL > HIGH > MODERATE
+    const sevOrder = { CRITICAL: 0, HIGH: 1, MODERATE: 2 };
+    const sorted = [...corridors].sort((a, b) => (sevOrder[a.severity] || 9) - (sevOrder[b.severity] || 9));
+
+    container.innerHTML = sorted.map((risk, i) => {
+      const typeIcons = {
+        iceberg_proximity: '🧊',
+        sea_ice: '❄️',
+        high_latitude: '🌍'
+      };
+      const typeLabels = {
+        iceberg_proximity: `Iceberg ${risk.icebergId || ''}`,
+        sea_ice: 'Sea Ice Zone',
+        high_latitude: 'High Latitude'
+      };
+
+      return `
+        <div class="risk-corridor-card severity-${risk.severity}" onclick="this.querySelector('.rc-body').classList.toggle('open')">
+          <div class="rc-header">
+            <div class="rc-type">${typeIcons[risk.type] || '⚠'} ${typeLabels[risk.type] || risk.type}</div>
+            <span class="rc-severity rc-severity-${risk.severity}">${risk.severity}</span>
+          </div>
+          <div class="rc-body">
+            <div class="rc-reason">${risk.reason}</div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // ---- ROUTE SUMMARY MINI CARD ----
+  function renderRouteSummary(routeData) {
+    const container = document.getElementById('rpRouteSummary');
+    if (!container) return;
+
+    if (!routeData) {
+      container.innerHTML = '';
+      return;
+    }
+
+    const riskCount = routeData.riskCorridors.length;
+    const riskColor = riskCount === 0 ? '#10b981' : riskCount <= 2 ? '#f59e0b' : '#ef4444';
+
+    container.innerHTML = `
+      <div style="
+        margin-top:8px;padding:10px;border-radius:10px;
+        background:rgba(255,255,255,0.03);
+        border:1px solid rgba(255,255,255,0.08);
+        display:flex;flex-direction:column;gap:6px;
+      ">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:11px;font-weight:700;color:#fff">Route Summary</span>
+          <span style="font-size:9px;font-weight:700;color:${riskColor};background:${riskColor}15;padding:2px 8px;border-radius:10px;border:1px solid ${riskColor}40">
+            ${riskCount === 0 ? '✓ CLEAR' : `⚠ ${riskCount} RISK${riskCount > 1 ? 'S' : ''}`}
+          </span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-family:'JetBrains Mono',monospace">
+          <div>
+            <div style="font-size:8px;color:#64748b;text-transform:uppercase">Distance</div>
+            <div style="font-size:13px;font-weight:700;color:#fff">${routeData.totalDistanceNm.toFixed(1)}<span style="font-size:9px;color:#94a3b8"> nm</span></div>
+          </div>
+          <div>
+            <div style="font-size:8px;color:#64748b;text-transform:uppercase">Waypoints</div>
+            <div style="font-size:13px;font-weight:700;color:#fff">${routeData.waypointCount}</div>
+          </div>
+          <div>
+            <div style="font-size:8px;color:#64748b;text-transform:uppercase">Segments</div>
+            <div style="font-size:13px;font-weight:700;color:#fff">${routeData.segments.length}</div>
+          </div>
+        </div>
+      </div>
+    `;
   }
 
   function cardinal(a) {

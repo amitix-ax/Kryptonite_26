@@ -1,25 +1,14 @@
 {
   "version": 2,
-  "buildCommand": null,
-  "outputDirectory": ".",
-  "rewrites": [
-    { "source": "/", "destination": "/frontend/index.html" },
-    { "source": "/frontend/(.*)", "destination": "/frontend/$1" },
-    { "source": "/data/(.*)", "destination": "/data/$1" }
+  "public": true,
+  "builds": [
+    { "src": "index.html", "use": "@vercel/static" },
+    { "src": "frontend/**/*", "use": "@vercel/static" },
+    { "src": "data/**/*", "use": "@vercel/static" }
   ],
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        { "key": "Access-Control-Allow-Origin", "value": "*" },
-        { "key": "Cache-Control", "value": "public, max-age=3600" }
-      ]
-    },
-    {
-      "source": "/data/(.*)",
-      "headers": [
-        { "key": "Content-Type", "value": "application/json" }
-      ]
-    }
+  "routes": [
+    { "src": "/", "dest": "/frontend/index.html" },
+    { "src": "/frontend/(.*)", "dest": "/frontend/$1" },
+    { "src": "/data/(.*)", "dest": "/data/$1" }
   ]
 }

@@ -35,6 +35,8 @@
         </div>
         <div class="topbar-right">
           <span class="live-badge"><span class="pulse"></span>LIVE</span>
+          <!-- Confidence/Staleness Badge -->
+          <span id="ctBadge" class="ct-badge ct-fresh"><span class="ct-dot ct-dot-fresh"></span> FRESH 98%</span>
           <span class="unet-badge">⚡ U-Net AI Active</span>
           <button id="loadDataBtn" class="file-btn">⬆ Load Data</button>
           <input type="file" id="fileInput" accept=".json" style="display:none">
@@ -42,6 +44,38 @@
       </div>
 
       <div id="map"></div>
+
+      <!-- ===== ROUTE PLANNER FLOATING PANEL (Uber-style) ===== -->
+      <div class="rp-panel" id="rpPanel">
+        <div class="rp-panel-header">
+          <div class="rp-panel-title">🗺️ VOYAGE PLANNER</div>
+          <button class="rp-panel-toggle" id="rpToggle" title="Collapse">—</button>
+        </div>
+
+        <div id="rpBody">
+          <!-- Placement buttons -->
+          <div class="rp-btn-row">
+            <button class="rp-place-btn rp-btn-start" id="rpBtnStart">🟢 Start</button>
+            <button class="rp-place-btn rp-btn-wp" id="rpBtnWaypoint">🟡 Waypoint</button>
+            <button class="rp-place-btn rp-btn-end" id="rpBtnEnd">🔴 End</button>
+            <button class="rp-place-btn rp-btn-clear" id="rpBtnClear">✕</button>
+          </div>
+
+          <!-- Placement status -->
+          <div class="rp-placement-status" id="rpPlacementStatus"></div>
+
+          <!-- Waypoint list -->
+          <div id="rpWaypointList">
+            <div class="rp-empty">
+              <div class="rp-empty-icon">📍</div>
+              <div class="rp-empty-text">Click a button above to place<br>your start and destination points</div>
+            </div>
+          </div>
+
+          <!-- Route summary mini card -->
+          <div id="rpRouteSummary"></div>
+        </div>
+      </div>
 
       <!-- Map Overlay: Layer Switcher -->
       <div class="map-ctrl map-ctrl-layers">
@@ -59,6 +93,8 @@
         <div class="legend-row"><span class="lg-dot" style="background:rgba(56,189,248,0.3);border:1px dashed #38bdf8"></span>Uncertainty Cone</div>
         <div class="legend-row"><span class="lg-dot" style="background:rgba(168,85,247,0.35);border:1px dashed #a855f7"></span>Sea Ice Pack</div>
         <div class="legend-row"><span class="lg-dot" style="background:#ef4444"></span>Danger / Risk Zone</div>
+        <div class="legend-row"><span class="lg-dot" style="background:#10b981;border:2px solid #059669"></span>Planned Route (Safe)</div>
+        <div class="legend-row"><span class="lg-dot" style="background:#ef4444;border:2px solid #dc2626"></span>Planned Route (Risky)</div>
       </div>
 
       <!-- Map Overlay: Coordinates -->
@@ -92,6 +128,122 @@
 
     <!-- ========== RIGHT COLUMN: PANELS ========== -->
     <div class="col-panels">
+
+      <!-- Confidence & Data Freshness Panel -->
+      <section class="panel-section">
+        <h2 class="section-title">🕐 DATA CONFIDENCE & REFRESH</h2>
+        <div class="ct-info-row">
+          <span class="ct-info-label">Confidence</span>
+          <span class="ct-info-value" id="ctConfPct">98%</span>
+        </div>
+        <div class="ct-bar-wrap">
+          <div class="ct-bar-fill" id="ctConfBar" style="width:98%;background:linear-gradient(90deg,#10b981,#34d399);box-shadow:0 0 10px rgba(16,185,129,0.4)"></div>
+        </div>
+        <div class="ct-info-row" style="margin-top:4px">
+          <span class="ct-info-label" id="ctLastUpdate" style="color:#10b981">Updated just now</span>
+          <span class="ct-info-value" id="ctCountdown" style="font-size:10px;color:var(--text3)">Next refresh: 15:00</span>
+        </div>
+        <div class="ct-refresh-controls">
+          <button class="ct-refresh-btn" id="ctManualRefresh">🔄 Refresh Now</button>
+          <select class="fc-select" id="ctRefreshInterval" style="max-width:130px;font-size:10px">
+            <option value="5">Every 5 min</option>
+            <option value="15" selected>Every 15 min</option>
+            <option value="30">Every 30 min</option>
+            <option value="60">Every 60 min</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- Fuel & Route Summary Card (shows when route is planned) -->
+      <section class="panel-section" id="fcSummarySection">
+        <h2 class="section-title">⛽ FUEL & TRANSIT ESTIMATE</h2>
+        <div id="fcResultPanel">
+          <div class="fc-empty">
+            <div class="fc-empty-icon">⛽</div>
+            <div class="fc-empty-text">Place route markers to calculate fuel & transit estimates</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Vessel Specifications (Collapsible) -->
+      <section class="panel-section">
+        <div class="fc-collapse-header open" id="fcSpecsHeader">
+          <h2 class="section-title">🚢 VESSEL SPECIFICATIONS</h2>
+          <span class="fc-collapse-arrow">▼</span>
+        </div>
+        <div class="fc-collapse-body open" id="fcSpecsBody">
+          <div class="fc-form">
+            <div class="fc-form-row full">
+              <div class="fc-field">
+                <label class="fc-label" for="fcVesselName">Vessel Name</label>
+                <input class="fc-input" type="text" id="fcVesselName" value="S.A. Agulhas II">
+              </div>
+            </div>
+            <div class="fc-form-row">
+              <div class="fc-field">
+                <label class="fc-label" for="fcVesselType">Type</label>
+                <select class="fc-select" id="fcVesselType">
+                  <option value="icebreaker" selected>Icebreaker</option>
+                  <option value="supply">Supply Vessel</option>
+                  <option value="research">Research Vessel</option>
+                  <option value="cargo">Cargo Ship</option>
+                </select>
+              </div>
+              <div class="fc-field">
+                <label class="fc-label" for="fcIceClass">Ice Class</label>
+                <select class="fc-select" id="fcIceClass">
+                  <option value="PC1">PC1 (Year-round Polar)</option>
+                  <option value="PC2">PC2</option>
+                  <option value="PC3">PC3</option>
+                  <option value="PC4">PC4</option>
+                  <option value="PC5" selected>PC5</option>
+                  <option value="PC6">PC6</option>
+                  <option value="PC7">PC7</option>
+                  <option value="IA Super">IA Super</option>
+                  <option value="IA">IA</option>
+                  <option value="IB">IB</option>
+                  <option value="IC">IC</option>
+                  <option value="None">None</option>
+                </select>
+              </div>
+            </div>
+            <div class="fc-form-row">
+              <div class="fc-field">
+                <label class="fc-label" for="fcDisplacement">Displacement (t)</label>
+                <input class="fc-input" type="number" id="fcDisplacement" value="13687">
+              </div>
+              <div class="fc-field">
+                <label class="fc-label" for="fcEnginePower">Engine Power (kW)</label>
+                <input class="fc-input" type="number" id="fcEnginePower" value="12000">
+              </div>
+            </div>
+            <div class="fc-form-row">
+              <div class="fc-field">
+                <label class="fc-label" for="fcCruisingSpeed">Cruising Speed (kts)</label>
+                <input class="fc-input" type="number" id="fcCruisingSpeed" value="14" step="0.5">
+              </div>
+              <div class="fc-field">
+                <label class="fc-label" for="fcFuelRate">Fuel Rate (t/hr)</label>
+                <input class="fc-input" type="number" id="fcFuelRate" value="2.8" step="0.1">
+              </div>
+            </div>
+            <div class="fc-form-row">
+              <div class="fc-field">
+                <label class="fc-label" for="fcFuelPrice">Fuel Price ($/t) <a href="https://shipandbunker.com/" target="_blank" style="color:#38bdf8;text-decoration:none;">(Source)</a></label>
+                <input class="fc-input" type="number" id="fcFuelPrice" value="850" step="10">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Risky Corridors -->
+      <section class="panel-section" id="riskCorridorSection">
+        <h2 class="section-title">🚨 RISKY CORRIDORS</h2>
+        <div id="riskCorridorList" class="risk-corridor-list">
+          <div class="rc-empty">Plan a route to identify risk corridors</div>
+        </div>
+      </section>
 
       <!-- Real-Time Status Cards -->
       <section class="panel-section">
@@ -176,7 +328,7 @@
 
       <!-- Iceberg Database Panel -->
       <section class="panel-section">
-        <h2 class="section-title">🧊 TRACKED ICEBERGS (NIC Database)</h2>
+        <h2 class="section-title">🧊 TRACKED ICEBERGS (<a href="https://usicecenter.gov/" target="_blank" style="color:#38bdf8;text-decoration:none;">NIC Database</a>)</h2>
         <div class="iceberg-table-wrap">
           <table class="iceberg-table" id="icebergTable">
             <thead>
@@ -194,22 +346,22 @@
           <div class="wx-card">
             <div class="wx-icon">🌬️</div>
             <div class="wx-val" id="wxWind">5.2 m/s</div>
-            <div class="wx-lbl">Wind Speed</div>
+            <div class="wx-lbl"><a href="https://cds.climate.copernicus.eu/cdsapp#!/dataset/reanalysis-era5-single-levels" target="_blank" style="color:var(--text3);text-decoration:underline;">Wind (ERA5)</a></div>
           </div>
           <div class="wx-card">
             <div class="wx-icon">🌡️</div>
             <div class="wx-val" id="wxTemp">-18°C</div>
-            <div class="wx-lbl">Air Temp (ERA5)</div>
+            <div class="wx-lbl"><a href="https://cds.climate.copernicus.eu/cdsapp#!/dataset/reanalysis-era5-single-levels" target="_blank" style="color:var(--text3);text-decoration:underline;">Temp (ERA5)</a></div>
           </div>
           <div class="wx-card">
             <div class="wx-icon">🌊</div>
             <div class="wx-val" id="wxCurrent">0.12 m/s</div>
-            <div class="wx-lbl">Ocean Current</div>
+            <div class="wx-lbl"><a href="https://marine.copernicus.eu/" target="_blank" style="color:var(--text3);text-decoration:underline;">Currents (CMEMS)</a></div>
           </div>
           <div class="wx-card">
             <div class="wx-icon">❄️</div>
             <div class="wx-val" id="wxSIC">3.1%</div>
-            <div class="wx-lbl">Sea Ice Conc.</div>
+            <div class="wx-lbl"><a href="https://nsidc.org/data/amsr2" target="_blank" style="color:var(--text3);text-decoration:underline;">Sea Ice (NSIDC)</a></div>
           </div>
         </div>
       </section>
@@ -230,9 +382,12 @@
     </div>
   </div>
 
-  <script src="map.js"></script>
-  <script src="charts.js"></script>
-  <script src="timeline.js"></script>
-  <script src="app.js"></script>
+  <script src="map.js?v=2"></script>
+  <script src="charts.js?v=2"></script>
+  <script src="timeline.js?v=2"></script>
+  <script src="route_planner.js?v=2"></script>
+  <script src="fuel_calculator.js?v=2"></script>
+  <script src="confidence_tracker.js?v=2"></script>
+  <script src="app.js?v=2"></script>
 </body>
 </html>
