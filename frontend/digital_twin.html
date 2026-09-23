@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Environment Variables: Virtual Random</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <style>
+    /* Monochrome Glassy Theme */
+    :root {
+      --bg-dark: #0a0a0a; 
+      --panel-glass: rgba(30, 30, 30, 0.4);
+      --border: rgba(255, 255, 255, 0.1);
+      --border-hover: rgba(255, 255, 255, 0.3);
+      --text: #ffffff;
+      --text2: #a3a3a3;
+      --text3: #737373;
+      --brand-accent: #e5e5e5;
+      --font: 'Inter', sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+    }
+
+    body {
+      margin: 0; padding: 0; 
+      background: radial-gradient(circle at center, #171717, var(--bg-dark));
+      color: var(--text);
+      font-family: var(--font); 
+      height: 100vh; 
+      display: flex; flex-direction: column; 
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+    
+    /* Topbar & Tabs */
+    .map-topbar {
+      height: auto; min-height: 56px;
+      background: rgba(10, 10, 10, 0.6);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;
+      padding: 10px 24px;
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 100;
+      gap: 15px;
+    }
+    .brand-row { display: flex; flex-direction: column; gap: 4px; }
+    .brand-title { display: flex; align-items: center; gap: 12px; }
+    .brand-title h1 { font-size: 16px; font-weight: 600; letter-spacing: 1px; color: var(--text); margin:0; text-transform: uppercase; }
+    .declaration { font-size: 11px; color: var(--text3); font-family: var(--mono); font-style: italic; letter-spacing: 0.5px; }
+    
+    .nav-tabs { display: flex; gap: 15px; }
+    .nav-tabs a {
+      color: var(--text2); text-decoration: none; font-size: 13px; font-weight: 600;
+      padding: 6px 12px; border-radius: 6px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      background: rgba(255,255,255,0.02); border: 1px solid transparent;
+    }
+    .nav-tabs a:hover { color: #fff; background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
+    .nav-tabs a.active { color: #fff; border-bottom: 2px solid var(--brand-accent); border-radius: 6px 6px 0 0; background: transparent; }
+
+    .content { 
+      padding: 30px; 
+      display: flex; flex-direction: column; gap: 20px;
+      max-width: 1400px; margin: 0 auto; width: 100%; box-sizing: border-box;
+    }
+
+    /* Grid Layouts */
+    .visuals-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 250px 250px;
+      gap: 20px;
+    }
+
+    /* Glassy Panels */
+    .dash-panel {
+      background: var(--panel-glass);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex; flex-direction: column;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4), inset 0 0 20px rgba(255,255,255,0.02);
+    }
+    .dash-panel:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-hover);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6), inset 0 0 20px rgba(255,255,255,0.05);
+    }
+    
+    .dash-panel h3 { 
+      font-size: 12px; color: var(--text); text-transform: uppercase; 
+      letter-spacing: 1px; margin: 0 0 15px 0; font-weight: 700;
+      border-bottom: 1px solid var(--border); padding-bottom: 8px;
+    }
+
+    /* --- Visual Canvases --- */
+    .visual-container {
+      flex: 1; position: relative; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(180deg, rgba(255,255,255,0.01) 0%, rgba(255,255,255,0.04) 100%);
+      border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);
+      box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
+    }
+
+    /* Warship Sideview */
+    .warship-wrapper { position: relative; transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1); width: 350px; height: 120px; }
+    .warship-hull {
+      position: absolute; bottom: 10px; left: 0; width: 100%; height: 40px;
+      background: linear-gradient(90deg, #525252, #a3a3a3);
+      clip-path: polygon(0 0, 100% 0, 90% 100%, 15% 100%); opacity: 0.9;
+      box-shadow: 0 0 20px rgba(255,255,255,0.2);
+    }
+    .warship-bridge {
+      position: absolute; bottom: 50px; left: 35%; width: 120px; height: 45px;
+      background: linear-gradient(180deg, #737373, #404040);
+      clip-path: polygon(20% 0, 100% 0, 100% 100%, 0 100%);
+    }
+    .warship-mast { position: absolute; bottom: 95px; left: 55%; width: 4px; height: 40px; background: #d4d4d4; box-shadow: 0 0 8px rgba(255,255,255,0.5); }
+    .warship-aft { position: absolute; bottom: 50px; left: 5%; width: 80px; height: 10px; background: #262626; }
+    .warship-gun { position: absolute; bottom: 50px; left: 75%; width: 30px; height: 15px; background: #404040; clip-path: polygon(0 100%, 50% 0, 100% 0, 100% 100%); }
+    .warship-gun-barrel { position: absolute; bottom: 58px; left: 81%; width: 40px; height: 3px; background: #a3a3a3; transform: rotate(-5deg); }
+    .waterline { position: absolute; bottom: 8px; left: -50px; width: 500px; height: 2px; background: #ffffff; box-shadow: 0 0 15px #ffffff, 0 0 5px rgba(255,255,255,0.8); }
+
+    /* Radar Canvas */
+    #radarCanvas {
+      width: 200px; height: 200px; border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.9) 70%);
+      box-shadow: 0 0 30px rgba(255,255,255,0.1), inset 0 0 20px rgba(255,255,255,0.2);
+    }
+    #lidarCanvas, #seafloorCanvas { width: 100%; height: 100%; }
+
+    /* Stats Grid */
+    .stat-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; }
+    .stat-item { 
+      display: flex; flex-direction: column; 
+      background: rgba(0,0,0,0.4); padding: 12px; border-radius: 10px; 
+      border: 1px solid rgba(255,255,255,0.05); transition: all 0.3s ease;
+    }
+    .stat-item:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.2); transform: scale(1.02); }
+    .stat-lbl { font-size: 10px; color: var(--text2); text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px; }
+    .stat-val { font-family: var(--mono); font-size: 18px; font-weight: 700; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
+    .stat-unit { font-size: 11px; color: var(--text3); margin-left: 3px; }
+
+    /* Gemini Box */
+    .gemini-status {
+      font-size: 11px; padding: 4px 10px; border-radius: 6px;
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2);
+      display: inline-flex; align-items: center; color: var(--text); font-weight: 600;
+    }
+    .gemini-text {
+      font-size: 13px; line-height: 1.6; color: var(--text);
+      font-weight: 400; font-family: var(--mono);
+      white-space: pre-wrap; background: rgba(0,0,0,0.5); padding: 15px; 
+      border-radius: 10px; border: 1px solid var(--border);
+      box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
+    }
+    .macro-chart-container { height: 280px; width: 100%; }
+  </style>
+</head>
+<body>
+
+  <div class="map-topbar">
+    <div class="brand-row">
+      <div class="brand-title">
+        <div style="background:var(--brand-accent); color:#000; font-weight:800; padding:4px 8px; border-radius:4px; font-size:14px; box-shadow:0 0 10px rgba(255,255,255,0.3);">DSS</div>
+        <h1>Environment Variables: Virtual Random</h1>
+      </div>
+      <div class="declaration">DECLARATION: Data displayed is generated via stochastic virtual simulation, not real-time physical telemetry.</div>
+    </div>
+    <div class="nav-tabs">
+      <a href="index.html">Dashboard</a>
+      <a href="info.html">Methodology</a>
+      <a href="logs.html">Changelogs</a>
+      <a href="digital_twin.html" class="active">Environment Vision</a>
+    </div>
+  </div>
+  
+  <div class="content">
+    
+    <div class="visuals-grid">
+      <!-- 1. Ship Visual -->
+      <div class="dash-panel" style="padding-bottom:20px;">
+        <h3>Vessel Kinematics (Profile)</h3>
+        <div class="visual-container">
+          <div class="waterline"></div>
+          <div class="warship-wrapper" id="shipGraphic">
+            <div class="warship-mast"></div>
+            <div class="warship-bridge"></div>
+            <div class="warship-aft"></div>
+            <div class="warship-gun"></div>
+            <div class="warship-gun-barrel"></div>
+            <div class="warship-hull"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Radar -->
+      <div class="dash-panel" style="padding-bottom:20px;">
+        <h3>X-Band Radar</h3>
+        <div class="visual-container">
+          <canvas id="radarCanvas" width="200" height="200"></canvas>
+        </div>
+      </div>
+
+      <!-- 3. LiDAR -->
+      <div class="dash-panel" style="padding-bottom:20px;">
+        <h3>3D LiDAR Forward Scan</h3>
+        <div class="visual-container">
+          <canvas id="lidarCanvas"></canvas>
+        </div>
+      </div>
+
+      <!-- 4. Sea Floor -->
+      <div class="dash-panel" style="padding-bottom:20px;">
+        <h3>Vertical Sonar Bathymetry</h3>
+        <div class="visual-container">
+          <canvas id="seafloorCanvas"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data Grid -->
+    <div class="dash-panel">
+      <h3>Live Telemetry & Master Variables</h3>
+      <div class="stat-grid">
+        <div class="stat-item"><span class="stat-lbl">Global X</span><span class="stat-val" id="ui-x">0.0<span class="stat-unit">km</span></span></div>
+        <div class="stat-item"><span class="stat-lbl">Global Y</span><span class="stat-val" id="ui-y">0.0<span class="stat-unit">km</span></span></div>
+        <div class="stat-item"><span class="stat-lbl">Heading</span><span class="stat-val" id="ui-hdg">0.0<span class="stat-unit">°</span></span></div>
+        <div class="stat-item"><span class="stat-lbl">Leeway Sway</span><span class="stat-val" id="ui-v">0.00<span class="stat-unit">m/s</span></span></div>
+        <div class="stat-item"><span class="stat-lbl">Wind Speed</span><span class="stat-val" id="ui-wind">0.0<span class="stat-unit">m/s</span></span></div>
+        
+        <div class="stat-item"><span class="stat-lbl">Hull Strain</span><span class="stat-val" id="ui-strain">0.0<span class="stat-unit">MPa</span></span></div>
+        <div class="stat-item"><span class="stat-lbl">Azipod Thrust</span><span class="stat-val" id="ui-thrust">0<span class="stat-unit">kN</span></span></div>
+        <div class="stat-item"><span class="stat-lbl">Enc Sea Ice</span><span class="stat-val" id="ui-ice">0<span class="stat-unit">%</span></span></div>
+        <div class="stat-item"><span class="stat-lbl">Sea Ice Drift</span><span class="stat-val" id="ui-drift">0.0<span class="stat-unit">m/s</span></span></div>
+        <div class="stat-item"><span class="stat-lbl">Nearest Tgt</span><span class="stat-val" id="ui-radar">0.0<span class="stat-unit">km</span></span></div>
+      </div>
+    </div>
+
+    <!-- Gemini API -->
+    <div class="dash-panel">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:8px; margin-bottom:15px;">
+          <h3 style="border:none; margin:0; padding:0;">Gemini Tactical AI (Live API)</h3>
+          <div class="gemini-status" id="gemStatus">Waiting for API...</div>
+      </div>
+      <div class="gemini-text" id="geminiOutput">
+Awaiting tactical telemetry injection...
+Ensure 'python api_server.py' is running.
+      </div>
+    </div>
+
+    <!-- Giant Multigraph -->
+    <div class="dash-panel">
+      <h3>Macro-Correlations: Normalized Environment vs Kinematics</h3>
+      <div class="macro-chart-container"><canvas id="macroChart"></canvas></div>
+    </div>
+
+  </div>
+
+  <script>
+    // --- Advanced Stochastic Mock Engine ---
+    class OUNoise {
+      constructor(theta, mu, sigma, dt=0.1) {
+        this.theta = theta; this.mu = mu; this.sigma = sigma; this.dt = dt;
+        this.val = mu;
+      }
+      step() {
+        const dW = (Math.random() + Math.random() + Math.random() + Math.random() - 2) * Math.sqrt(this.dt);
+        this.val += this.theta * (this.mu - this.val) * this.dt + this.sigma * dW;
+        return this.val;
+      }
+    }
+
+    const noiseWind = new OUNoise(0.05, 15.0, 3.0); 
+    const noiseIce = new OUNoise(0.02, 0.6, 0.15);   
+
+    let state = {
+      global_x: 7500.0, global_y: -4000.0, heading: 180.0,
+      u: 2.0, v: 0.0, r: 0.0, azipod_thrust: 3500,
+      env_wind_spd: 15.0, env_ice_conc: 0.6, sea_ice_drift: 0.2,
+      radar_dist: 10.0, bow_strain: 0.0,
+      pitch: 0.0 
+    };
+
+    // --- Chart.js Configuration (Rich Gradients) ---
+    Chart.defaults.color = '#737373';
+    Chart.defaults.font.family = "'JetBrains Mono', monospace";
+    
+    const macroCtx = document.getElementById('macroChart').getContext('2d');
+    
+    // Create Gradients (Grey scale)
+    const gradWind = macroCtx.createLinearGradient(0, 0, 0, 300);
+    gradWind.addColorStop(0, 'rgba(255, 255, 255, 0.2)'); gradWind.addColorStop(1, 'rgba(255, 255, 255, 0)');
+    const gradIce = macroCtx.createLinearGradient(0, 0, 0, 300);
+    gradIce.addColorStop(0, 'rgba(115, 115, 115, 0.3)'); gradIce.addColorStop(1, 'rgba(115, 115, 115, 0)');
+
+    const historyLen = 100;
+    const macroData = {
+      labels: Array(historyLen).fill(''),
+      datasets: [
+        { label: 'Wind', data: Array(historyLen).fill(0), borderColor: '#ffffff', backgroundColor: gradWind, fill: true, tension: 0.4 },
+        { label: 'Ice Conc.', data: Array(historyLen).fill(0), borderColor: '#737373', backgroundColor: gradIce, fill: true, tension: 0.4 },
+        { label: 'Ice Resist', data: Array(historyLen).fill(0), borderColor: '#a3a3a3', borderDash: [2,2], tension: 0.4 },
+        { label: 'Sway', data: Array(historyLen).fill(0), borderColor: '#d4d4d4', tension: 0.4 }
+      ]
+    };
+    
+    const macroOpts = {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      elements: { point: { radius: 0 }, line: { borderWidth: 2 } },
+      plugins: { legend: { display: true, labels: { color: '#a3a3a3', usePointStyle: true, boxWidth: 8 } } },
+      scales: {
+        x: { display: false },
+        y: { display: true, position: 'right', grid: { color: 'rgba(255,255,255,0.05)' }, min: 0, max: 1 }
+      }
+    };
+    
+    const macroChart = new Chart(macroCtx, { type: 'line', data: macroData, options: macroOpts });
+
+    // --- Visual Canvases Setup ---
+    const radarCanvas = document.getElementById('radarCanvas');
+    const rCtx = radarCanvas.getContext('2d');
+    let radarAngle = 0;
+    const radarBlips = [];
+    
+    const lidarCanvas = document.getElementById('lidarCanvas');
+    const lCtx = lidarCanvas.getContext('2d');
+    const lidarPoints = [];
+    
+    const seafloorCanvas = document.getElementById('seafloorCanvas');
+    const sCtx = seafloorCanvas.getContext('2d');
+    const seafloorHistory = Array(100).fill(50); 
+
+    function resizeCanvases() {
+      const rect = lidarCanvas.parentElement.getBoundingClientRect();
+      lidarCanvas.width = rect.width; lidarCanvas.height = rect.height;
+      seafloorCanvas.width = rect.width; seafloorCanvas.height = rect.height;
+    }
+    window.addEventListener('resize', resizeCanvases);
+    resizeCanvases();
+
+    function drawRadar() {
+      const cx = radarCanvas.width / 2; const cy = radarCanvas.height / 2; const r = cx;
+      rCtx.clearRect(0,0, radarCanvas.width, radarCanvas.height);
+      
+      // Grid
+      rCtx.strokeStyle = 'rgba(255, 255, 255, 0.15)'; rCtx.lineWidth = 1;
+      rCtx.beginPath(); rCtx.arc(cx, cy, r*0.33, 0, Math.PI*2); rCtx.stroke();
+      rCtx.beginPath(); rCtx.arc(cx, cy, r*0.66, 0, Math.PI*2); rCtx.stroke();
+      
+      radarAngle += 0.05;
+      const sx = cx + Math.cos(radarAngle) * r;
+      const sy = cy + Math.sin(radarAngle) * r;
+      
+      // Sweep beam with glow
+      rCtx.shadowBlur = 15; rCtx.shadowColor = '#ffffff';
+      rCtx.beginPath(); rCtx.moveTo(cx, cy); rCtx.lineTo(sx, sy);
+      rCtx.strokeStyle = '#ffffff'; rCtx.lineWidth = 2; rCtx.stroke();
+      rCtx.shadowBlur = 0;
+
+      // Gradient sweep
+      rCtx.beginPath(); rCtx.moveTo(cx, cy); rCtx.arc(cx, cy, r, radarAngle - 0.5, radarAngle); rCtx.closePath();
+      const sweepGrad = rCtx.createRadialGradient(cx,cy,0, cx,cy,r);
+      sweepGrad.addColorStop(0, 'rgba(255, 255, 255, 0.3)'); sweepGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+      rCtx.fillStyle = sweepGrad; rCtx.fill();
+
+      // Blips
+      if(Math.random() < state.env_ice_conc * 0.15) {
+        radarBlips.push({ angle: radarAngle + (Math.random()*0.2), dist: Math.random() * 80 + 10, life: 1.0 });
+      }
+
+      let closestDist = 999;
+      for (let i = radarBlips.length - 1; i >= 0; i--) {
+        const blip = radarBlips[i];
+        blip.life -= 0.02;
+        if(blip.life <= 0) { radarBlips.splice(i, 1); continue; }
+        
+        const bx = cx + Math.cos(blip.angle) * blip.dist;
+        const by = cy + Math.sin(blip.angle) * blip.dist;
+        
+        rCtx.beginPath(); rCtx.arc(bx, by, 3, 0, Math.PI*2);
+        rCtx.fillStyle = `rgba(255, 255, 255, ${blip.life})`; 
+        rCtx.shadowBlur = 10; rCtx.shadowColor = '#ffffff';
+        rCtx.fill(); rCtx.shadowBlur = 0;
+
+        if(blip.dist < closestDist) closestDist = blip.dist;
+      }
+      if(closestDist < 999) state.radar_dist = closestDist / 10; 
+      else state.radar_dist += (15.0 - state.radar_dist) * 0.05;
+    }
+
+    function drawLidar() {
+      const w = lidarCanvas.width; const h = lidarCanvas.height;
+      lCtx.clearRect(0,0,w,h);
+      
+      // Grid horizon
+      lCtx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+      lCtx.beginPath(); lCtx.moveTo(0, h/3); lCtx.lineTo(w, h/3); lCtx.stroke();
+      
+      // Ground plane grid
+      for(let i=-5; i<=5; i++) {
+         lCtx.beginPath(); lCtx.moveTo(w/2 + i*40, h/3); lCtx.lineTo(w/2 + i*150, h); lCtx.stroke();
+      }
+
+      // Add points based on ice conc
+      for(let i=0; i<3; i++) {
+        if(Math.random() < state.env_ice_conc) {
+          lidarPoints.push({ x: (Math.random()-0.5)*w, y: Math.random()*20, z: 100 });
+        }
+      }
+
+      for (let i = lidarPoints.length - 1; i >= 0; i--) {
+        const p = lidarPoints[i];
+        p.z -= state.u * 1.5; 
+        if(p.z <= 1) { lidarPoints.splice(i, 1); continue; }
+
+        const scale = 300 / p.z;
+        const px = (w/2) + p.x * scale;
+        const py = (h/3) + (20 - p.y) * scale; 
+
+        lCtx.globalAlpha = Math.min(1, 1 - (p.z / 100));
+        lCtx.beginPath(); lCtx.arc(px, py, scale * 1.2, 0, Math.PI*2);
+        
+        // Greyscale intensity based on height
+        if(p.y > 15) lCtx.fillStyle = '#ffffff'; 
+        else lCtx.fillStyle = '#737373';
+        
+        lCtx.shadowBlur = 8; lCtx.shadowColor = lCtx.fillStyle;
+        lCtx.fill();
+      }
+      lCtx.globalAlpha = 1; lCtx.shadowBlur = 0;
+    }
+
+    function drawSeafloor() {
+      const w = seafloorCanvas.width; const h = seafloorCanvas.height;
+      sCtx.clearRect(0,0,w,h);
+      
+      const targetDepth = 80 + Math.sin(Date.now()/3000)*40 + Math.random()*10;
+      seafloorHistory.shift(); seafloorHistory.push(targetDepth);
+
+      // Ship Icon
+      sCtx.fillStyle = '#ffffff'; sCtx.fillRect(20, 20, 30, 8);
+      sCtx.fillStyle = '#a3a3a3'; sCtx.fillRect(25, 12, 10, 8);
+      
+      // Sonar Beam
+      const sonarGrad = sCtx.createLinearGradient(0, 30, 0, h);
+      sonarGrad.addColorStop(0, 'rgba(255, 255, 255, 0.3)'); sonarGrad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+      sCtx.fillStyle = sonarGrad;
+      sCtx.beginPath(); sCtx.moveTo(35, 30); sCtx.lineTo(0, h); sCtx.lineTo(w*0.8, h); sCtx.fill();
+
+      // Floor Graph
+      sCtx.strokeStyle = '#ffffff'; sCtx.lineWidth = 3;
+      sCtx.shadowBlur = 15; sCtx.shadowColor = '#ffffff';
+      sCtx.beginPath();
+      const step = w / (historyLen - 1);
+      for(let i=0; i<historyLen; i++) {
+        const x = i * step;
+        const y = h - seafloorHistory[i];
+        if(i===0) sCtx.moveTo(x,y); else sCtx.lineTo(x,y);
+      }
+      sCtx.stroke(); sCtx.shadowBlur = 0;
+      
+      sCtx.lineTo(w, h); sCtx.lineTo(0, h);
+      const floorGrad = sCtx.createLinearGradient(0, h-100, 0, h);
+      floorGrad.addColorStop(0, 'rgba(255, 255, 255, 0.2)'); floorGrad.addColorStop(1, 'rgba(255, 255, 255, 0.6)');
+      sCtx.fillStyle = floorGrad;
+      sCtx.fill();
+    }
+
+    // --- Physics & UI Loop ---
+    const shipHull = document.getElementById('shipGraphic');
+    function normalize(val, min, max) { return Math.max(0, Math.min(1, (val - min) / (max - min))); }
+
+    function stepPhysics() {
+      state.env_wind_spd = Math.max(0, noiseWind.step());
+      state.env_ice_conc = Math.max(0, Math.min(1, noiseIce.step()));
+      state.sea_ice_drift = state.env_wind_spd * 0.03;
+      
+      const target_v = (state.env_wind_spd / 20) * 0.8;
+      state.v += (target_v - state.v) * 0.05;
+      state.pitch = Math.sin(Date.now() / 500) * (state.env_wind_spd * 0.2) + (Math.random()-0.5);
+      
+      if(state.env_ice_conc > 0.3) {
+         state.azipod_thrust = 5000 + (Math.random() * 500); 
+         state.u += (1.5 - state.u) * 0.05; 
+         state.bow_strain = (state.env_ice_conc * 250) + Math.random()*20;
+      } else {
+         state.azipod_thrust = 2500 + (Math.random() * 200);
+         state.u += (4.5 - state.u) * 0.02; 
+         state.bow_strain = (state.u * 10) + Math.random()*5;
+      }
+      
+      state.global_x += (state.u * Math.cos(state.heading * Math.PI/180)) * 0.1;
+      state.global_y += (state.u * Math.sin(state.heading * Math.PI/180)) * 0.1;
+      state.heading += (state.v * 0.1);
+
+      document.getElementById('ui-x').innerHTML = `${(state.global_x/1000).toFixed(2)}<span class="stat-unit">km</span>`;
+      document.getElementById('ui-y').innerHTML = `${(state.global_y/1000).toFixed(2)}<span class="stat-unit">km</span>`;
+      document.getElementById('ui-hdg').innerHTML = `${state.heading.toFixed(1)}<span class="stat-unit">°</span>`;
+      document.getElementById('ui-v').innerHTML = `${state.v.toFixed(3)}<span class="stat-unit">m/s</span>`;
+      document.getElementById('ui-wind').innerHTML = `${state.env_wind_spd.toFixed(1)}<span class="stat-unit">m/s</span>`;
+      document.getElementById('ui-strain').innerHTML = `${state.bow_strain.toFixed(1)}<span class="stat-unit">MPa</span>`;
+      document.getElementById('ui-thrust').innerHTML = `${state.azipod_thrust.toFixed(0)}<span class="stat-unit">kN</span>`;
+      document.getElementById('ui-ice').innerHTML = `${(state.env_ice_conc*100).toFixed(0)}<span class="stat-unit">%</span>`;
+      document.getElementById('ui-drift').innerHTML = `${state.sea_ice_drift.toFixed(2)}<span class="stat-unit">m/s</span>`;
+      document.getElementById('ui-radar').innerHTML = `${state.radar_dist.toFixed(2)}<span class="stat-unit">km</span>`;
+
+      const translateY = Math.sin(Date.now() / 400) * (state.env_wind_spd * 0.3); 
+      shipHull.style.transform = `translateY(${translateY}px) rotate(${state.pitch}deg)`;
+
+      // Charts
+      macroData.datasets[0].data.shift(); macroData.datasets[0].data.push(normalize(state.env_wind_spd, 0, 30));
+      macroData.datasets[1].data.shift(); macroData.datasets[1].data.push(state.env_ice_conc);
+      macroData.datasets[2].data.shift(); macroData.datasets[2].data.push(normalize(state.azipod_thrust, 2000, 6000));
+      macroData.datasets[3].data.shift(); macroData.datasets[3].data.push(normalize(state.v, -1, 1));
+      macroChart.update();
+
+      drawRadar(); drawLidar(); drawSeafloor();
+    }
+    
+    setInterval(stepPhysics, 50);
+
+    // --- Real Gemini API Call ---
+    async function fetchGeminiSummary() {
+      const statusEl = document.getElementById('gemStatus');
+      const textEl = document.getElementById('geminiOutput');
+      
+      statusEl.innerHTML = `Calling Gemini API...`;
+      statusEl.style.color = '#a3a3a3';
+      statusEl.style.borderColor = '#a3a3a3';
+      
+      const apiUrl = (window.location.protocol === 'file:') ? 'http://127.0.0.1:5000/api/gemini_summary' : '/api/gemini_summary';
+      try {
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(state)
+        });
+        
+        if(!response.ok) throw new Error('API Server Error');
+        
+        const data = await response.json();
+        statusEl.innerHTML = `✅ Last update: ${new Date().toLocaleTimeString()}`;
+        statusEl.style.color = '#ffffff';
+        statusEl.style.borderColor = '#ffffff';
+        
+        textEl.style.color = '#fff';
+        textEl.textContent = data.summary;
+      } catch (err) {
+        statusEl.innerHTML = `⚠️ Connection Error`;
+        statusEl.style.color = '#ef4444';
+        statusEl.style.borderColor = '#ef4444';
+        
+        textEl.style.color = 'var(--text2)';
+        textEl.textContent = "Error: Could not connect to local api_server.py.\n\nPlease ensure you are running:\n> python api_server.py\n\n(The API key is now hardcoded in the backend script).";
+      }
+    }
+
+    setInterval(fetchGeminiSummary, 60000);
+    setTimeout(fetchGeminiSummary, 1000);
+
+  </script>
+</body>
+</html>

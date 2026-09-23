@@ -9,7 +9,7 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <!-- Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
@@ -27,19 +27,33 @@
       <!-- Top bar on map -->
       <div class="map-topbar">
         <div class="brand-row">
-          <svg class="brand-logo" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          <div style="background:#fff; color:#0f172a; font-weight:800; padding:4px 8px; border-radius:2px; font-size:14px; letter-spacing:1px;">NCPOR</div>
           <div>
             <h1>ANTARCTIC ICEBERG DRIFT DSS</h1>
-            <span class="subtitle">Physics Engine v1.0 · Real-Time Decision Support</span>
+            <span class="subtitle">Physics Engine v1.0 · MoES, Govt. of India</span>
           </div>
         </div>
+
+        <!-- Navigation Menu -->
+        <div class="nav-menu" style="display:flex; gap:24px; align-items:center; margin-left: auto; margin-right: 32px;">
+           <a href="index.html" style="color:#fff; text-decoration:none; font-size:12px; font-weight:600; border-bottom:2px solid var(--brand-blue); padding-bottom:4px;">Dashboard</a>
+           <a href="logs.html" style="color:var(--text2); text-decoration:none; font-size:12px; font-weight:500;">Logs & Version</a>
+           <a href="info.html" style="color:var(--text2); text-decoration:none; font-size:12px; font-weight:500;">Methodology</a>
+           <a href="low_bandwidth.html" style="color:var(--status-amber); text-decoration:none; font-size:12px; font-weight:600; border:1px solid var(--status-amber); padding:4px 8px; border-radius:4px; margin-left:12px;">Low Bandwidth</a>
+           <a href="digital_twin.html" style="color:var(--text2); text-decoration:none; font-size:12px; font-weight:600; margin-left:12px;">Environment Vision</a>
+        </div>
+
         <div class="topbar-right">
+          <input type="date" id="driftSelectorDate" value="2026-09-12" min="2026-01-01" max="2026-12-31" style="background:#1e293b; color:#fff; border:1px solid #475569; padding:6px 10px; border-radius:4px; font-family:var(--font); font-size:12px; cursor:pointer; outline:none; margin-right: 12px; z-index: 10000; position:relative;" title="Select Historical Date">
           <span class="live-badge"><span class="pulse"></span>LIVE</span>
           <!-- Confidence/Staleness Badge -->
-          <span id="ctBadge" class="ct-badge ct-fresh"><span class="ct-dot ct-dot-fresh"></span> FRESH 98%</span>
-          <span class="unet-badge">⚡ U-Net AI Active</span>
+          <div style="display:flex; flex-direction:column; align-items:flex-end;">
+            <span id="ctBadge" class="ct-badge ct-fresh" style="cursor:help;"><span class="ct-dot ct-dot-fresh"></span> FRESH 98%</span>
+            <div id="ctSnippet" style="font-size:9px; color:var(--text3); margin-top:3px; max-width: 150px; text-align: right; line-height: 1.2;"></div>
+          </div>
           <button id="loadDataBtn" class="file-btn">⬆ Load Data</button>
           <input type="file" id="fileInput" accept=".json" style="display:none">
+          <button id="sidebarToggleBtn" class="file-btn" style="padding:8px 12px; font-size:14px; margin-left:8px;" title="Toggle Sidebar">▶|◀</button>
         </div>
       </div>
 
@@ -53,6 +67,14 @@
         </div>
 
         <div id="rpBody">
+          <!-- Manual Coordinate Entry -->
+          <div class="rp-coord-entry" style="display:flex;gap:4px;margin-bottom:8px;">
+            <input type="text" id="rpCoordInput" placeholder="Lat, Lon (e.g. -69.5, 12.0)" style="flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#fff;border-radius:4px;padding:4px 6px;font-size:11px;font-family:monospace;">
+            <button onclick="window._routePlanner.addWaypointFromInput('start')" style="background:rgba(16,185,129,0.2);border:1px solid rgba(16,185,129,0.5);color:#10b981;border-radius:4px;padding:4px 8px;font-size:10px;cursor:pointer;">Start</button>
+            <button onclick="window._routePlanner.addWaypointFromInput('waypoint')" style="background:rgba(245,158,11,0.2);border:1px solid rgba(245,158,11,0.5);color:#f59e0b;border-radius:4px;padding:4px 8px;font-size:10px;cursor:pointer;">WP</button>
+            <button onclick="window._routePlanner.addWaypointFromInput('end')" style="background:rgba(239,68,68,0.2);border:1px solid rgba(239,68,68,0.5);color:#ef4444;border-radius:4px;padding:4px 8px;font-size:10px;cursor:pointer;">End</button>
+          </div>
+
           <!-- Placement buttons -->
           <div class="rp-btn-row">
             <button class="rp-place-btn rp-btn-start" id="rpBtnStart">🟢 Start</button>
@@ -79,10 +101,11 @@
 
       <!-- Map Overlay: Layer Switcher -->
       <div class="map-ctrl map-ctrl-layers">
-        <button class="layer-chip active" data-layer="satellite">🛰️ Satellite</button>
-        <button class="layer-chip" data-layer="seaice">❄️ Sea Ice (NASA)</button>
-        <button class="layer-chip" data-layer="dark">🌑 Dark</button>
-        <button class="layer-chip" data-layer="topo">🗺️ Topo</button>
+        <button class="layer-chip active" data-layer="satellite">🛰️ Google Satellite</button>
+        <button class="layer-chip" data-layer="maptiler">🛰️ MapTiler Satellite</button>
+        <button class="layer-chip" data-layer="terrain">⛰️ Google Terrain</button>
+        <button class="layer-chip" data-layer="hybrid">🗺️ Google Hybrid</button>
+        <button class="layer-chip" data-layer="esri">🌊 Esri Satellite</button>
       </div>
 
       <!-- Map Overlay: Legend -->
@@ -93,13 +116,16 @@
         <div class="legend-row"><span class="lg-dot" style="background:rgba(56,189,248,0.3);border:1px dashed #38bdf8"></span>Uncertainty Cone</div>
         <div class="legend-row"><span class="lg-dot" style="background:rgba(168,85,247,0.35);border:1px dashed #a855f7"></span>Sea Ice Pack</div>
         <div class="legend-row"><span class="lg-dot" style="background:#ef4444"></span>Danger / Risk Zone</div>
+        <div class="legend-row"><span class="lg-dot" style="background:#f43f5e;border-radius:50%"></span>Critical Iceberg</div>
+        <div class="legend-row"><span class="lg-dot" style="background:#f59e0b;border-radius:50%"></span>High-Risk Iceberg</div>
+        <div class="legend-row"><span class="lg-dot" style="background:#94a3b8;border-radius:3px"></span>Small/Bergy Bit</div>
         <div class="legend-row"><span class="lg-dot" style="background:#10b981;border:2px solid #059669"></span>Planned Route (Safe)</div>
         <div class="legend-row"><span class="lg-dot" style="background:#ef4444;border:2px solid #dc2626"></span>Planned Route (Risky)</div>
       </div>
 
       <!-- Map Overlay: Coordinates -->
       <div class="map-ctrl map-ctrl-coords">
-        <div><span class="lbl">POS</span> <span id="coordLatLon" class="val-mono">-69.5000°S  11.5000°E</span></div>
+        <div><span class="lbl">POS</span> <span id="coordLatLon" class="val-mono">-69.5000, 11.5000</span></div>
         <div><span class="lbl">CRS</span> <span id="coordXY" class="val-mono">X: 448.67 km  Y: 2205.31 km</span></div>
         <div><span class="lbl">SPD</span> <span id="coordSpeed" class="val-mono">0.000 m/s  HDG: 0.0°</span></div>
       </div>
@@ -129,22 +155,62 @@
     <!-- ========== RIGHT COLUMN: PANELS ========== -->
     <div class="col-panels">
 
+      <!-- Iceberg Detection & Hazard Panel -->
+      <section class="panel-section">
+        <h2 class="section-title" style="display:flex;align-items:center;justify-content:space-between;">
+          <span>ICEBERG DETECTION & HAZARDS</span>
+          <span id="icebergStatusBadge" style="font-size:10px;font-weight:600;padding:3px 10px;border-radius:6px;background:rgba(148,163,184,0.2);color:#94a3b8;border:1px solid rgba(148,163,184,0.4);">Standby</span>
+        </h2>
+        <div style="display:flex;gap:6px;margin-bottom:8px;">
+          <button id="btnDetectIcebergs" class="ct-refresh-btn" style="flex:1;">Scan for Icebergs</button>
+          <button id="btnLoadEnvironment" class="ct-refresh-btn" style="flex:1;background:rgba(139,92,246,0.1);border-color:rgba(139,92,246,0.3);color:#8b5cf6;">Load Environment</button>
+        </div>
+        <div id="icebergStatsPanel">
+          <div style="text-align:center;padding:12px;color:var(--text3);font-size:11px;">
+            Click "Scan for Icebergs" to detect small icebergs<br>from environmental signatures
+          </div>
+        </div>
+      </section>
+
+      <!-- Environment Data Panel -->
+      <section class="panel-section">
+        <h2 class="section-title">ENVIRONMENT CONDITIONS</h2>
+        <div id="envStatsPanel">
+          <div style="text-align:center;padding:12px;color:var(--text3);font-size:11px;">
+            Click "Load Environment" to generate<br>real-time Antarctic conditions
+          </div>
+        </div>
+      </section>
+
+      <!-- Scenario Test Panel -->
+      <section class="panel-section">
+        <h2 class="section-title">SCENARIO TESTING</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;">
+          <button class="ct-refresh-btn scenario-btn" data-scenario="summer_calm" style="font-size:9px;padding:4px 6px;">Summer Calm</button>
+          <button class="ct-refresh-btn scenario-btn" data-scenario="winter_storm" style="font-size:9px;padding:4px 6px;">Winter Storm</button>
+          <button class="ct-refresh-btn scenario-btn" data-scenario="calving_event" style="font-size:9px;padding:4px 6px;">Calving Event</button>
+          <button class="ct-refresh-btn scenario-btn" data-scenario="ice_edge_transit" style="font-size:9px;padding:4px 6px;">Ice Edge</button>
+          <button class="ct-refresh-btn scenario-btn" data-scenario="multi_berg_convergence" style="font-size:9px;padding:4px 6px;grid-column:span 2;">Multi-Berg Convergence</button>
+        </div>
+        <div id="scenarioResults" style="margin-top:8px;"></div>
+      </section>
+
       <!-- Confidence & Data Freshness Panel -->
       <section class="panel-section">
-        <h2 class="section-title">🕐 DATA CONFIDENCE & REFRESH</h2>
+        <h2 class="section-title">DATA CONFIDENCE & REFRESH</h2>
         <div class="ct-info-row">
           <span class="ct-info-label">Confidence</span>
           <span class="ct-info-value" id="ctConfPct">98%</span>
         </div>
         <div class="ct-bar-wrap">
-          <div class="ct-bar-fill" id="ctConfBar" style="width:98%;background:linear-gradient(90deg,#10b981,#34d399);box-shadow:0 0 10px rgba(16,185,129,0.4)"></div>
+          <div class="ct-bar-fill" id="ctConfBar" style="width:98%;background:var(--text);box-shadow:0 0 10px rgba(255,255,255,0.4)"></div>
         </div>
         <div class="ct-info-row" style="margin-top:4px">
-          <span class="ct-info-label" id="ctLastUpdate" style="color:#10b981">Updated just now</span>
+          <span class="ct-info-label" id="ctLastUpdate" style="color:var(--text)">Updated just now</span>
           <span class="ct-info-value" id="ctCountdown" style="font-size:10px;color:var(--text3)">Next refresh: 15:00</span>
         </div>
         <div class="ct-refresh-controls">
-          <button class="ct-refresh-btn" id="ctManualRefresh">🔄 Refresh Now</button>
+          <button class="ct-refresh-btn" id="ctManualRefresh">Refresh Now</button>
           <select class="fc-select" id="ctRefreshInterval" style="max-width:130px;font-size:10px">
             <option value="5">Every 5 min</option>
             <option value="15" selected>Every 15 min</option>
@@ -156,19 +222,52 @@
 
       <!-- Fuel & Route Summary Card (shows when route is planned) -->
       <section class="panel-section" id="fcSummarySection">
-        <h2 class="section-title">⛽ FUEL & TRANSIT ESTIMATE</h2>
+        <h2 class="section-title">FUEL & TRANSIT ESTIMATE</h2>
         <div id="fcResultPanel">
           <div class="fc-empty">
-            <div class="fc-empty-icon">⛽</div>
+            <div class="fc-empty-icon">EST</div>
             <div class="fc-empty-text">Place route markers to calculate fuel & transit estimates</div>
           </div>
+        </div>
+      </section>
+
+      <!-- Gemini 3.6 Flash AI Tactical Route Assessment -->
+      <section class="panel-section" id="aiTacticalSection" style="display:none;">
+        <h2 class="section-title" style="color:var(--text);display:flex;align-items:center;justify-content:space-between;">
+          <span>GEMINI AI TACTICAL ADVISORY</span>
+          <span style="font-size:9px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:var(--text);padding:2px 6px;border-radius:3px;">Gemini 3.6 Flash</span>
+        </h2>
+        <div id="aiTacticalPanel" style="background:rgba(15,23,42,0.6);border:1px solid rgba(255,255,255,0.3);border-radius:6px;padding:12px;font-size:11px;line-height:1.5;color:#e2e8f0;">
+          <div style="color:var(--text2);font-style:italic;">Requesting Gemini 3.6 Flash tactical analysis...</div>
+        </div>
+      </section>
+
+      <!-- Route Weather Summary -->
+      <section class="panel-section" id="weatherSummarySection">
+        <h2 class="section-title">ROUTE WEATHER</h2>
+        <div id="weatherResultPanel">
+          <div class="fc-empty" style="padding:15px;text-align:center;">
+            <div style="font-size:24px;margin-bottom:8px;opacity:0.4;">WX</div>
+            <div style="font-size:11px;color:#64748b;">Place route markers to fetch live marine weather data for this transit</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Gemini AI Polar Maritime Intelligence & News -->
+      <section class="panel-section">
+        <h2 class="section-title" style="color:var(--text);display:flex;align-items:center;justify-content:space-between;">
+          <span>POLAR INTELLIGENCE & NEWS</span>
+          <span style="font-size:9px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:var(--text);padding:2px 6px;border-radius:3px;">LIVE 2026</span>
+        </h2>
+        <div id="aiNewsList" style="display:flex;flex-direction:column;gap:8px;">
+          <div style="font-size:11px;color:var(--text3);font-style:italic;">Loading live polar intelligence updates...</div>
         </div>
       </section>
 
       <!-- Vessel Specifications (Collapsible) -->
       <section class="panel-section">
         <div class="fc-collapse-header open" id="fcSpecsHeader">
-          <h2 class="section-title">🚢 VESSEL SPECIFICATIONS</h2>
+          <h2 class="section-title">VESSEL SPECIFICATIONS</h2>
           <span class="fc-collapse-arrow">▼</span>
         </div>
         <div class="fc-collapse-body open" id="fcSpecsBody">
@@ -229,7 +328,7 @@
             </div>
             <div class="fc-form-row">
               <div class="fc-field">
-                <label class="fc-label" for="fcFuelPrice">Fuel Price ($/t) <a href="https://shipandbunker.com/" target="_blank" style="color:#38bdf8;text-decoration:none;">(Source)</a></label>
+                <label class="fc-label" for="fcFuelPrice">Fuel Price ($/t) <a href="https://shipandbunker.com/" target="_blank" style="color:var(--text2);text-decoration:none;">(Source)</a></label>
                 <input class="fc-input" type="number" id="fcFuelPrice" value="850" step="10">
               </div>
             </div>
@@ -239,7 +338,7 @@
 
       <!-- Risky Corridors -->
       <section class="panel-section" id="riskCorridorSection">
-        <h2 class="section-title">🚨 RISKY CORRIDORS</h2>
+        <h2 class="section-title">RISKY CORRIDORS</h2>
         <div id="riskCorridorList" class="risk-corridor-list">
           <div class="rc-empty">Plan a route to identify risk corridors</div>
         </div>
@@ -247,7 +346,7 @@
 
       <!-- Real-Time Status Cards -->
       <section class="panel-section">
-        <h2 class="section-title">📡 REAL-TIME TELEMETRY</h2>
+        <h2 class="section-title">REAL-TIME TELEMETRY</h2>
         <div class="card-grid-4">
           <div class="tcard tcard-accent">
             <div class="tc-label">MODE</div>
@@ -274,7 +373,7 @@
 
       <!-- Risk & Efficiency Assessment -->
       <section class="panel-section">
-        <h2 class="section-title">⚠️ RISK & ROUTE EFFICIENCY</h2>
+        <h2 class="section-title">RISK & ROUTE EFFICIENCY</h2>
         <div class="risk-grid">
           <div class="risk-card">
             <div class="risk-header">Collision Risk (Route)</div>
@@ -309,7 +408,7 @@
 
       <!-- Charts -->
       <section class="panel-section">
-        <h2 class="section-title">📊 ANALYTICS</h2>
+        <h2 class="section-title">ANALYTICS</h2>
         <div class="chart-stack">
           <div class="chart-card">
             <div class="chart-title">Drift Speed Profile <span class="chart-unit">m/s vs elapsed h</span></div>
@@ -328,7 +427,7 @@
 
       <!-- Iceberg Database Panel -->
       <section class="panel-section">
-        <h2 class="section-title">🧊 TRACKED ICEBERGS (<a href="https://usicecenter.gov/" target="_blank" style="color:#38bdf8;text-decoration:none;">NIC Database</a>)</h2>
+        <h2 class="section-title">TRACKED ICEBERGS (<a href="https://usicecenter.gov/" target="_blank" style="color:var(--text2);text-decoration:none;">NIC Database</a>)</h2>
         <div class="iceberg-table-wrap">
           <table class="iceberg-table" id="icebergTable">
             <thead>
@@ -341,53 +440,57 @@
 
       <!-- Weather Panel -->
       <section class="panel-section">
-        <h2 class="section-title">🌨️ ENVIRONMENTAL CONDITIONS</h2>
+        <h2 class="section-title">ENVIRONMENTAL CONDITIONS</h2>
         <div class="weather-grid">
           <div class="wx-card">
-            <div class="wx-icon">🌬️</div>
+            <div class="wx-icon">W</div>
             <div class="wx-val" id="wxWind">5.2 m/s</div>
             <div class="wx-lbl"><a href="https://cds.climate.copernicus.eu/cdsapp#!/dataset/reanalysis-era5-single-levels" target="_blank" style="color:var(--text3);text-decoration:underline;">Wind (ERA5)</a></div>
           </div>
           <div class="wx-card">
-            <div class="wx-icon">🌡️</div>
+            <div class="wx-icon">T</div>
             <div class="wx-val" id="wxTemp">-18°C</div>
             <div class="wx-lbl"><a href="https://cds.climate.copernicus.eu/cdsapp#!/dataset/reanalysis-era5-single-levels" target="_blank" style="color:var(--text3);text-decoration:underline;">Temp (ERA5)</a></div>
           </div>
           <div class="wx-card">
-            <div class="wx-icon">🌊</div>
+            <div class="wx-icon">C</div>
             <div class="wx-val" id="wxCurrent">0.12 m/s</div>
             <div class="wx-lbl"><a href="https://marine.copernicus.eu/" target="_blank" style="color:var(--text3);text-decoration:underline;">Currents (CMEMS)</a></div>
           </div>
           <div class="wx-card">
-            <div class="wx-icon">❄️</div>
+            <div class="wx-icon">I</div>
             <div class="wx-val" id="wxSIC">3.1%</div>
             <div class="wx-lbl"><a href="https://nsidc.org/data/amsr2" target="_blank" style="color:var(--text3);text-decoration:underline;">Sea Ice (NSIDC)</a></div>
           </div>
         </div>
       </section>
 
-      <!-- Data Sources Footer -->
-      <section class="panel-section panel-footer">
-        <h2 class="section-title">📂 DATA SOURCES</h2>
-        <div class="src-grid">
-          <div><span class="src-lbl">Atmosphere:</span> <span id="srcWind">ERA5</span></div>
-          <div><span class="src-lbl">Ocean:</span> <span id="srcCurrent">Copernicus Marine</span></div>
-          <div><span class="src-lbl">Sea Ice:</span> <span id="srcSeaIce">AMSR2/NSIDC</span></div>
-          <div><span class="src-lbl">Bathymetry:</span> <span id="srcBathy">BedMachine</span></div>
-          <div><span class="src-lbl">Solver:</span> <span id="srcSolver">RK45</span></div>
-          <div><span class="src-lbl">Displacement:</span> <span id="srcDisp">—</span></div>
+      <!-- Data Sources & Technology Footer -->
+      <section class="panel-section" style="margin-top:auto; padding: 20px; background: rgba(0,0,0,0.5); border-top: 1px solid var(--border);">
+        <h2 class="panel-title" style="color:var(--text3); font-size:10px; margin-bottom:12px;">Data Sources & Technology</h2>
+        
+        <div style="display:flex; flex-wrap:wrap; gap:16px; align-items:center; justify-content:space-between; margin-bottom: 12px;">
+          <div style="font-size:11px; font-weight:700; color:#fff; border-left:3px solid var(--text2); padding-left:6px;">NASA<br><span style="font-size:8px; font-weight:400; color:var(--text3);">Earth Observing System</span></div>
+          <div style="font-size:11px; font-weight:700; color:#fff; border-left:3px solid var(--text2); padding-left:6px;">NSIDC<br><span style="font-size:8px; font-weight:400; color:var(--text3);">Snow & Ice Data Center</span></div>
+          <div style="font-size:11px; font-weight:700; color:#fff; border-left:3px solid var(--text2); padding-left:6px;">NCPOR<br><span style="font-size:8px; font-weight:400; color:var(--text3);">Govt. of India</span></div>
+          <div style="font-size:11px; font-weight:700; color:#fff; border-left:3px solid var(--text2); padding-left:6px;">Google<br><span style="font-size:8px; font-weight:400; color:var(--text3);">Maps Platform</span></div>
         </div>
-        <div class="disclaimer">⚠ Research/prototype output. NOT a certified navigation product.</div>
+        
+        <div style="font-size:9px; color:var(--text3); line-height:1.4; border-top:1px solid var(--border); padding-top:8px;">
+          This system is an experimental decision support tool. Environmental data is sourced from open APIs and may contain latency. Not for active navigation without certified human oversight.
+        </div>
       </section>
     </div>
   </div>
 
-  <script src="map.js?v=2"></script>
-  <script src="charts.js?v=2"></script>
-  <script src="timeline.js?v=2"></script>
-  <script src="route_planner.js?v=2"></script>
-  <script src="fuel_calculator.js?v=2"></script>
-  <script src="confidence_tracker.js?v=2"></script>
-  <script src="app.js?v=2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
+  <script src="map.js?v=3"></script>
+  <script src="charts.js?v=3"></script>
+  <script src="timeline.js?v=3"></script>
+  <script src="route_planner.js?v=3"></script>
+  <script src="fuel_calculator.js?v=3"></script>
+  <script src="confidence_tracker.js?v=3"></script>
+  <script src="iceberg_overlay.js?v=3"></script>
+  <script src="app.js?v=3"></script>
 </body>
 </html>

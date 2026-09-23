@@ -1,0 +1,75 @@
+{
+  "scenario": "calving_event",
+  "name": "Ice Shelf Calving Event",
+  "description": "Sudden calving from Amery Ice Shelf, burst of 30+ small icebergs entering shipping lane.",
+  "timestamp": "2026-03-01T00:00:00",
+  "phases": {
+    "environment": {
+      "wind_u": {
+        "min": -2.52,
+        "max": 6.766,
+        "mean": 1.382
+      },
+      "wind_v": {
+        "min": -9.013,
+        "max": -1.378,
+        "mean": -4.288
+      },
+      "sst": {
+        "min": -1.828,
+        "max": 3.085,
+        "mean": 0.635
+      },
+      "ice_conc": {
+        "min": 0.0,
+        "max": 1.0,
+        "mean": 0.223
+      },
+      "wave_height": {
+        "min": 0.105,
+        "max": 1.186,
+        "mean": 0.414
+      }
+    },
+    "population": {
+      "total": 35,
+      "size_distribution": {
+        "growler": 15,
+        "small": 9,
+        "bergy_bit": 7,
+        "medium": 2,
+        "large": 2
+      }
+    },
+    "detection": {
+      "candidates_found": 30,
+      "high_confidence": 0,
+      "medium_confidence": 4,
+      "low_confidence": 26
+    },
+    "trajectory": {
+      "icebergs_tracked": 10,
+      "total_points": 170,
+      "avg_displacement_km": 3200.2,
+      "max_displacement_km": 7770.0,
+      "min_displacement_km": 0.0
+    },
+    "hazard_assessment": {
+      "total_hazards": 65,
+      "distribution": {
+        "CRITICAL": 2,
+        "HIGH": 4,
+        "MODERATE": 15,
+        "LOW": 44
+      },
+      "navigation_advisory": "CRITICAL: 2 critical-class hazards detected. Route closure recommended. Ice concentration up to 100%. Winds gusting to 7 m/s."
+    }
+  },
+  "timing": {
+    "environment_generation_s": 0.127,
+    "population_generation_s": 0.002,
+    "detection_s": 0.002,
+    "trajectory_prediction_s": 0.089,
+    "total_s": 0.22
+  }
+}

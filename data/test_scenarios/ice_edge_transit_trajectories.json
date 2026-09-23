@@ -1,0 +1,2442 @@
+{
+  "SB-0005": [
+    {
+      "step": 0,
+      "elapsed_h": 0.0,
+      "lat": -70.45549,
+      "lon": 10.0,
+      "u": -0.10406,
+      "v": -0.18494,
+      "speed_ms": 0.21221,
+      "heading_deg": 240.6,
+      "length_m": 101.8,
+      "height_m": 18.1,
+      "uncertainty_km": 0.0,
+      "melt_info": {}
+    },
+    {
+      "step": 1,
+      "elapsed_h": 3.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": -0.46661,
+      "v": -0.88446,
+      "speed_ms": 1.0,
+      "heading_deg": 242.2,
+      "length_m": 101.8,
+      "height_m": 18.1,
+      "uncertainty_km": 2.6,
+      "melt_info": {
+        "basal_melt_m_day": 0.0081,
+        "wave_melt_m_day": 0.0067,
+        "forced_convection_m_day": 0.0033,
+        "total_melt_m_day": 0.0181
+      }
+    },
+    {
+      "step": 2,
+      "elapsed_h": 6.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": -0.43132,
+      "v": -0.9022,
+      "speed_ms": 1.0,
+      "heading_deg": 244.4,
+      "length_m": 101.8,
+      "height_m": 18.1,
+      "uncertainty_km": 3.67,
+      "melt_info": {
+        "basal_melt_m_day": 0.0063,
+        "wave_melt_m_day": 0.0084,
+        "forced_convection_m_day": 0.0299,
+        "total_melt_m_day": 0.0446
+      }
+    },
+    {
+      "step": 3,
+      "elapsed_h": 9.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": -0.39278,
+      "v": -0.91963,
+      "speed_ms": 1.0,
+      "heading_deg": 246.9,
+      "length_m": 101.8,
+      "height_m": 18.1,
+      "uncertainty_km": 4.5,
+      "melt_info": {
+        "basal_melt_m_day": 0.0032,
+        "wave_melt_m_day": 0.0055,
+        "forced_convection_m_day": 0.0157,
+        "total_melt_m_day": 0.0243
+      }
+    },
+    {
+      "step": 4,
+      "elapsed_h": 12.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": -0.34795,
+      "v": -0.93751,
+      "speed_ms": 1.0,
+      "heading_deg": 249.6,
+      "length_m": 101.8,
+      "height_m": 18.1,
+      "uncertainty_km": 5.2,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0036,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0036
+      }
+    },
+    {
+      "step": 5,
+      "elapsed_h": 15.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": -0.30139,
+      "v": -0.9535,
+      "speed_ms": 1.0,
+      "heading_deg": 252.5,
+      "length_m": 101.8,
+      "height_m": 18.1,
+      "uncertainty_km": 5.81,
+      "melt_info": {
+        "basal_melt_m_day": 0.0032,
+        "wave_melt_m_day": 0.0055,
+        "forced_convection_m_day": 0.0157,
+        "total_melt_m_day": 0.0244
+      }
+    },
+    {
+      "step": 6,
+      "elapsed_h": 18.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": -0.25407,
+      "v": -0.96718,
+      "speed_ms": 1.0,
+      "heading_deg": 255.3,
+      "length_m": 101.8,
+      "height_m": 18.1,
+      "uncertainty_km": 6.36,
+      "melt_info": {
+        "basal_melt_m_day": 0.0055,
+        "wave_melt_m_day": 0.0085,
+        "forced_convection_m_day": 0.0271,
+        "total_melt_m_day": 0.0411
+      }
+    },
+    {
+      "step": 7,
+      "elapsed_h": 21.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": -0.20406,
+      "v": -0.97896,
+      "speed_ms": 1.0,
+      "heading_deg": 258.2,
+      "length_m": 101.8,
+      "height_m": 18.1,
+      "uncertainty_km": 6.87,
+      "melt_info": {
+        "basal_melt_m_day": 0.0055,
+        "wave_melt_m_day": 0.0085,
+        "forced_convection_m_day": 0.0273,
+        "total_melt_m_day": 0.0412
+      }
+    },
+    {
+      "step": 8,
+      "elapsed_h": 24.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": -0.15153,
+      "v": -0.98845,
+      "speed_ms": 1.0,
+      "heading_deg": 261.3,
+      "length_m": 101.8,
+      "height_m": 18.1,
+      "uncertainty_km": 7.35,
+      "melt_info": {
+        "basal_melt_m_day": 0.0055,
+        "wave_melt_m_day": 0.0085,
+        "forced_convection_m_day": 0.0274,
+        "total_melt_m_day": 0.0414
+      }
+    },
+    {
+      "step": 9,
+      "elapsed_h": 27.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": -0.09672,
+      "v": -0.99531,
+      "speed_ms": 1.0,
+      "heading_deg": 264.4,
+      "length_m": 101.8,
+      "height_m": 18.1,
+      "uncertainty_km": 7.79,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0103,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0103
+      }
+    },
+    {
+      "step": 10,
+      "elapsed_h": 30.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": -0.04106,
+      "v": -0.99916,
+      "speed_ms": 1.0,
+      "heading_deg": 267.6,
+      "length_m": 101.8,
+      "height_m": 18.1,
+      "uncertainty_km": 8.22,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0103,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0103
+      }
+    },
+    {
+      "step": 11,
+      "elapsed_h": 33.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": 0.01626,
+      "v": -0.99987,
+      "speed_ms": 1.0,
+      "heading_deg": 270.9,
+      "length_m": 101.8,
+      "height_m": 18.1,
+      "uncertainty_km": 8.62,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0103,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0103
+      }
+    },
+    {
+      "step": 12,
+      "elapsed_h": 36.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": 0.07485,
+      "v": -0.99719,
+      "speed_ms": 1.0,
+      "heading_deg": 274.3,
+      "length_m": 101.8,
+      "height_m": 18.1,
+      "uncertainty_km": 9.0,
+      "melt_info": {
+        "basal_melt_m_day": 0.0055,
+        "wave_melt_m_day": 0.0085,
+        "forced_convection_m_day": 0.0279,
+        "total_melt_m_day": 0.0419
+      }
+    }
+  ],
+  "SB-0009": [
+    {
+      "step": 0,
+      "elapsed_h": 0.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": -0.11237,
+      "v": -0.18685,
+      "speed_ms": 0.21804,
+      "heading_deg": 239.0,
+      "length_m": 62.8,
+      "height_m": 28.8,
+      "uncertainty_km": 0.0,
+      "melt_info": {}
+    },
+    {
+      "step": 1,
+      "elapsed_h": 3.0,
+      "lat": -72.0,
+      "lon": 77.61449,
+      "u": -0.42308,
+      "v": -0.90609,
+      "speed_ms": 1.0,
+      "heading_deg": 245.0,
+      "length_m": 62.8,
+      "height_m": 28.8,
+      "uncertainty_km": 2.6,
+      "melt_info": {
+        "basal_melt_m_day": 0.0082,
+        "wave_melt_m_day": 0.0069,
+        "forced_convection_m_day": 0.0032,
+        "total_melt_m_day": 0.0184
+      }
+    },
+    {
+      "step": 2,
+      "elapsed_h": 6.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": -0.37632,
+      "v": -0.92649,
+      "speed_ms": 1.0,
+      "heading_deg": 247.9,
+      "length_m": 62.8,
+      "height_m": 28.8,
+      "uncertainty_km": 3.67,
+      "melt_info": {
+        "basal_melt_m_day": 0.0063,
+        "wave_melt_m_day": 0.0084,
+        "forced_convection_m_day": 0.0407,
+        "total_melt_m_day": 0.0554
+      }
+    },
+    {
+      "step": 3,
+      "elapsed_h": 9.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": -0.32705,
+      "v": -0.94501,
+      "speed_ms": 1.0,
+      "heading_deg": 250.9,
+      "length_m": 62.8,
+      "height_m": 28.8,
+      "uncertainty_km": 4.5,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0067,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0067
+      }
+    },
+    {
+      "step": 4,
+      "elapsed_h": 12.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": -0.27445,
+      "v": -0.9616,
+      "speed_ms": 1.0,
+      "heading_deg": 254.1,
+      "length_m": 62.8,
+      "height_m": 28.8,
+      "uncertainty_km": 5.2,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.003,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.003
+      }
+    },
+    {
+      "step": 5,
+      "elapsed_h": 15.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": -0.21783,
+      "v": -0.97599,
+      "speed_ms": 1.0,
+      "heading_deg": 257.4,
+      "length_m": 62.8,
+      "height_m": 28.8,
+      "uncertainty_km": 5.81,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0068,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0068
+      }
+    },
+    {
+      "step": 6,
+      "elapsed_h": 18.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": -0.15982,
+      "v": -0.98715,
+      "speed_ms": 1.0,
+      "heading_deg": 260.8,
+      "length_m": 62.8,
+      "height_m": 28.8,
+      "uncertainty_km": 6.36,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0103,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0103
+      }
+    },
+    {
+      "step": 7,
+      "elapsed_h": 21.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": -0.09923,
+      "v": -0.99506,
+      "speed_ms": 1.0,
+      "heading_deg": 264.3,
+      "length_m": 62.8,
+      "height_m": 28.8,
+      "uncertainty_km": 6.87,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0103,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0103
+      }
+    },
+    {
+      "step": 8,
+      "elapsed_h": 24.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": -0.03647,
+      "v": -0.99933,
+      "speed_ms": 1.0,
+      "heading_deg": 267.9,
+      "length_m": 62.8,
+      "height_m": 28.8,
+      "uncertainty_km": 7.35,
+      "melt_info": {
+        "basal_melt_m_day": 0.0055,
+        "wave_melt_m_day": 0.0085,
+        "forced_convection_m_day": 0.0373,
+        "total_melt_m_day": 0.0513
+      }
+    },
+    {
+      "step": 9,
+      "elapsed_h": 27.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": 0.02932,
+      "v": -0.99957,
+      "speed_ms": 1.0,
+      "heading_deg": 271.7,
+      "length_m": 62.8,
+      "height_m": 28.8,
+      "uncertainty_km": 7.79,
+      "melt_info": {
+        "basal_melt_m_day": 0.0055,
+        "wave_melt_m_day": 0.0085,
+        "forced_convection_m_day": 0.0379,
+        "total_melt_m_day": 0.0518
+      }
+    },
+    {
+      "step": 10,
+      "elapsed_h": 30.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": 0.09612,
+      "v": -0.99537,
+      "speed_ms": 1.0,
+      "heading_deg": 275.5,
+      "length_m": 62.8,
+      "height_m": 28.8,
+      "uncertainty_km": 8.22,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0103,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0103
+      }
+    },
+    {
+      "step": 11,
+      "elapsed_h": 33.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": 0.16208,
+      "v": -0.98678,
+      "speed_ms": 1.0,
+      "heading_deg": 279.3,
+      "length_m": 62.8,
+      "height_m": 28.8,
+      "uncertainty_km": 8.62,
+      "melt_info": {
+        "basal_melt_m_day": 0.0055,
+        "wave_melt_m_day": 0.0085,
+        "forced_convection_m_day": 0.0382,
+        "total_melt_m_day": 0.0522
+      }
+    },
+    {
+      "step": 12,
+      "elapsed_h": 36.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": 0.22887,
+      "v": -0.97346,
+      "speed_ms": 1.0,
+      "heading_deg": 283.2,
+      "length_m": 62.8,
+      "height_m": 28.8,
+      "uncertainty_km": 9.0,
+      "melt_info": {
+        "basal_melt_m_day": 0.0055,
+        "wave_melt_m_day": 0.0085,
+        "forced_convection_m_day": 0.0388,
+        "total_melt_m_day": 0.0528
+      }
+    }
+  ],
+  "SB-0010": [
+    {
+      "step": 0,
+      "elapsed_h": 0.0,
+      "lat": -67.44666,
+      "lon": 47.87941,
+      "u": 0.00201,
+      "v": -0.10959,
+      "speed_ms": 0.10961,
+      "heading_deg": 271.1,
+      "length_m": 119.2,
+      "height_m": 34.0,
+      "uncertainty_km": 0.0,
+      "melt_info": {}
+    },
+    {
+      "step": 1,
+      "elapsed_h": 3.0,
+      "lat": -68.38644,
+      "lon": 47.29205,
+      "u": -0.22435,
+      "v": -0.97451,
+      "speed_ms": 1.0,
+      "heading_deg": 257.0,
+      "length_m": 119.2,
+      "height_m": 33.9,
+      "uncertainty_km": 2.6,
+      "melt_info": {
+        "basal_melt_m_day": 0.6927,
+        "wave_melt_m_day": 0.0015,
+        "forced_convection_m_day": 0.0858,
+        "total_melt_m_day": 0.78
+      }
+    },
+    {
+      "step": 2,
+      "elapsed_h": 6.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": -0.21764,
+      "v": -0.97603,
+      "speed_ms": 1.0,
+      "heading_deg": 257.4,
+      "length_m": 119.1,
+      "height_m": 33.9,
+      "uncertainty_km": 3.67,
+      "melt_info": {
+        "basal_melt_m_day": 0.0063,
+        "wave_melt_m_day": 0.0084,
+        "forced_convection_m_day": 0.0229,
+        "total_melt_m_day": 0.0376
+      }
+    },
+    {
+      "step": 3,
+      "elapsed_h": 9.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": -0.18343,
+      "v": -0.98303,
+      "speed_ms": 1.0,
+      "heading_deg": 259.4,
+      "length_m": 119.1,
+      "height_m": 33.9,
+      "uncertainty_km": 4.5,
+      "melt_info": {
+        "basal_melt_m_day": 0.0032,
+        "wave_melt_m_day": 0.0055,
+        "forced_convection_m_day": 0.011,
+        "total_melt_m_day": 0.0197
+      }
+    },
+    {
+      "step": 4,
+      "elapsed_h": 12.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": -0.14538,
+      "v": -0.98938,
+      "speed_ms": 1.0,
+      "heading_deg": 261.6,
+      "length_m": 119.1,
+      "height_m": 33.9,
+      "uncertainty_km": 5.2,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.003,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.003
+      }
+    },
+    {
+      "step": 5,
+      "elapsed_h": 15.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": -0.1068,
+      "v": -0.99428,
+      "speed_ms": 1.0,
+      "heading_deg": 263.9,
+      "length_m": 119.1,
+      "height_m": 33.9,
+      "uncertainty_km": 5.81,
+      "melt_info": {
+        "basal_melt_m_day": 0.0032,
+        "wave_melt_m_day": 0.0055,
+        "forced_convection_m_day": 0.0111,
+        "total_melt_m_day": 0.0198
+      }
+    },
+    {
+      "step": 6,
+      "elapsed_h": 18.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": -0.06589,
+      "v": -0.99783,
+      "speed_ms": 1.0,
+      "heading_deg": 266.2,
+      "length_m": 119.1,
+      "height_m": 33.9,
+      "uncertainty_km": 6.36,
+      "melt_info": {
+        "basal_melt_m_day": 0.0055,
+        "wave_melt_m_day": 0.0085,
+        "forced_convection_m_day": 0.019,
+        "total_melt_m_day": 0.033
+      }
+    },
+    {
+      "step": 7,
+      "elapsed_h": 21.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": -0.02377,
+      "v": -0.99972,
+      "speed_ms": 1.0,
+      "heading_deg": 268.6,
+      "length_m": 119.1,
+      "height_m": 33.9,
+      "uncertainty_km": 6.87,
+      "melt_info": {
+        "basal_melt_m_day": 0.0055,
+        "wave_melt_m_day": 0.0085,
+        "forced_convection_m_day": 0.0191,
+        "total_melt_m_day": 0.0331
+      }
+    },
+    {
+      "step": 8,
+      "elapsed_h": 24.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": 0.01938,
+      "v": -0.99981,
+      "speed_ms": 1.0,
+      "heading_deg": 271.1,
+      "length_m": 119.1,
+      "height_m": 33.9,
+      "uncertainty_km": 7.35,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0103,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0103
+      }
+    },
+    {
+      "step": 9,
+      "elapsed_h": 27.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": 0.06252,
+      "v": -0.99804,
+      "speed_ms": 1.0,
+      "heading_deg": 273.6,
+      "length_m": 119.1,
+      "height_m": 33.9,
+      "uncertainty_km": 7.79,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0103,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0103
+      }
+    },
+    {
+      "step": 10,
+      "elapsed_h": 30.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": 0.10632,
+      "v": -0.99433,
+      "speed_ms": 1.0,
+      "heading_deg": 276.1,
+      "length_m": 119.1,
+      "height_m": 33.9,
+      "uncertainty_km": 8.22,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0103,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0103
+      }
+    },
+    {
+      "step": 11,
+      "elapsed_h": 33.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": 0.15056,
+      "v": -0.9886,
+      "speed_ms": 1.0,
+      "heading_deg": 278.7,
+      "length_m": 119.1,
+      "height_m": 33.9,
+      "uncertainty_km": 8.62,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0103,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0103
+      }
+    },
+    {
+      "step": 12,
+      "elapsed_h": 36.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": 0.19501,
+      "v": -0.9808,
+      "speed_ms": 1.0,
+      "heading_deg": 281.2,
+      "length_m": 119.1,
+      "height_m": 33.9,
+      "uncertainty_km": 9.0,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0103,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0103
+      }
+    }
+  ],
+  "SB-0011": [
+    {
+      "step": 0,
+      "elapsed_h": 0.0,
+      "lat": -70.12614,
+      "lon": 10.40979,
+      "u": -0.10211,
+      "v": -0.18544,
+      "speed_ms": 0.21169,
+      "heading_deg": 241.2,
+      "length_m": 92.1,
+      "height_m": 24.4,
+      "uncertainty_km": 0.0,
+      "melt_info": {}
+    },
+    {
+      "step": 1,
+      "elapsed_h": 3.0,
+      "lat": -72.0,
+      "lon": 70.91395,
+      "u": -0.43176,
+      "v": -0.90199,
+      "speed_ms": 1.0,
+      "heading_deg": 244.4,
+      "length_m": 92.1,
+      "height_m": 24.4,
+      "uncertainty_km": 2.6,
+      "melt_info": {
+        "basal_melt_m_day": 0.0065,
+        "wave_melt_m_day": 0.0072,
+        "forced_convection_m_day": 0.0029,
+        "total_melt_m_day": 0.0166
+      }
+    },
+    {
+      "step": 2,
+      "elapsed_h": 6.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": -0.38843,
+      "v": -0.92148,
+      "speed_ms": 1.0,
+      "heading_deg": 247.1,
+      "length_m": 92.1,
+      "height_m": 24.4,
+      "uncertainty_km": 3.67,
+      "melt_info": {
+        "basal_melt_m_day": 0.0101,
+        "wave_melt_m_day": 0.0107,
+        "forced_convection_m_day": 0.0573,
+        "total_melt_m_day": 0.0781
+      }
+    },
+    {
+      "step": 3,
+      "elapsed_h": 9.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": -0.34289,
+      "v": -0.93938,
+      "speed_ms": 1.0,
+      "heading_deg": 249.9,
+      "length_m": 92.1,
+      "height_m": 24.4,
+      "uncertainty_km": 4.5,
+      "melt_info": {
+        "basal_melt_m_day": 0.0032,
+        "wave_melt_m_day": 0.0055,
+        "forced_convection_m_day": 0.0183,
+        "total_melt_m_day": 0.027
+      }
+    },
+    {
+      "step": 4,
+      "elapsed_h": 12.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": -0.29102,
+      "v": -0.95672,
+      "speed_ms": 1.0,
+      "heading_deg": 253.1,
+      "length_m": 92.1,
+      "height_m": 24.4,
+      "uncertainty_km": 5.2,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0036,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0036
+      }
+    },
+    {
+      "step": 5,
+      "elapsed_h": 15.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": -0.2369,
+      "v": -0.97153,
+      "speed_ms": 1.0,
+      "heading_deg": 256.3,
+      "length_m": 92.1,
+      "height_m": 24.4,
+      "uncertainty_km": 5.81,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0068,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0068
+      }
+    },
+    {
+      "step": 6,
+      "elapsed_h": 18.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": -0.18289,
+      "v": -0.98313,
+      "speed_ms": 1.0,
+      "heading_deg": 259.5,
+      "length_m": 92.1,
+      "height_m": 24.4,
+      "uncertainty_km": 6.36,
+      "melt_info": {
+        "basal_melt_m_day": 0.0055,
+        "wave_melt_m_day": 0.0085,
+        "forced_convection_m_day": 0.0321,
+        "total_melt_m_day": 0.046
+      }
+    },
+    {
+      "step": 7,
+      "elapsed_h": 21.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": -0.12485,
+      "v": -0.99218,
+      "speed_ms": 1.0,
+      "heading_deg": 262.8,
+      "length_m": 92.1,
+      "height_m": 24.4,
+      "uncertainty_km": 6.87,
+      "melt_info": {
+        "basal_melt_m_day": 0.0055,
+        "wave_melt_m_day": 0.0085,
+        "forced_convection_m_day": 0.0325,
+        "total_melt_m_day": 0.0465
+      }
+    },
+    {
+      "step": 8,
+      "elapsed_h": 24.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": -0.0646,
+      "v": -0.99791,
+      "speed_ms": 1.0,
+      "heading_deg": 266.3,
+      "length_m": 92.1,
+      "height_m": 24.4,
+      "uncertainty_km": 7.35,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0103,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0103
+      }
+    },
+    {
+      "step": 9,
+      "elapsed_h": 27.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": -0.00395,
+      "v": -0.99999,
+      "speed_ms": 1.0,
+      "heading_deg": 269.8,
+      "length_m": 92.1,
+      "height_m": 24.4,
+      "uncertainty_km": 7.79,
+      "melt_info": {
+        "basal_melt_m_day": 0.0055,
+        "wave_melt_m_day": 0.0085,
+        "forced_convection_m_day": 0.0327,
+        "total_melt_m_day": 0.0467
+      }
+    },
+    {
+      "step": 10,
+      "elapsed_h": 30.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": 0.05928,
+      "v": -0.99824,
+      "speed_ms": 1.0,
+      "heading_deg": 273.4,
+      "length_m": 92.1,
+      "height_m": 24.4,
+      "uncertainty_km": 8.22,
+      "melt_info": {
+        "basal_melt_m_day": 0.0055,
+        "wave_melt_m_day": 0.0085,
+        "forced_convection_m_day": 0.0333,
+        "total_melt_m_day": 0.0472
+      }
+    },
+    {
+      "step": 11,
+      "elapsed_h": 33.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": 0.12321,
+      "v": -0.99238,
+      "speed_ms": 1.0,
+      "heading_deg": 277.1,
+      "length_m": 92.1,
+      "height_m": 24.4,
+      "uncertainty_km": 8.62,
+      "melt_info": {
+        "basal_melt_m_day": 0.0055,
+        "wave_melt_m_day": 0.0085,
+        "forced_convection_m_day": 0.0335,
+        "total_melt_m_day": 0.0475
+      }
+    },
+    {
+      "step": 12,
+      "elapsed_h": 36.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": 0.18723,
+      "v": -0.98232,
+      "speed_ms": 1.0,
+      "heading_deg": 280.8,
+      "length_m": 92.1,
+      "height_m": 24.4,
+      "uncertainty_km": 9.0,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0103,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0103
+      }
+    }
+  ],
+  "SB-0022": [
+    {
+      "step": 0,
+      "elapsed_h": 0.0,
+      "lat": -70.89258,
+      "lon": 72.02813,
+      "u": -0.10684,
+      "v": -0.18451,
+      "speed_ms": 0.21321,
+      "heading_deg": 239.9,
+      "length_m": 112.1,
+      "height_m": 42.6,
+      "uncertainty_km": 0.0,
+      "melt_info": {}
+    },
+    {
+      "step": 1,
+      "elapsed_h": 3.0,
+      "lat": -72.0,
+      "lon": 27.09839,
+      "u": -0.48926,
+      "v": -0.87214,
+      "speed_ms": 1.0,
+      "heading_deg": 240.7,
+      "length_m": 112.1,
+      "height_m": 42.6,
+      "uncertainty_km": 2.6,
+      "melt_info": {
+        "basal_melt_m_day": 0.0014,
+        "wave_melt_m_day": 0.004,
+        "forced_convection_m_day": 0.0005,
+        "total_melt_m_day": 0.0059
+      }
+    },
+    {
+      "step": 2,
+      "elapsed_h": 6.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": -0.4575,
+      "v": -0.88921,
+      "speed_ms": 1.0,
+      "heading_deg": 242.8,
+      "length_m": 112.1,
+      "height_m": 42.6,
+      "uncertainty_km": 3.67,
+      "melt_info": {
+        "basal_melt_m_day": 0.0101,
+        "wave_melt_m_day": 0.0107,
+        "forced_convection_m_day": 0.0458,
+        "total_melt_m_day": 0.0666
+      }
+    },
+    {
+      "step": 3,
+      "elapsed_h": 9.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": -0.42313,
+      "v": -0.90607,
+      "speed_ms": 1.0,
+      "heading_deg": 245.0,
+      "length_m": 112.1,
+      "height_m": 42.6,
+      "uncertainty_km": 4.5,
+      "melt_info": {
+        "basal_melt_m_day": 0.0032,
+        "wave_melt_m_day": 0.0055,
+        "forced_convection_m_day": 0.0141,
+        "total_melt_m_day": 0.0228
+      }
+    },
+    {
+      "step": 4,
+      "elapsed_h": 12.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": -0.38251,
+      "v": -0.92395,
+      "speed_ms": 1.0,
+      "heading_deg": 247.5,
+      "length_m": 112.1,
+      "height_m": 42.6,
+      "uncertainty_km": 5.2,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0036,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0036
+      }
+    },
+    {
+      "step": 5,
+      "elapsed_h": 15.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": -0.34033,
+      "v": -0.94031,
+      "speed_ms": 1.0,
+      "heading_deg": 250.1,
+      "length_m": 112.1,
+      "height_m": 42.6,
+      "uncertainty_km": 5.81,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0068,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0068
+      }
+    },
+    {
+      "step": 6,
+      "elapsed_h": 18.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": -0.29923,
+      "v": -0.95418,
+      "speed_ms": 1.0,
+      "heading_deg": 252.6,
+      "length_m": 112.1,
+      "height_m": 42.6,
+      "uncertainty_km": 6.36,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0103,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0103
+      }
+    },
+    {
+      "step": 7,
+      "elapsed_h": 21.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": -0.25574,
+      "v": -0.96675,
+      "speed_ms": 1.0,
+      "heading_deg": 255.2,
+      "length_m": 112.1,
+      "height_m": 42.6,
+      "uncertainty_km": 6.87,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0103,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0103
+      }
+    },
+    {
+      "step": 8,
+      "elapsed_h": 24.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": -0.20995,
+      "v": -0.97771,
+      "speed_ms": 1.0,
+      "heading_deg": 257.9,
+      "length_m": 112.1,
+      "height_m": 42.6,
+      "uncertainty_km": 7.35,
+      "melt_info": {
+        "basal_melt_m_day": 0.0055,
+        "wave_melt_m_day": 0.0085,
+        "forced_convection_m_day": 0.0249,
+        "total_melt_m_day": 0.0389
+      }
+    },
+    {
+      "step": 9,
+      "elapsed_h": 27.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": -0.1606,
+      "v": -0.98702,
+      "speed_ms": 1.0,
+      "heading_deg": 260.8,
+      "length_m": 112.1,
+      "height_m": 42.6,
+      "uncertainty_km": 7.79,
+      "melt_info": {
+        "basal_melt_m_day": 0.0055,
+        "wave_melt_m_day": 0.0085,
+        "forced_convection_m_day": 0.0253,
+        "total_melt_m_day": 0.0392
+      }
+    },
+    {
+      "step": 10,
+      "elapsed_h": 30.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": -0.10924,
+      "v": -0.99402,
+      "speed_ms": 1.0,
+      "heading_deg": 263.7,
+      "length_m": 112.1,
+      "height_m": 42.6,
+      "uncertainty_km": 8.22,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0103,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0103
+      }
+    },
+    {
+      "step": 11,
+      "elapsed_h": 33.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": -0.05751,
+      "v": -0.99835,
+      "speed_ms": 1.0,
+      "heading_deg": 266.7,
+      "length_m": 112.1,
+      "height_m": 42.6,
+      "uncertainty_km": 8.62,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0103,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0103
+      }
+    },
+    {
+      "step": 12,
+      "elapsed_h": 36.0,
+      "lat": -72.0,
+      "lon": 37.03657,
+      "u": -0.00435,
+      "v": -0.99999,
+      "speed_ms": 1.0,
+      "heading_deg": 269.8,
+      "length_m": 112.1,
+      "height_m": 42.6,
+      "uncertainty_km": 9.0,
+      "melt_info": {
+        "basal_melt_m_day": 0.0047,
+        "wave_melt_m_day": 0.0066,
+        "forced_convection_m_day": 0.0218,
+        "total_melt_m_day": 0.033
+      }
+    }
+  ],
+  "SB-0025": [
+    {
+      "step": 0,
+      "elapsed_h": 0.0,
+      "lat": -70.29969,
+      "lon": 75.1625,
+      "u": -0.10267,
+      "v": -0.18568,
+      "speed_ms": 0.21217,
+      "heading_deg": 241.1,
+      "length_m": 65.2,
+      "height_m": 30.9,
+      "uncertainty_km": 0.0,
+      "melt_info": {}
+    },
+    {
+      "step": 1,
+      "elapsed_h": 3.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": -0.43262,
+      "v": -0.90158,
+      "speed_ms": 1.0,
+      "heading_deg": 244.4,
+      "length_m": 65.2,
+      "height_m": 30.9,
+      "uncertainty_km": 2.6,
+      "melt_info": {
+        "basal_melt_m_day": 0.0081,
+        "wave_melt_m_day": 0.0067,
+        "forced_convection_m_day": 0.0033,
+        "total_melt_m_day": 0.0181
+      }
+    },
+    {
+      "step": 2,
+      "elapsed_h": 6.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": -0.39001,
+      "v": -0.92081,
+      "speed_ms": 1.0,
+      "heading_deg": 247.0,
+      "length_m": 65.2,
+      "height_m": 30.9,
+      "uncertainty_km": 3.67,
+      "melt_info": {
+        "basal_melt_m_day": 0.0101,
+        "wave_melt_m_day": 0.0107,
+        "forced_convection_m_day": 0.0565,
+        "total_melt_m_day": 0.0773
+      }
+    },
+    {
+      "step": 3,
+      "elapsed_h": 9.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": -0.34494,
+      "v": -0.93862,
+      "speed_ms": 1.0,
+      "heading_deg": 249.8,
+      "length_m": 65.2,
+      "height_m": 30.9,
+      "uncertainty_km": 4.5,
+      "melt_info": {
+        "basal_melt_m_day": 0.0032,
+        "wave_melt_m_day": 0.0055,
+        "forced_convection_m_day": 0.0181,
+        "total_melt_m_day": 0.0267
+      }
+    },
+    {
+      "step": 4,
+      "elapsed_h": 12.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": -0.29351,
+      "v": -0.95595,
+      "speed_ms": 1.0,
+      "heading_deg": 252.9,
+      "length_m": 65.2,
+      "height_m": 30.9,
+      "uncertainty_km": 5.2,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0036,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0036
+      }
+    },
+    {
+      "step": 5,
+      "elapsed_h": 15.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": -0.23986,
+      "v": -0.97081,
+      "speed_ms": 1.0,
+      "heading_deg": 256.1,
+      "length_m": 65.2,
+      "height_m": 30.9,
+      "uncertainty_km": 5.81,
+      "melt_info": {
+        "basal_melt_m_day": 0.0032,
+        "wave_melt_m_day": 0.0055,
+        "forced_convection_m_day": 0.0184,
+        "total_melt_m_day": 0.0271
+      }
+    },
+    {
+      "step": 6,
+      "elapsed_h": 18.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": -0.18479,
+      "v": -0.98278,
+      "speed_ms": 1.0,
+      "heading_deg": 259.4,
+      "length_m": 65.2,
+      "height_m": 30.9,
+      "uncertainty_km": 6.36,
+      "melt_info": {
+        "basal_melt_m_day": 0.0055,
+        "wave_melt_m_day": 0.0085,
+        "forced_convection_m_day": 0.0318,
+        "total_melt_m_day": 0.0458
+      }
+    },
+    {
+      "step": 7,
+      "elapsed_h": 21.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": -0.12714,
+      "v": -0.99188,
+      "speed_ms": 1.0,
+      "heading_deg": 262.7,
+      "length_m": 65.2,
+      "height_m": 30.9,
+      "uncertainty_km": 6.87,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0103,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0103
+      }
+    },
+    {
+      "step": 8,
+      "elapsed_h": 24.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": -0.06864,
+      "v": -0.99764,
+      "speed_ms": 1.0,
+      "heading_deg": 266.1,
+      "length_m": 65.2,
+      "height_m": 30.9,
+      "uncertainty_km": 7.35,
+      "melt_info": {
+        "basal_melt_m_day": 0.0055,
+        "wave_melt_m_day": 0.0085,
+        "forced_convection_m_day": 0.032,
+        "total_melt_m_day": 0.046
+      }
+    },
+    {
+      "step": 9,
+      "elapsed_h": 27.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": -0.00698,
+      "v": -0.99998,
+      "speed_ms": 1.0,
+      "heading_deg": 269.6,
+      "length_m": 65.2,
+      "height_m": 30.9,
+      "uncertainty_km": 7.79,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0103,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0103
+      }
+    },
+    {
+      "step": 10,
+      "elapsed_h": 30.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": 0.05479,
+      "v": -0.9985,
+      "speed_ms": 1.0,
+      "heading_deg": 273.1,
+      "length_m": 65.2,
+      "height_m": 30.9,
+      "uncertainty_km": 8.22,
+      "melt_info": {
+        "basal_melt_m_day": 0.0055,
+        "wave_melt_m_day": 0.0085,
+        "forced_convection_m_day": 0.0325,
+        "total_melt_m_day": 0.0465
+      }
+    },
+    {
+      "step": 11,
+      "elapsed_h": 33.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": 0.11851,
+      "v": -0.99295,
+      "speed_ms": 1.0,
+      "heading_deg": 276.8,
+      "length_m": 65.2,
+      "height_m": 30.9,
+      "uncertainty_km": 8.62,
+      "melt_info": {
+        "basal_melt_m_day": 0.0055,
+        "wave_melt_m_day": 0.0085,
+        "forced_convection_m_day": 0.033,
+        "total_melt_m_day": 0.047
+      }
+    },
+    {
+      "step": 12,
+      "elapsed_h": 36.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": 0.18239,
+      "v": -0.98323,
+      "speed_ms": 1.0,
+      "heading_deg": 280.5,
+      "length_m": 65.2,
+      "height_m": 30.8,
+      "uncertainty_km": 9.0,
+      "melt_info": {
+        "basal_melt_m_day": 0.0055,
+        "wave_melt_m_day": 0.0085,
+        "forced_convection_m_day": 0.0333,
+        "total_melt_m_day": 0.0473
+      }
+    }
+  ],
+  "SB-0001": [
+    {
+      "step": 0,
+      "elapsed_h": 0.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": -0.11237,
+      "v": -0.18685,
+      "speed_ms": 0.21804,
+      "heading_deg": 239.0,
+      "length_m": 47.6,
+      "height_m": 11.1,
+      "uncertainty_km": 0.0,
+      "melt_info": {}
+    },
+    {
+      "step": 1,
+      "elapsed_h": 3.0,
+      "lat": -72.0,
+      "lon": 49.36495,
+      "u": -0.35719,
+      "v": -0.93403,
+      "speed_ms": 1.0,
+      "heading_deg": 249.1,
+      "length_m": 47.6,
+      "height_m": 11.1,
+      "uncertainty_km": 2.6,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0052,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0052
+      }
+    },
+    {
+      "step": 2,
+      "elapsed_h": 6.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": -0.30204,
+      "v": -0.9533,
+      "speed_ms": 1.0,
+      "heading_deg": 252.4,
+      "length_m": 47.6,
+      "height_m": 11.1,
+      "uncertainty_km": 3.67,
+      "melt_info": {
+        "basal_melt_m_day": 0.0063,
+        "wave_melt_m_day": 0.0084,
+        "forced_convection_m_day": 0.0603,
+        "total_melt_m_day": 0.075
+      }
+    },
+    {
+      "step": 3,
+      "elapsed_h": 9.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": -0.2424,
+      "v": -0.97018,
+      "speed_ms": 1.0,
+      "heading_deg": 256.0,
+      "length_m": 47.6,
+      "height_m": 11.1,
+      "uncertainty_km": 4.5,
+      "melt_info": {
+        "basal_melt_m_day": 0.0032,
+        "wave_melt_m_day": 0.0055,
+        "forced_convection_m_day": 0.0311,
+        "total_melt_m_day": 0.0398
+      }
+    },
+    {
+      "step": 4,
+      "elapsed_h": 12.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": -0.17671,
+      "v": -0.98426,
+      "speed_ms": 1.0,
+      "heading_deg": 259.8,
+      "length_m": 47.6,
+      "height_m": 11.1,
+      "uncertainty_km": 5.2,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.003,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.003
+      }
+    },
+    {
+      "step": 5,
+      "elapsed_h": 15.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": -0.10937,
+      "v": -0.994,
+      "speed_ms": 1.0,
+      "heading_deg": 263.7,
+      "length_m": 47.6,
+      "height_m": 11.1,
+      "uncertainty_km": 5.81,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0068,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0068
+      }
+    },
+    {
+      "step": 6,
+      "elapsed_h": 18.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": -0.0391,
+      "v": -0.99924,
+      "speed_ms": 1.0,
+      "heading_deg": 267.8,
+      "length_m": 47.6,
+      "height_m": 11.1,
+      "uncertainty_km": 6.36,
+      "melt_info": {
+        "basal_melt_m_day": 0.0055,
+        "wave_melt_m_day": 0.0085,
+        "forced_convection_m_day": 0.054,
+        "total_melt_m_day": 0.0679
+      }
+    },
+    {
+      "step": 7,
+      "elapsed_h": 21.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": 0.03449,
+      "v": -0.99941,
+      "speed_ms": 1.0,
+      "heading_deg": 272.0,
+      "length_m": 47.6,
+      "height_m": 11.1,
+      "uncertainty_km": 6.87,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0103,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0103
+      }
+    },
+    {
+      "step": 8,
+      "elapsed_h": 24.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": 0.10873,
+      "v": -0.99407,
+      "speed_ms": 1.0,
+      "heading_deg": 276.2,
+      "length_m": 47.6,
+      "height_m": 11.1,
+      "uncertainty_km": 7.35,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0103,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0103
+      }
+    },
+    {
+      "step": 9,
+      "elapsed_h": 27.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": 0.18364,
+      "v": -0.98299,
+      "speed_ms": 1.0,
+      "heading_deg": 280.6,
+      "length_m": 47.6,
+      "height_m": 11.1,
+      "uncertainty_km": 7.79,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0103,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0103
+      }
+    },
+    {
+      "step": 10,
+      "elapsed_h": 30.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": 0.25827,
+      "v": -0.96607,
+      "speed_ms": 1.0,
+      "heading_deg": 285.0,
+      "length_m": 47.6,
+      "height_m": 11.1,
+      "uncertainty_km": 8.22,
+      "melt_info": {
+        "basal_melt_m_day": 0.0055,
+        "wave_melt_m_day": 0.0085,
+        "forced_convection_m_day": 0.056,
+        "total_melt_m_day": 0.07
+      }
+    },
+    {
+      "step": 11,
+      "elapsed_h": 33.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": 0.33154,
+      "v": -0.94344,
+      "speed_ms": 1.0,
+      "heading_deg": 289.4,
+      "length_m": 47.6,
+      "height_m": 11.1,
+      "uncertainty_km": 8.62,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0103,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0103
+      }
+    },
+    {
+      "step": 12,
+      "elapsed_h": 36.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": 0.40278,
+      "v": -0.9153,
+      "speed_ms": 1.0,
+      "heading_deg": 293.8,
+      "length_m": 47.6,
+      "height_m": 11.1,
+      "uncertainty_km": 9.0,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0103,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0103
+      }
+    }
+  ],
+  "SB-0003": [
+    {
+      "step": 0,
+      "elapsed_h": 0.0,
+      "lat": -68.57688,
+      "lon": 50.71179,
+      "u": -0.05909,
+      "v": -0.14111,
+      "speed_ms": 0.15298,
+      "heading_deg": 247.3,
+      "length_m": 15.7,
+      "height_m": 8.1,
+      "uncertainty_km": 0.0,
+      "melt_info": {}
+    },
+    {
+      "step": 1,
+      "elapsed_h": 3.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": -0.18287,
+      "v": -0.98314,
+      "speed_ms": 1.0,
+      "heading_deg": 259.5,
+      "length_m": 15.7,
+      "height_m": 8.1,
+      "uncertainty_km": 2.6,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0057,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0057
+      }
+    },
+    {
+      "step": 2,
+      "elapsed_h": 6.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": -0.10769,
+      "v": -0.99418,
+      "speed_ms": 1.0,
+      "heading_deg": 263.8,
+      "length_m": 15.7,
+      "height_m": 8.1,
+      "uncertainty_km": 3.67,
+      "melt_info": {
+        "basal_melt_m_day": 0.0101,
+        "wave_melt_m_day": 0.0107,
+        "forced_convection_m_day": 0.2039,
+        "total_melt_m_day": 0.2247
+      }
+    },
+    {
+      "step": 3,
+      "elapsed_h": 9.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": -0.0327,
+      "v": -0.99947,
+      "speed_ms": 1.0,
+      "heading_deg": 268.1,
+      "length_m": 15.7,
+      "height_m": 8.1,
+      "uncertainty_km": 4.5,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0067,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0067
+      }
+    },
+    {
+      "step": 4,
+      "elapsed_h": 12.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": 0.04114,
+      "v": -0.99915,
+      "speed_ms": 1.0,
+      "heading_deg": 272.4,
+      "length_m": 15.7,
+      "height_m": 8.1,
+      "uncertainty_km": 5.2,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0036,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0036
+      }
+    },
+    {
+      "step": 5,
+      "elapsed_h": 15.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": 0.12097,
+      "v": -0.99266,
+      "speed_ms": 1.0,
+      "heading_deg": 276.9,
+      "length_m": 15.7,
+      "height_m": 8.1,
+      "uncertainty_km": 5.81,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0068,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0068
+      }
+    },
+    {
+      "step": 6,
+      "elapsed_h": 18.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": 0.20533,
+      "v": -0.97869,
+      "speed_ms": 1.0,
+      "heading_deg": 281.8,
+      "length_m": 15.7,
+      "height_m": 8.1,
+      "uncertainty_km": 6.36,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0103,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0103
+      }
+    },
+    {
+      "step": 7,
+      "elapsed_h": 21.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": 0.28942,
+      "v": -0.9572,
+      "speed_ms": 1.0,
+      "heading_deg": 286.8,
+      "length_m": 15.7,
+      "height_m": 8.1,
+      "uncertainty_km": 6.87,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0103,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0103
+      }
+    },
+    {
+      "step": 8,
+      "elapsed_h": 24.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": 0.3719,
+      "v": -0.92827,
+      "speed_ms": 1.0,
+      "heading_deg": 291.8,
+      "length_m": 15.7,
+      "height_m": 8.1,
+      "uncertainty_km": 7.35,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0103,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0103
+      }
+    },
+    {
+      "step": 9,
+      "elapsed_h": 27.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": 0.45144,
+      "v": -0.8923,
+      "speed_ms": 1.0,
+      "heading_deg": 296.8,
+      "length_m": 15.7,
+      "height_m": 8.0,
+      "uncertainty_km": 7.79,
+      "melt_info": {
+        "basal_melt_m_day": 0.0055,
+        "wave_melt_m_day": 0.0085,
+        "forced_convection_m_day": 0.1176,
+        "total_melt_m_day": 0.1315
+      }
+    },
+    {
+      "step": 10,
+      "elapsed_h": 30.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": 0.52469,
+      "v": -0.8513,
+      "speed_ms": 1.0,
+      "heading_deg": 301.6,
+      "length_m": 15.7,
+      "height_m": 8.0,
+      "uncertainty_km": 8.22,
+      "melt_info": {
+        "basal_melt_m_day": 0.0055,
+        "wave_melt_m_day": 0.0085,
+        "forced_convection_m_day": 0.1196,
+        "total_melt_m_day": 0.1336
+      }
+    },
+    {
+      "step": 11,
+      "elapsed_h": 33.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": 0.59282,
+      "v": -0.80533,
+      "speed_ms": 1.0,
+      "heading_deg": 306.4,
+      "length_m": 15.7,
+      "height_m": 8.0,
+      "uncertainty_km": 8.62,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0103,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0103
+      }
+    },
+    {
+      "step": 12,
+      "elapsed_h": 36.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": 0.65774,
+      "v": -0.75325,
+      "speed_ms": 1.0,
+      "heading_deg": 311.1,
+      "length_m": 15.7,
+      "height_m": 8.0,
+      "uncertainty_km": 9.0,
+      "melt_info": {
+        "basal_melt_m_day": 0.0055,
+        "wave_melt_m_day": 0.0085,
+        "forced_convection_m_day": 0.1213,
+        "total_melt_m_day": 0.1352
+      }
+    }
+  ],
+  "SB-0004": [
+    {
+      "step": 0,
+      "elapsed_h": 0.0,
+      "lat": -71.49033,
+      "lon": 10.0,
+      "u": -0.1095,
+      "v": -0.18615,
+      "speed_ms": 0.21597,
+      "heading_deg": 239.5,
+      "length_m": 2.0,
+      "height_m": 0.6,
+      "uncertainty_km": 0.0,
+      "melt_info": {}
+    },
+    {
+      "step": 1,
+      "elapsed_h": 3.0,
+      "lat": -60.0,
+      "lon": 10.0,
+      "u": 0.18602,
+      "v": 0.98255,
+      "speed_ms": 1.0,
+      "heading_deg": 79.3,
+      "length_m": 1.0,
+      "height_m": 0.5,
+      "uncertainty_km": 2.6,
+      "melt_info": {
+        "basal_melt_m_day": 2.295,
+        "wave_melt_m_day": 0.0346,
+        "forced_convection_m_day": 21.5257,
+        "total_melt_m_day": 23.8553
+      }
+    },
+    {
+      "step": 2,
+      "elapsed_h": 6.0,
+      "lat": -60.0,
+      "lon": 80.0,
+      "u": -0.88689,
+      "v": 0.46198,
+      "speed_ms": 1.0,
+      "heading_deg": 152.5,
+      "length_m": 1.0,
+      "height_m": 0.5,
+      "uncertainty_km": 3.67,
+      "melt_info": {
+        "basal_melt_m_day": 2.283,
+        "wave_melt_m_day": 0.0353,
+        "forced_convection_m_day": 1319.2584,
+        "total_melt_m_day": 1321.5767
+      }
+    },
+    {
+      "step": 3,
+      "elapsed_h": 9.0,
+      "lat": -60.0,
+      "lon": 10.0,
+      "u": -0.96587,
+      "v": 0.25903,
+      "speed_ms": 1.0,
+      "heading_deg": 165.0,
+      "length_m": 1.0,
+      "height_m": 0.5,
+      "uncertainty_km": 4.5,
+      "melt_info": {
+        "basal_melt_m_day": 2.2954,
+        "wave_melt_m_day": 0.0354,
+        "forced_convection_m_day": 1639.2639,
+        "total_melt_m_day": 1641.5947
+      }
+    },
+    {
+      "step": 4,
+      "elapsed_h": 12.0,
+      "lat": -60.0,
+      "lon": 10.0,
+      "u": -0.98093,
+      "v": 0.19436,
+      "speed_ms": 1.0,
+      "heading_deg": 168.8,
+      "length_m": 1.0,
+      "height_m": 0.5,
+      "uncertainty_km": 5.2,
+      "melt_info": {
+        "basal_melt_m_day": 2.2778,
+        "wave_melt_m_day": 0.0346,
+        "forced_convection_m_day": 1699.5693,
+        "total_melt_m_day": 1701.8817
+      }
+    },
+    {
+      "step": 5,
+      "elapsed_h": 15.0,
+      "lat": -60.0,
+      "lon": 80.0,
+      "u": -0.98384,
+      "v": 0.17906,
+      "speed_ms": 1.0,
+      "heading_deg": 169.7,
+      "length_m": 1.0,
+      "height_m": 0.5,
+      "uncertainty_km": 5.81,
+      "melt_info": {
+        "basal_melt_m_day": 2.2799,
+        "wave_melt_m_day": 0.0355,
+        "forced_convection_m_day": 1640.3331,
+        "total_melt_m_day": 1642.6485
+      }
+    },
+    {
+      "step": 6,
+      "elapsed_h": 18.0,
+      "lat": -60.0,
+      "lon": 10.0,
+      "u": -0.98378,
+      "v": 0.17938,
+      "speed_ms": 1.0,
+      "heading_deg": 169.7,
+      "length_m": 1.0,
+      "height_m": 0.5,
+      "uncertainty_km": 6.36,
+      "melt_info": {
+        "basal_melt_m_day": 2.2614,
+        "wave_melt_m_day": 0.0343,
+        "forced_convection_m_day": 1769.8428,
+        "total_melt_m_day": 1772.1385
+      }
+    },
+    {
+      "step": 7,
+      "elapsed_h": 21.0,
+      "lat": -60.0,
+      "lon": 10.0,
+      "u": -0.98564,
+      "v": 0.16888,
+      "speed_ms": 1.0,
+      "heading_deg": 170.3,
+      "length_m": 1.0,
+      "height_m": 0.5,
+      "uncertainty_km": 6.87,
+      "melt_info": {
+        "basal_melt_m_day": 2.2614,
+        "wave_melt_m_day": 0.0343,
+        "forced_convection_m_day": 1673.4957,
+        "total_melt_m_day": 1675.7914
+      }
+    },
+    {
+      "step": 8,
+      "elapsed_h": 24.0,
+      "lat": -60.0,
+      "lon": 80.0,
+      "u": -0.9861,
+      "v": 0.16618,
+      "speed_ms": 1.0,
+      "heading_deg": 170.4,
+      "length_m": 1.0,
+      "height_m": 0.5,
+      "uncertainty_km": 7.35,
+      "melt_info": {
+        "basal_melt_m_day": 2.2717,
+        "wave_melt_m_day": 0.036,
+        "forced_convection_m_day": 1681.1679,
+        "total_melt_m_day": 1683.4756
+      }
+    },
+    {
+      "step": 9,
+      "elapsed_h": 27.0,
+      "lat": -60.0,
+      "lon": 80.0,
+      "u": -0.98434,
+      "v": 0.1763,
+      "speed_ms": 1.0,
+      "heading_deg": 169.8,
+      "length_m": 1.0,
+      "height_m": 0.5,
+      "uncertainty_km": 7.79,
+      "melt_info": {
+        "basal_melt_m_day": 2.2717,
+        "wave_melt_m_day": 0.036,
+        "forced_convection_m_day": 1777.9143,
+        "total_melt_m_day": 1780.222
+      }
+    },
+    {
+      "step": 10,
+      "elapsed_h": 30.0,
+      "lat": -60.0,
+      "lon": 10.0,
+      "u": -0.9839,
+      "v": 0.17872,
+      "speed_ms": 1.0,
+      "heading_deg": 169.7,
+      "length_m": 1.0,
+      "height_m": 0.5,
+      "uncertainty_km": 8.22,
+      "melt_info": {
+        "basal_melt_m_day": 2.2614,
+        "wave_melt_m_day": 0.0343,
+        "forced_convection_m_day": 1769.8461,
+        "total_melt_m_day": 1772.1418
+      }
+    },
+    {
+      "step": 11,
+      "elapsed_h": 33.0,
+      "lat": -60.0,
+      "lon": 10.0,
+      "u": -0.98567,
+      "v": 0.16871,
+      "speed_ms": 1.0,
+      "heading_deg": 170.3,
+      "length_m": 1.0,
+      "height_m": 0.5,
+      "uncertainty_km": 8.62,
+      "melt_info": {
+        "basal_melt_m_day": 2.2614,
+        "wave_melt_m_day": 0.0343,
+        "forced_convection_m_day": 1673.4989,
+        "total_melt_m_day": 1675.7946
+      }
+    },
+    {
+      "step": 12,
+      "elapsed_h": 36.0,
+      "lat": -60.0,
+      "lon": 10.0,
+      "u": -0.9861,
+      "v": 0.16613,
+      "speed_ms": 1.0,
+      "heading_deg": 170.4,
+      "length_m": 1.0,
+      "height_m": 0.5,
+      "uncertainty_km": 9.0,
+      "melt_info": {
+        "basal_melt_m_day": 2.2614,
+        "wave_melt_m_day": 0.0343,
+        "forced_convection_m_day": 1673.5307,
+        "total_melt_m_day": 1675.8264
+      }
+    }
+  ],
+  "SB-0006": [
+    {
+      "step": 0,
+      "elapsed_h": 0.0,
+      "lat": -70.49576,
+      "lon": 10.0,
+      "u": -0.10426,
+      "v": -0.18488,
+      "speed_ms": 0.21225,
+      "heading_deg": 240.6,
+      "length_m": 33.4,
+      "height_m": 5.2,
+      "uncertainty_km": 0.0,
+      "melt_info": {}
+    },
+    {
+      "step": 1,
+      "elapsed_h": 3.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": -0.3107,
+      "v": -0.95051,
+      "speed_ms": 1.0,
+      "heading_deg": 251.9,
+      "length_m": 33.4,
+      "height_m": 5.2,
+      "uncertainty_km": 2.6,
+      "melt_info": {
+        "basal_melt_m_day": 0.0081,
+        "wave_melt_m_day": 0.0067,
+        "forced_convection_m_day": 0.0064,
+        "total_melt_m_day": 0.0212
+      }
+    },
+    {
+      "step": 2,
+      "elapsed_h": 6.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": -0.24603,
+      "v": -0.96926,
+      "speed_ms": 1.0,
+      "heading_deg": 255.8,
+      "length_m": 33.4,
+      "height_m": 5.2,
+      "uncertainty_km": 3.67,
+      "melt_info": {
+        "basal_melt_m_day": 0.0063,
+        "wave_melt_m_day": 0.0084,
+        "forced_convection_m_day": 0.0801,
+        "total_melt_m_day": 0.0948
+      }
+    },
+    {
+      "step": 3,
+      "elapsed_h": 9.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": -0.18019,
+      "v": -0.98363,
+      "speed_ms": 1.0,
+      "heading_deg": 259.6,
+      "length_m": 33.4,
+      "height_m": 5.2,
+      "uncertainty_km": 4.5,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0067,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0067
+      }
+    },
+    {
+      "step": 4,
+      "elapsed_h": 12.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": -0.11184,
+      "v": -0.99373,
+      "speed_ms": 1.0,
+      "heading_deg": 263.6,
+      "length_m": 33.4,
+      "height_m": 5.2,
+      "uncertainty_km": 5.2,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.003,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.003
+      }
+    },
+    {
+      "step": 5,
+      "elapsed_h": 15.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": -0.03845,
+      "v": -0.99926,
+      "speed_ms": 1.0,
+      "heading_deg": 267.8,
+      "length_m": 33.4,
+      "height_m": 5.2,
+      "uncertainty_km": 5.81,
+      "melt_info": {
+        "basal_melt_m_day": 0.0032,
+        "wave_melt_m_day": 0.0055,
+        "forced_convection_m_day": 0.0431,
+        "total_melt_m_day": 0.0518
+      }
+    },
+    {
+      "step": 6,
+      "elapsed_h": 18.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": 0.04092,
+      "v": -0.99916,
+      "speed_ms": 1.0,
+      "heading_deg": 272.3,
+      "length_m": 33.4,
+      "height_m": 5.2,
+      "uncertainty_km": 6.36,
+      "melt_info": {
+        "basal_melt_m_day": 0.0055,
+        "wave_melt_m_day": 0.0085,
+        "forced_convection_m_day": 0.0737,
+        "total_melt_m_day": 0.0877
+      }
+    },
+    {
+      "step": 7,
+      "elapsed_h": 21.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": 0.12229,
+      "v": -0.99249,
+      "speed_ms": 1.0,
+      "heading_deg": 277.0,
+      "length_m": 33.4,
+      "height_m": 5.2,
+      "uncertainty_km": 6.87,
+      "melt_info": {
+        "basal_melt_m_day": 0.0055,
+        "wave_melt_m_day": 0.0085,
+        "forced_convection_m_day": 0.0745,
+        "total_melt_m_day": 0.0885
+      }
+    },
+    {
+      "step": 8,
+      "elapsed_h": 24.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": 0.20452,
+      "v": -0.97886,
+      "speed_ms": 1.0,
+      "heading_deg": 281.8,
+      "length_m": 33.4,
+      "height_m": 5.1,
+      "uncertainty_km": 7.35,
+      "melt_info": {
+        "basal_melt_m_day": 0.0055,
+        "wave_melt_m_day": 0.0085,
+        "forced_convection_m_day": 0.0753,
+        "total_melt_m_day": 0.0893
+      }
+    },
+    {
+      "step": 9,
+      "elapsed_h": 27.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": 0.28636,
+      "v": -0.95812,
+      "speed_ms": 1.0,
+      "heading_deg": 286.6,
+      "length_m": 33.4,
+      "height_m": 5.1,
+      "uncertainty_km": 7.79,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0103,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0103
+      }
+    },
+    {
+      "step": 10,
+      "elapsed_h": 30.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": 0.36904,
+      "v": -0.92941,
+      "speed_ms": 1.0,
+      "heading_deg": 291.7,
+      "length_m": 33.4,
+      "height_m": 5.1,
+      "uncertainty_km": 8.22,
+      "melt_info": {
+        "basal_melt_m_day": 0.0055,
+        "wave_melt_m_day": 0.0085,
+        "forced_convection_m_day": 0.0763,
+        "total_melt_m_day": 0.0903
+      }
+    },
+    {
+      "step": 11,
+      "elapsed_h": 33.0,
+      "lat": -72.0,
+      "lon": 10.0,
+      "u": 0.44625,
+      "v": -0.89491,
+      "speed_ms": 1.0,
+      "heading_deg": 296.5,
+      "length_m": 33.4,
+      "height_m": 5.1,
+      "uncertainty_km": 8.62,
+      "melt_info": {
+        "basal_melt_m_day": 0.0055,
+        "wave_melt_m_day": 0.0085,
+        "forced_convection_m_day": 0.0779,
+        "total_melt_m_day": 0.0918
+      }
+    },
+    {
+      "step": 12,
+      "elapsed_h": 36.0,
+      "lat": -72.0,
+      "lon": 80.0,
+      "u": 0.51951,
+      "v": -0.85447,
+      "speed_ms": 1.0,
+      "heading_deg": 301.3,
+      "length_m": 33.4,
+      "height_m": 5.1,
+      "uncertainty_km": 9.0,
+      "melt_info": {
+        "basal_melt_m_day": 0.0,
+        "wave_melt_m_day": 0.0103,
+        "forced_convection_m_day": 0.0,
+        "total_melt_m_day": 0.0103
+      }
+    }
+  ]
+}

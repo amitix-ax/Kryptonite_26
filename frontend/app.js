@@ -14,6 +14,17 @@ document.addEventListener('DOMContentLoaded', () => {
     mapCtrl.updateStep(step, active);
     updateTelemetry(step, idx);
     updateRisk(step, idx, simData);
+
+    // Update moving iceberg position in hazard database for Google Maps-style auto-redirect
+    if (nicIcebergs && nicIcebergs.length > 0 && step) {
+      const simIce = nicIcebergs.find(ib => ib.id === 'SIM-01');
+      if (simIce) {
+        simIce.lat = step.lat;
+        simIce.lon = step.lon;
+        simIce.lng = step.lon;
+        routePlanner.setHazards(nicIcebergs, simData.sea_ice_bounds);
+      }
+    }
   });
 
   // ---- ROUTE PLANNER ----
@@ -23,14 +34,52 @@ document.addEventListener('DOMContentLoaded', () => {
       fuelCalc.calculateForRoute(routeData);
       renderRiskCorridors(routeData.riskCorridors);
       renderRouteSummary(routeData);
+      renderRouteWeather(routeData);
+      triggerGeminiAnalysis(routeData);
     } else {
       fuelCalc.calculateForRoute(null);
       renderRiskCorridors([]);
       renderRouteSummary(null);
+      renderRouteWeather(null);
+      triggerGeminiAnalysis(null);
     }
   });
   window._routePlanner = routePlanner; // Expose for inline onclick handlers
 
+  loadPolarNews();
+
+  // ---- ICEBERG HAZARD OVERLAY ----
+  const icebergOverlay = new IcebergHazardOverlay(mapCtrl);
+  window._icebergOverlay = icebergOverlay;
+
+  const btnDetect = document.getElementById('btnDetectIcebergs');
+  if (btnDetect) {
+    btnDetect.addEventListener('click', () => icebergOverlay.loadIcebergs());
+  }
+  const btnEnv = document.getElementById('btnLoadEnvironment');
+  if (btnEnv) {
+    btnEnv.addEventListener('click', () => icebergOverlay.loadEnvironment());
+  }
+  document.querySelectorAll('.scenario-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const key = btn.dataset.scenario;
+      if (key) icebergOverlay.runScenario(key);
+    });
+  });
+
+  // ---- SIDEBAR TOGGLE ----
+  const sidebarBtn = document.getElementById('sidebarToggleBtn');
+  if (sidebarBtn) {
+    sidebarBtn.addEventListener('click', () => {
+      document.querySelector('.app').classList.toggle('sidebar-collapsed');
+      // Invalidate map size after CSS transition finishes
+      setTimeout(() => {
+        if (mapCtrl && mapCtrl.map) {
+          mapCtrl.map.invalidateSize();
+        }
+      }, 350); // match transition duration in CSS
+    });
+  }
   // ---- FUEL CALCULATOR ----
   const fuelCalc = new FuelCalculator((fuelResult) => {
     // When vessel specs change, re-run calc if we have route data
@@ -115,21 +164,82 @@ document.addEventListener('DOMContentLoaded', () => {
     r.readAsText(f);
   });
 
-  function loadDefault() {
-    fetch('../data/dashboard_data.json')
+  function loadDataFile(filename) {
+    const ts = Date.now();
+    fetch(`../data/${filename}?v=${ts}`)
       .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(d => processData(d))
       .catch(() => {
-        fetch('/data/dashboard_data.json')
+        fetch(`/data/${filename}?v=${ts}`)
           .then(r => r.json())
           .then(d => processData(d))
-          .catch(e => console.error('Could not load dashboard_data.json:', e));
+          .catch(e => console.error(`Could not load ${filename}:`, e));
       });
+  }
+
+  function loadDefault() {
+    loadDataFile('dashboard_data.json');
+  }
+
+  const driftSel = document.getElementById('driftSelectorDate');
+  if (driftSel) {
+    driftSel.addEventListener('change', (e) => {
+      const dateStr = e.target.value;
+      if (dateStr) {
+        loadDataFile(`drift_history_${dateStr}.json`);
+      }
+    });
+  }
+
+  function updateConfidenceBadge(data) {
+    const badge = document.getElementById('ctBadge');
+    const snippet = document.getElementById('ctSnippet');
+    if (!badge || !snippet || !data.steps || !data.steps.length) return;
+
+    let lastUpdateStr = data.metadata && data.metadata.last_updated;
+    let lastUpdateDate;
+    if (lastUpdateStr) {
+      lastUpdateDate = new Date(lastUpdateStr);
+    } else {
+      lastUpdateDate = new Date(data.steps[data.steps.length - 1].t * 1000);
+    }
+
+    const now = new Date();
+    const diffHours = Math.max(0, (now - lastUpdateDate) / (1000 * 60 * 60));
+
+    // Base confidence is 99%. Drops by 1.5% every hour of data stagnancy.
+    let conf = 99 - (diffHours * 1.5);
+    conf = Math.max(35, Math.min(99, conf));
+
+    let statusClass = 'ct-fresh';
+    let dotClass = 'ct-dot-fresh';
+    let text = 'FRESH';
+    let msg = `High fidelity. Live data synced.`;
+
+    if (conf < 80) {
+      statusClass = 'ct-warning';
+      dotClass = 'ct-dot-warning';
+      text = 'DEGRADED';
+      msg = `Stale data (${Math.round(diffHours)}h old).`;
+    }
+    if (conf < 50) {
+      statusClass = 'ct-stale';
+      dotClass = 'ct-dot-stale';
+      text = 'STALE';
+      msg = `Critical data gap (${Math.round(diffHours)}h).`;
+    }
+
+    badge.className = `ct-badge ${statusClass}`;
+    badge.title = msg;
+    badge.innerHTML = `<span class="ct-dot ${dotClass}"></span> ${text} ${conf.toFixed(1)}%`;
+    snippet.innerText = msg;
   }
 
   function processData(data) {
     simData = data;
     if (!data.steps || !data.steps.length) return;
+
+    updateConfidenceBadge(data);
 
     // Map: trajectory, sea ice, stations, route, vessels
     mapCtrl.renderTrajectory(data.steps);
@@ -189,7 +299,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('valSigma').textContent = step.pos_uncertainty_m.toFixed(1);
 
     // Coord readouts
-    document.getElementById('coordLatLon').textContent = `${Math.abs(step.lat).toFixed(4)}°S  ${Math.abs(step.lon).toFixed(4)}°E`;
+    document.getElementById('coordLatLon').textContent = `${step.lat.toFixed(4)}, ${step.lon.toFixed(4)}`;
     document.getElementById('coordXY').textContent = `X: ${(step.x/1000).toFixed(2)} km  Y: ${(step.y/1000).toFixed(2)} km`;
     document.getElementById('coordSpeed').textContent = `${step.speed.toFixed(3)} m/s  HDG: ${step.heading.toFixed(1)}°`;
   }
@@ -368,9 +478,9 @@ document.addEventListener('DOMContentLoaded', () => {
         display:flex;flex-direction:column;gap:6px;
       ">
         <div style="display:flex;justify-content:space-between;align-items:center">
-          <span style="font-size:11px;font-weight:700;color:#fff">Route Summary</span>
+          <span style="font-size:11px;font-weight:700;color:#fff">AI Route Summary</span>
           <span style="font-size:9px;font-weight:700;color:${riskColor};background:${riskColor}15;padding:2px 8px;border-radius:10px;border:1px solid ${riskColor}40">
-            ${riskCount === 0 ? '✓ CLEAR' : `⚠ ${riskCount} RISK${riskCount > 1 ? 'S' : ''}`}
+            ${riskCount === 0 ? '✓ SAFE' : `⚠ ${riskCount} ZONE${riskCount > 1 ? 'S' : ''}`}
           </span>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-family:'JetBrains Mono',monospace">
@@ -383,10 +493,163 @@ document.addEventListener('DOMContentLoaded', () => {
             <div style="font-size:13px;font-weight:700;color:#fff">${routeData.waypointCount}</div>
           </div>
           <div>
-            <div style="font-size:8px;color:#64748b;text-transform:uppercase">Segments</div>
-            <div style="font-size:13px;font-weight:700;color:#fff">${routeData.segments.length}</div>
+            <div style="font-size:8px;color:#64748b;text-transform:uppercase">Max Ice</div>
+            <div style="font-size:13px;font-weight:700;color:#fff">${routeData.backendSummary ? (routeData.backendSummary.max_ice_concentration_encountered * 100).toFixed(0) : 0}<span style="font-size:9px;color:#94a3b8">%</span></div>
           </div>
         </div>
+        
+        ${routeData.backendSummary ? `
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-family:'JetBrains Mono',monospace; margin-top:4px;">
+            <div>
+                <div style="font-size:8px;color:#64748b;text-transform:uppercase">Open Water (km)</div>
+                <div style="font-size:11px;font-weight:600;color:#10b981">${routeData.backendSummary.total_open_water_km.toFixed(1)}</div>
+            </div>
+            <div>
+                <div style="font-size:8px;color:#64748b;text-transform:uppercase">Pack Ice (km)</div>
+                <div style="font-size:11px;font-weight:600;color:#ef4444">${routeData.backendSummary.total_pack_ice_km.toFixed(1)}</div>
+            </div>
+        </div>
+        ` : ''}
+        
+      </div>
+    `;
+  }
+
+  function renderRouteWeather(routeData) {
+    const container = document.getElementById('weatherResultPanel');
+    if (!container) return;
+    if (!routeData || !routeData.segments || routeData.segments.length === 0 || !routeData.backendSummary) {
+      container.innerHTML = `
+        <div class="fc-empty" style="padding:15px;text-align:center;">
+          <div style="font-size:24px;margin-bottom:8px;opacity:0.4;">🌦️</div>
+          <div style="font-size:11px;color:#64748b;">Place route markers to fetch live marine weather data for this transit</div>
+        </div>
+      `;
+      return;
+    }
+
+    const s = routeData.backendSummary;
+    const maxWs = s.max_crosswind_knots * 1.852; // Convert knots to km/h for display
+    const driftVel = s.max_drift_velocity; 
+
+    let warnings = [];
+    if (maxWs > 40) warnings.push(`Severe crosswinds (${maxWs.toFixed(1)} km/h)`);
+    if (driftVel > 0.5) warnings.push(`Strong ice drift detected (${driftVel.toFixed(2)} kts)`);
+
+    container.innerHTML = `
+      <div style="background:rgba(255,255,255,0.02);border-radius:8px;padding:12px;border:1px solid rgba(255,255,255,0.05);margin-top:10px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+          <div>
+             <div style="font-size:10px;color:#94a3b8;margin-bottom:4px;text-transform:uppercase;">Max Crosswind</div>
+             <div style="font-size:16px;font-weight:700;color:#fff">${maxWs.toFixed(1)} <span style="font-size:10px;font-weight:400;color:#64748b;">km/h</span></div>
+          </div>
+          <div>
+             <div style="font-size:10px;color:#94a3b8;margin-bottom:4px;text-transform:uppercase;">Peak Ice Drift</div>
+             <div style="font-size:16px;font-weight:700;color:#fff">${driftVel.toFixed(2)} <span style="font-size:10px;font-weight:400;color:#64748b;">kts</span></div>
+          </div>
+        </div>
+        ${warnings.length > 0 ? `
+          <div style="background:rgba(245, 158, 11, 0.1);border-left:3px solid #f59e0b;padding:8px;font-size:11px;color:#cbd5e1;">
+            <strong style="color:#f59e0b;display:block;margin-bottom:4px;">⚠ Weather Warnings</strong>
+            <ul style="margin:0;padding-left:15px;">
+              ${warnings.map(w => `<li>${w}</li>`).join('')}
+            </ul>
+          </div>
+        ` : `
+          <div style="font-size:11px;color:#10b981;padding:4px 0;">✓ Favorable conditions across route</div>
+        `}
+      </div>
+    `;
+  }
+
+  async function triggerGeminiAnalysis(routeData) {
+    const section = document.getElementById('aiTacticalSection');
+    const panel = document.getElementById('aiTacticalPanel');
+    if (!section || !panel) return;
+
+    if (!routeData || !routeData.backendSummary) {
+      section.style.display = 'none';
+      return;
+    }
+
+    section.style.display = 'block';
+    panel.innerHTML = `<div style="color:var(--text2);font-style:italic;">🤖 Querying Gemini 3.6 Flash for tactical route assessment...</div>`;
+
+function getApiUrl(endpoint) {
+  if (window.location.protocol === 'file:') {
+    return 'http://127.0.0.1:5000' + endpoint;
+  }
+  return endpoint;
+}
+
+    try {
+      const resp = await fetch(getApiUrl('/api/ai/analyze-route'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          total_distance_km: routeData.totalDistanceKm,
+          open_water_km: routeData.backendSummary.total_open_water_km,
+          marginal_ice_km: routeData.backendSummary.total_marginal_ice_km,
+          pack_ice_km: routeData.backendSummary.total_pack_ice_km,
+          max_ice_conc: routeData.backendSummary.max_ice_concentration_encountered,
+          max_crosswind: routeData.backendSummary.max_crosswind_knots,
+          avg_drift: routeData.backendSummary.max_drift_velocity
+        })
+      });
+
+      if (resp.ok) {
+        const res = await resp.json();
+        if (res.analysis_markdown) {
+          const formatted = res.analysis_markdown
+            .replace(/^### (.*$)/gim, '<div style="font-weight:700;color:#38bdf8;margin-top:8px;margin-bottom:4px;">$1</div>')
+            .replace(/^## (.*$)/gim, '<div style="font-weight:800;color:#60a5fa;font-size:12px;margin-top:10px;margin-bottom:6px;">$1</div>')
+            .replace(/\*\*(.*?)\*\*/g, '<strong style="color:#fff;">$1</strong>')
+            .replace(/^\* (.*$)/gim, '<div style="margin-left:8px;margin-bottom:2px;">• $1</div>')
+            .replace(/^- (.*$)/gim, '<div style="margin-left:8px;margin-bottom:2px;">• $1</div>')
+            .replace(/\n/g, '<br>');
+
+          panel.innerHTML = formatted;
+        } else {
+          panel.innerHTML = `<div style="color:#ef4444;">Could not fetch Gemini tactical response.</div>`;
+        }
+      }
+    } catch (e) {
+      panel.innerHTML = `<div style="color:#94a3b8;">Gemini service offline or connecting...</div>`;
+    }
+  }
+
+  async function loadPolarNews() {
+    const container = document.getElementById('aiNewsList');
+    if (!container) return;
+
+    try {
+      const resp = await fetch(getApiUrl('/api/ai/live-news'));
+      if (resp.ok) {
+        const data = await resp.json();
+        if (data.news && data.news.length > 0) {
+          container.innerHTML = data.news.map(art => `
+            <div style="background:rgba(168,85,247,0.06);border-left:3px solid #a855f7;border-radius:4px;padding:8px 10px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+                <span style="font-size:9px;font-weight:700;color:#c084fc;letter-spacing:0.5px;">${art.category}</span>
+                <span style="font-size:8px;color:#94a3b8;">${art.timestamp}</span>
+              </div>
+              <div style="font-size:11px;font-weight:700;color:#f1f5f9;margin-bottom:3px;">${art.title}</div>
+              <div style="font-size:10px;color:#cbd5e1;line-height:1.3;">${art.summary}</div>
+            </div>
+          `).join('');
+          return;
+        }
+      }
+    } catch (e) {}
+
+    container.innerHTML = `
+      <div style="background:rgba(168,85,247,0.06);border-left:3px solid #a855f7;border-radius:4px;padding:8px 10px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+          <span style="font-size:9px;font-weight:700;color:#c084fc;">NCPOR DIRECTIVE</span>
+          <span style="font-size:8px;color:#94a3b8;">12 SEP 2026 - 06:00 UTC</span>
+        </div>
+        <div style="font-size:11px;font-weight:700;color:#f1f5f9;margin-bottom:3px;">Maitri Track Fast-Ice Breakup Advisory</div>
+        <div style="font-size:10px;color:#cbd5e1;line-height:1.3;">Sentinel-1 SAR observation indicates open polynyas forming near -66.5S latitude.</div>
       </div>
     `;
   }

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Methodology & Information - DSS</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-deep: #020617;
+      --brand-blue: #0ea5e9;
+      --brand-dark: #0369a1;
+      --text: #f8fafc;
+      --text2: #cbd5e1;
+      --text3: #94a3b8;
+      --border: #334155;
+      --font: 'Inter', sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+    }
+    body {
+      margin: 0; padding: 0;
+      background-color: var(--bg-deep);
+      color: var(--text);
+      font-family: var(--font);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .map-topbar {
+      height: 56px;
+      background: #0f172a;
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      border-bottom: 2px solid var(--brand-dark);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      flex-shrink: 0;
+    }
+    .brand-row { display: flex; align-items: center; gap: 12px; }
+    .brand-row h1 { font-size: 16px; font-weight: 700; letter-spacing: 0.5px; color: #fff; text-transform: uppercase; margin:0; }
+    .subtitle { font-size: 11px; color: var(--text2); font-family: var(--font); font-weight: 500; }
+    
+    /* Layout */
+    .app-body {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+    
+    .sidebar {
+      width: 250px;
+      background: #0f172a;
+      border-right: 1px solid var(--border);
+      padding: 24px 0;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .sidebar-link {
+      padding: 12px 24px;
+      color: var(--text2);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      border-left: 3px solid transparent;
+      transition: all 0.2s ease;
+    }
+    .sidebar-link:hover {
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+    }
+    .sidebar-link.active {
+      color: var(--brand-blue);
+      background: rgba(14,165,233,0.1);
+      border-left-color: var(--brand-blue);
+      font-weight: 600;
+    }
+    
+    .content-area {
+      flex: 1;
+      overflow-y: auto;
+      padding: 40px;
+      background: var(--bg-deep);
+    }
+    
+    .page-section {
+      display: none;
+      max-width: 900px;
+      margin: 0 auto;
+      animation: fadeIn 0.3s ease;
+    }
+    .page-section.active {
+      display: block;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Typography & Math */
+    h2 { color: var(--brand-blue); border-bottom: 1px solid var(--border); padding-bottom: 10px; font-size: 22px; text-transform: uppercase; letter-spacing: 1px; margin-top: 0px; margin-bottom: 24px;}
+    h3 { color: #fff; font-size: 17px; margin-top: 36px; margin-bottom: 12px; }
+    h4 { color: var(--text2); font-size: 14px; margin-top: 24px; margin-bottom: 8px; }
+    
+    p { font-size: 14px; color: var(--text2); line-height: 1.7; margin-bottom: 16px; }
+    ul { font-size: 14px; color: var(--text2); line-height: 1.7; margin-bottom: 20px; padding-left: 20px; }
+    li { margin-bottom: 8px; }
+    
+    .math-block {
+      background: #0f172a;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--brand-blue);
+      padding: 16px 20px;
+      font-family: var(--mono);
+      font-size: 14px;
+      color: #fff;
+      margin-bottom: 20px;
+      border-radius: 0 4px 4px 0;
+      overflow-x: auto;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    
+    .math-inline {
+      font-family: var(--mono);
+      color: #38bdf8;
+      background: rgba(56,189,248,0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+    
+    .annotation {
+      font-size: 12px;
+      color: var(--text3);
+      font-style: italic;
+      border-left: 2px solid var(--text3);
+      padding-left: 10px;
+      margin: 10px 0 20px 0;
+    }
+    
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    .info-card {
+      background: #0f172a;
+      border: 1px solid var(--border);
+      padding: 20px;
+      border-radius: 6px;
+    }
+    .info-card h4 { color: #fff; margin: 0 0 10px 0; font-size: 14px; display: flex; justify-content: space-between; }
+    .info-card p { font-size: 13px; margin: 0; }
+    .info-card .badge { background: rgba(14,165,233,0.15); color: var(--brand-blue); padding: 2px 8px; border-radius: 12px; font-size: 10px; font-weight: 700; border: 1px solid rgba(14,165,233,0.3); }
+    
+    /* Citation */
+    .citation {
+      background: #0f172a;
+      padding: 16px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      margin-bottom: 12px;
+      font-size: 13px;
+    }
+    .cite-author { font-weight: 600; color: #fff; }
+    .cite-title { font-style: italic; color: var(--text2); }
+    .cite-link { color: var(--brand-blue); text-decoration: none; margin-top: 6px; display: inline-block; }
+    .cite-link:hover { text-decoration: underline; }
+    
+  </style>
+</head>
+<body>
+
+  <!-- Top bar -->
+  <div class="map-topbar">
+    <div class="brand-row">
+      <div style="background:#fff; color:#0f172a; font-weight:800; padding:4px 8px; border-radius:2px; font-size:14px; letter-spacing:1px;">NCPOR</div>
+      <div>
+        <h1>ANTARCTIC ICEBERG DRIFT DSS</h1>
+        <span class="subtitle">Physics Engine v1.0 · MoES, Govt. of India</span>
+      </div>
+    </div>
+    
+    <div class="nav-menu" style="display:flex; gap:24px; align-items:center; margin-left: auto; margin-right: 32px;">
+       <a href="index.html" style="color:var(--text2); text-decoration:none; font-size:12px; font-weight:500;">Dashboard</a>
+       <a href="logs.html" style="color:var(--text2); text-decoration:none; font-size:12px; font-weight:500;">Logs & Version</a>
+       <a href="info.html" style="color:#fff; text-decoration:none; font-size:12px; font-weight:600; border-bottom:2px solid var(--brand-blue); padding-bottom:4px;">Methodology</a>
+       <a href="digital_twin.html" style="color:var(--text2); text-decoration:none; font-size:12px; font-weight:500; margin-left:12px;">Digital Twin</a>
+       <a href="low_bandwidth.html" style="color:#d97706; text-decoration:none; font-size:12px; font-weight:600; border:1px solid #d97706; padding:4px 8px; border-radius:4px; margin-left:12px;">Low Bandwidth</a>
+    </div>
+  </div>
+  
+  <div class="app-body">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div style="padding: 0 24px 12px 24px; font-size: 11px; text-transform: uppercase; color: var(--text3); font-weight: 700; letter-spacing: 1px;">Contents</div>
+      <a class="sidebar-link active" onclick="showTab('maths')">Mathematical Physics Engine</a>
+      <a class="sidebar-link" onclick="showTab('ml')">Machine Learning Pipeline</a>
+      <a class="sidebar-link" onclick="showTab('gis')">GIS Routing & A* Nav</a>
+      <a class="sidebar-link" onclick="showTab('citations')">Citations & References</a>
+    </div>
+    
+    <!-- Content Area -->
+    <div class="content-area">
+      
+      <!-- TAB 1: MATHS & PHYSICS -->
+      <div id="tab-maths" class="page-section active">
+        <h2>Mathematical Physics Engine</h2>
+        <p>The Antarctic Iceberg Drift DSS relies on a coupled physical-statistical model to predict iceberg trajectories up to 72 hours in advance. The core engine utilizes a 4th-order Runge-Kutta (RK45) numerical solver to integrate the equations of motion for an iceberg mass subject to oceanic and atmospheric forcing.</p>
+        
+        <h3>1. Global Equation of Motion</h3>
+        <p>According to Newton's Second Law applied to geophysical fluids, the acceleration of an iceberg is determined by the sum of external forces divided by its mass (including the added mass of the entrained water). The equation is formulated as:</p>
+        
+        <div class="math-block">
+          (M + M_a) * (d\vec{V} / dt) = \vec{F}_{air} + \vec{F}_{water} + \vec{F}_{coriolis} + \vec{F}_{pressure} + \vec{F}_{sea\_ice}
+        </div>
+        
+        <div class="annotation">
+          Solving this differential equation yields the drift velocity vector over time. The terms are expanded below.
+        </div>
+        
+        <h3>2. Analytical Forcing Components</h3>
+        
+        <h4>A. Aerodynamic Drag (<span class="math-inline">\vec{F}_{air}</span>)</h4>
+        <p>The form drag from wind acting on the sub-aerial sail area ($A_a$). The coefficient $C_a$ accounts for the iceberg's surface roughness and shape profile.</p>
+        <div class="math-block">
+          \vec{F}_{air} = (1/2) * ρ_a * C_a * A_a * |\vec{V}_a - \vec{V}_i| * (\vec{V}_a - \vec{V}_i)
+        </div>
+        <ul>
+          <li><span class="math-inline">ρ_a</span>: Air density (~1.225 kg/m³)</li>
+          <li><span class="math-inline">\vec{V}_a</span>: Wind velocity vector at 10m height (ERA5 data)</li>
+        </ul>
+
+        <h4>B. Hydrodynamic Drag (<span class="math-inline">\vec{F}_{water}</span>)</h4>
+        <p>The form drag from ocean currents acting on the sub-surface keel area ($A_w$). Generally, this is the most dominant forcing term.</p>
+        <div class="math-block">
+          \vec{F}_{water} = (1/2) * ρ_w * C_w * A_w * |\vec{V}_w - \vec{V}_i| * (\vec{V}_w - \vec{V}_i)
+        </div>
+        <ul>
+          <li><span class="math-inline">ρ_w</span>: Seawater density (~1025 kg/m³)</li>
+          <li><span class="math-inline">\vec{V}_w</span>: Ocean current velocity vector (CMEMS GLORYS data)</li>
+        </ul>
+
+        <h4>C. Coriolis Force (<span class="math-inline">\vec{F}_{coriolis}</span>)</h4>
+        <p>Deflection caused by Earth's rotation. The Coriolis parameter $f$ varies with latitude $φ$. In the Southern Hemisphere, this deflects the iceberg to the left of its trajectory.</p>
+        <div class="math-block">
+          f = 2 * Ω * sin(φ)<br>
+          \vec{F}_{coriolis} = -f * (M + M_a) * (\hat{k} \times \vec{V}_i)
+        </div>
+        <div class="annotation">Ω is the angular velocity of Earth (7.2921 × 10⁻⁵ rad/s).</div>
+
+        <h4>D. Sea-Surface Slope / Pressure Gradient (<span class="math-inline">\vec{F}_{pressure}</span>)</h4>
+        <p>Gravitational sliding down the tilted sea surface. The sea surface gradient is dynamically balanced with the geostrophic current approximation.</p>
+        <div class="math-block">
+          \vec{F}_{pressure} = (M + M_a) * g * \nabla η
+        </div>
+        
+        <h3>3. Isostatic Equilibrium & Geometry</h3>
+        <p>To accurately model the mass and areas, the iceberg is assumed to be in isostatic equilibrium (floating balance). Given a measured freeboard height ($h_f$) from LiDAR or SAR:</p>
+        <div class="math-block">
+          Draft (z_d) = (ρ_i * h_f) / (ρ_w - ρ_i)<br>
+          Total Height (H) = h_f + z_d<br>
+          Mass (M) = L * W * H * ρ_i
+        </div>
+        
+        <h3>4. Numerical Solvings via Runge-Kutta 4th Order (RK45)</h3>
+        <p>Because the wind and current fields ($\vec{V}_a(x,y,t)$ and $\vec{V}_w(x,y,t)$) are highly non-linear spatiotemporal fields, an analytical integral cannot be derived. We approximate the trajectory using Dormand-Prince RK45.</p>
+        <div class="math-block">
+          k_1 = \vec{F}_{total}(t_n, \vec{y}_n) / (M + M_a)<br>
+          k_2 = \vec{F}_{total}(t_n + h/2, \vec{y}_n + h*k_1/2) / (M + M_a)<br>
+          k_3 = \vec{F}_{total}(t_n + h/2, \vec{y}_n + h*k_2/2) / (M + M_a)<br>
+          k_4 = \vec{F}_{total}(t_n + h, \vec{y}_n + h*k_3) / (M + M_a)<br>
+          \vec{y}_{n+1} = \vec{y}_n + (h/6)*(k_1 + 2*k_2 + 2*k_3 + k_4)
+        </div>
+        <div class="annotation">This yields a high-fidelity deterministic path. To handle chaotic divergence, we complement this with an ML pipeline.</div>
+      </div>
+      
+      <!-- TAB 2: ML PIPELINE -->
+      <div id="tab-ml" class="page-section">
+        <h2>Machine Learning Pipeline</h2>
+        <p>While the RK45 physics engine excels at short-term deterministic prediction, fluid chaos introduces unavoidable compounding errors over time. We correct this using a dual-network Deep Learning architecture.</p>
+        
+        <h3>1. PyTorch LSTM (Long Short-Term Memory)</h3>
+        <p>The time-series drift data is processed through an LSTM network to capture non-linear temporal dependencies, momentum inertia, and historical drift behaviors that the purely instantaneous Newtonian model might miss.</p>
+        
+        <div class="math-block">
+          f_t = σ(W_f \cdot [h_{t-1}, x_t] + b_f)<br>
+          i_t = σ(W_i \cdot [h_{t-1}, x_t] + b_i)<br>
+          \tilde{C}_t = tanh(W_C \cdot [h_{t-1}, x_t] + b_C)<br>
+          C_t = f_t * C_{t-1} + i_t * \tilde{C}_t<br>
+          h_t = σ(W_o \cdot [h_{t-1}, x_t] + b_o) * tanh(C_t)
+        </div>
+        
+        <ul>
+          <li><strong>Architecture:</strong> 3-layer bidirectional LSTM, hidden size 128, with Dropout (0.2).</li>
+          <li><strong>Inputs ($x_t$):</strong> Past sequence of [Lat, Lon, Velocity, Wind_U, Wind_V, Current_U, Current_V].</li>
+          <li><strong>Outputs:</strong> Predicted future $ΔLat, ΔLon$ displacements.</li>
+          <li><strong>Training:</strong> PyTorch MSELoss minimized via Adam Optimizer on the IABP (International Arctic Buoy Program) and NIC Antarctic datasets.</li>
+        </ul>
+        
+        <h3>2. U-Net Semantic Segmentation for Spatial Uncertainty</h3>
+        <p>To predict where an iceberg *might* go due to uncertainty, we treat the map as an image matrix. A U-Net Convolutional Neural Network (CNN) takes bathymetry and oceanic topology as input channels and outputs a probability mask (the "Uncertainty Cone").</p>
+        <p>The U-Net architecture utilizes a contracting encoder path to capture context (downsampling) and a symmetric expanding decoder path (upsampling) to enable precise localization of the probability density.</p>
+        
+        <div class="math-block">
+          Loss_{Dice} = 1 - (2 * \sum(p_i * g_i) + \epsilon) / (\sum(p_i) + \sum(g_i) + \epsilon)
+        </div>
+        <div class="annotation">The network is trained to maximize the Dice Coefficient overlap between predicted drift probability zones and ground-truth iceberg occurrences.</div>
+        
+        <h3>3. Hybrid Convergence Engine</h3>
+        <p>The final predicted position is a weighted Bayesian fusion of the RK45 output and the LSTM output, surrounded by the bounds of the U-Net spatial uncertainty mask. If the LSTM diverges significantly from the RK45 path, the system expands the standard deviation ($\sigma$) of the uncertainty cone and lowers the Confidence Metric shown on the dashboard.</p>
+      </div>
+      
+      <!-- TAB 3: GIS ROUTING -->
+      <div id="tab-gis" class="page-section">
+        <h2>GIS Routing & A* Navigation</h2>
+        <p>The DSS includes an intelligent Route Planner designed specifically for Polar environments. It must route vessels safely through narrow corridors while dynamically avoiding massive, moving icebergs and sea ice sheets.</p>
+        
+        <h3>1. A* (A-Star) Pathfinding Algorithm</h3>
+        <p>We deploy an optimized A* algorithm over a dynamically generated Cartesian grid of the Antarctic Ocean. The algorithm evaluates the lowest-cost path from start to destination using the standard heuristic function:</p>
+        
+        <div class="math-block">
+          f(n) = g(n) + h(n)
+        </div>
+        
+        <ul>
+          <li><strong>$g(n)$ [Cost-to-node]:</strong> The Haversine distance from the start node to the current node $n$.</li>
+          <li><strong>$h(n)$ [Heuristic]:</strong> The Haversine distance from node $n$ to the final destination.</li>
+        </ul>
+        
+        <div class="annotation">
+          The Haversine formula accounts for the spherical curvature of the Earth at extreme latitudes, which is critical near the poles where Mercator projections heavily distort distance.
+        </div>
+        
+        <h3>2. High-Precision Geo-Spatial Masking (Turf.js)</h3>
+        <p>The grid expansion checks the `_isNavigable()` constraint function at every step. This function leverages Turf.js for high-speed "Point-in-Polygon" boolean checks against:</p>
+        <ul>
+          <li><strong>Continental Landmass:</strong> GeoJSON polygons of the Antarctic coastline and ice shelves.</li>
+          <li><strong>Sea Ice Boundaries:</strong> AMSR2 satellite-derived polygon arrays of >15% sea ice concentration.</li>
+          <li><strong>Dynamic Detour Zones:</strong> Repulsive circular zones placed around predicted iceberg coordinates.</li>
+        </ul>
+        
+        <h3>3. Google Maps-Style Auto-Redirect</h3>
+        <p>If the background physics/LSTM engine updates an iceberg's trajectory such that it will intersect the active ship route (within a safety standoff buffer), a collision flag is thrown. The system automatically injects a temporary repulsive hazard zone (`dynamicDetourZones`) at the predicted collision coordinate and forces a re-execution of the A* algorithm, dynamically bending the path around the incoming iceberg in real-time.</p>
+        
+      </div>
+      
+      <!-- TAB 4: CITATIONS -->
+      <div id="tab-citations" class="page-section">
+        <h2>Citations & References</h2>
+        <p>The mathematical models, dataset parameters, and physical constants utilized in this DSS are derived from the following peer-reviewed literature and institutional guidelines.</p>
+        
+        <div class="citation">
+          <div class="cite-author">Bigg, G. R., et al. (1997).</div>
+          <div class="cite-title">"Modeling the dynamics and thermodynamics of icebergs."</div>
+          <div>Journal of Geophysical Research: Oceans, 102(C13), 27753-27768.</div>
+          <div class="annotation">Provided the foundation for the coupled differential equations of motion (RK45) and the standard form drag coefficients ($C_a = 1.3$, $C_w = 0.9$).</div>
+          <a href="#" class="cite-link">DOI: 10.1029/97JC00624</a>
+        </div>
+
+        <div class="citation">
+          <div class="cite-author">Lichey, C., & Hellmer, H. H. (2001).</div>
+          <div class="cite-title">"Modeling giant iceberg drift under the influence of sea ice in the Weddell Sea."</div>
+          <div>Journal of Glaciology, 47(158), 452-460.</div>
+          <div class="annotation">Utilized for implementing the non-linear Sea Ice Resistance forces ($F_{sea\_ice}$) in highly concentrated pack ice > 15%.</div>
+          <a href="#" class="cite-link">DOI: 10.3189/172756501781832007</a>
+        </div>
+        
+        <div class="citation">
+          <div class="cite-author">Lindqvist, G. (1989).</div>
+          <div class="cite-title">"A straightforward method for calculation of ice resistance of ships."</div>
+          <div>POAC 89, Luleå, Sweden.</div>
+          <div class="annotation">The fundamental equations used in our Fuel Efficiency calculator and Digital Twin engine to calculate crushing, bending, and submersion resistance against the hull.</div>
+        </div>
+        
+        <div class="citation">
+          <div class="cite-author">US National Ice Center (USNIC) & BYU</div>
+          <div class="cite-title">"Antarctic Iceberg Tracking Database"</div>
+          <div>Data sets containing daily positions and bounding box geometries of icebergs > 10 nautical miles.</div>
+          <div class="annotation">Provides the live ground-truth telemetry used to seed the initial conditions for both the RK45 and LSTM models.</div>
+          <a href="https://usicecenter.gov/Products/AntarcIcebergs" class="cite-link" target="_blank">USNIC Iceberg Database</a>
+        </div>
+        
+        <div class="citation">
+          <div class="cite-author">Copernicus Marine Environment Monitoring Service (CMEMS)</div>
+          <div class="cite-title">"Global Ocean 1/12° Physics Analysis and Forecast updated Daily (GLORYS12V1)"</div>
+          <div class="annotation">Source for high-resolution Eulerian flow fields ($\vec{V}_w$).</div>
+          <a href="https://marine.copernicus.eu/" class="cite-link" target="_blank">CMEMS Data Portal</a>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+  <script>
+    function showTab(tabId) {
+      document.querySelectorAll('.sidebar-link').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
+      
+      event.target.classList.add('active');
+      document.getElementById('tab-' + tabId).classList.add('active');
+    }
+  </script>
+</body>
+</html>

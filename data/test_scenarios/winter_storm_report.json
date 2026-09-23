@@ -1,0 +1,75 @@
+{
+  "scenario": "winter_storm",
+  "name": "Winter Storm Conditions",
+  "description": "Austral winter (July), gale-force winds, heavy pack ice, dense iceberg field.",
+  "timestamp": "2026-07-20T06:00:00",
+  "phases": {
+    "environment": {
+      "wind_u": {
+        "min": -2.061,
+        "max": 11.303,
+        "mean": 3.139
+      },
+      "wind_v": {
+        "min": -12.857,
+        "max": -1.244,
+        "mean": -5.697
+      },
+      "sst": {
+        "min": -1.823,
+        "max": 0.548,
+        "mean": -0.645
+      },
+      "ice_conc": {
+        "min": 0.0,
+        "max": 1.0,
+        "mean": 0.708
+      },
+      "wave_height": {
+        "min": 0.018,
+        "max": 3.162,
+        "mean": 0.481
+      }
+    },
+    "population": {
+      "total": 50,
+      "size_distribution": {
+        "growler": 26,
+        "medium": 6,
+        "bergy_bit": 10,
+        "large": 2,
+        "small": 6
+      }
+    },
+    "detection": {
+      "candidates_found": 30,
+      "high_confidence": 0,
+      "medium_confidence": 0,
+      "low_confidence": 30
+    },
+    "trajectory": {
+      "icebergs_tracked": 10,
+      "total_points": 170,
+      "avg_displacement_km": 4687.7,
+      "max_displacement_km": 7771.6,
+      "min_displacement_km": 308.4
+    },
+    "hazard_assessment": {
+      "total_hazards": 80,
+      "distribution": {
+        "CRITICAL": 4,
+        "HIGH": 5,
+        "MODERATE": 23,
+        "LOW": 48
+      },
+      "navigation_advisory": "CRITICAL: 4 critical-class hazards detected. Route closure recommended. Ice concentration up to 100%. Winds gusting to 11 m/s."
+    }
+  },
+  "timing": {
+    "environment_generation_s": 0.092,
+    "population_generation_s": 0.003,
+    "detection_s": 0.003,
+    "trajectory_prediction_s": 0.11,
+    "total_s": 0.208
+  }
+}

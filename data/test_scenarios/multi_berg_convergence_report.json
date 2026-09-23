@@ -1,0 +1,75 @@
+{
+  "scenario": "multi_berg_convergence",
+  "name": "Multi-Iceberg Convergence",
+  "description": "5 medium/large icebergs converging toward Maitri shipping corridor due to current/wind alignment.",
+  "timestamp": "2026-02-20T08:00:00",
+  "phases": {
+    "environment": {
+      "wind_u": {
+        "min": -1.569,
+        "max": 6.529,
+        "mean": 1.628
+      },
+      "wind_v": {
+        "min": -6.166,
+        "max": -1.433,
+        "mean": -3.217
+      },
+      "sst": {
+        "min": -1.808,
+        "max": 3.228,
+        "mean": 0.711
+      },
+      "ice_conc": {
+        "min": 0.0,
+        "max": 0.904,
+        "mean": 0.193
+      },
+      "wave_height": {
+        "min": 0.064,
+        "max": 1.098,
+        "mean": 0.332
+      }
+    },
+    "population": {
+      "total": 40,
+      "size_distribution": {
+        "growler": 17,
+        "bergy_bit": 13,
+        "small": 4,
+        "large": 2,
+        "medium": 4
+      }
+    },
+    "detection": {
+      "candidates_found": 30,
+      "high_confidence": 0,
+      "medium_confidence": 3,
+      "low_confidence": 27
+    },
+    "trajectory": {
+      "icebergs_tracked": 10,
+      "total_points": 170,
+      "avg_displacement_km": 2699.9,
+      "max_displacement_km": 7773.2,
+      "min_displacement_km": 0.0
+    },
+    "hazard_assessment": {
+      "total_hazards": 70,
+      "distribution": {
+        "CRITICAL": 3,
+        "HIGH": 3,
+        "MODERATE": 16,
+        "LOW": 48
+      },
+      "navigation_advisory": "CRITICAL: 3 critical-class hazards detected. Route closure recommended. Ice concentration up to 90%. Winds gusting to 7 m/s."
+    }
+  },
+  "timing": {
+    "environment_generation_s": 0.126,
+    "population_generation_s": 0.005,
+    "detection_s": 0.006,
+    "trajectory_prediction_s": 0.152,
+    "total_s": 0.289
+  }
+}

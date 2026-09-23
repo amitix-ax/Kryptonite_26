@@ -1,0 +1,75 @@
+{
+  "scenario": "summer_calm",
+  "name": "Summer Calm Transit",
+  "description": "Austral summer (January), light winds, minimal sea ice, standard iceberg population.",
+  "timestamp": "2026-01-15T12:00:00",
+  "phases": {
+    "environment": {
+      "wind_u": {
+        "min": -1.287,
+        "max": 6.004,
+        "mean": 1.589
+      },
+      "wind_v": {
+        "min": -4.902,
+        "max": -1.447,
+        "mean": -2.766
+      },
+      "sst": {
+        "min": -1.802,
+        "max": 3.505,
+        "mean": 0.85
+      },
+      "ice_conc": {
+        "min": 0.0,
+        "max": 0.718,
+        "mean": 0.141
+      },
+      "wave_height": {
+        "min": 0.071,
+        "max": 0.938,
+        "mean": 0.296
+      }
+    },
+    "population": {
+      "total": 15,
+      "size_distribution": {
+        "bergy_bit": 6,
+        "small": 5,
+        "large": 2,
+        "growler": 1,
+        "medium": 1
+      }
+    },
+    "detection": {
+      "candidates_found": 30,
+      "high_confidence": 0,
+      "medium_confidence": 2,
+      "low_confidence": 28
+    },
+    "trajectory": {
+      "icebergs_tracked": 10,
+      "total_points": 170,
+      "avg_displacement_km": 4219.6,
+      "max_displacement_km": 7770.0,
+      "min_displacement_km": 0.0
+    },
+    "hazard_assessment": {
+      "total_hazards": 45,
+      "distribution": {
+        "CRITICAL": 2,
+        "HIGH": 2,
+        "MODERATE": 5,
+        "LOW": 36
+      },
+      "navigation_advisory": "CRITICAL: 2 critical-class hazards detected. Route closure recommended. Ice concentration up to 72%. Winds gusting to 6 m/s."
+    }
+  },
+  "timing": {
+    "environment_generation_s": 0.067,
+    "population_generation_s": 0.002,
+    "detection_s": 0.003,
+    "trajectory_prediction_s": 0.149,
+    "total_s": 0.221
+  }
+}

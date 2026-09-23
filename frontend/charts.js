@@ -25,7 +25,7 @@ class DashboardCharts {
         tooltip: {
           backgroundColor: '#0a1222',
           titleColor: '#f1f5f9',
-          bodyColor: '#38bdf8',
+          bodyColor: '#ffffff',
           borderColor: 'rgba(255,255,255,0.1)',
           borderWidth: 1,
           cornerRadius: 6
@@ -52,10 +52,10 @@ class DashboardCharts {
         labels: hours,
         datasets: [{
           data: speeds,
-          borderColor: '#38bdf8', borderWidth: 2,
+          borderColor: '#ffffff', borderWidth: 2,
           pointRadius: 0,
           fill: true,
-          backgroundColor: createGradient(ctx1, '#38bdf8'),
+          backgroundColor: createGradient(ctx1, '#ffffff'),
           tension: 0.3
         }]
       },
@@ -71,10 +71,10 @@ class DashboardCharts {
         labels: hours,
         datasets: [{
           data: sigmas,
-          borderColor: '#f59e0b', borderWidth: 2,
+          borderColor: '#a3a3a3', borderWidth: 2,
           pointRadius: 0,
           fill: true,
-          backgroundColor: createGradient(ctx2, '#f59e0b'),
+          backgroundColor: createGradient(ctx2, '#a3a3a3'),
           tension: 0.2
         }]
       },
@@ -90,10 +90,10 @@ class DashboardCharts {
         labels: hours,
         datasets: [{
           data: vols,
-          borderColor: '#10b981', borderWidth: 2,
+          borderColor: '#ffffff', borderWidth: 2,
           pointRadius: 0,
           fill: true,
-          backgroundColor: createGradient(ctx3, '#10b981'),
+          backgroundColor: createGradient(ctx3, '#ffffff'),
           tension: 0.1
         }]
       },

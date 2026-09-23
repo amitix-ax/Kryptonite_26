@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logs & Version History - DSS</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-deep: #020617;
+      --brand-blue: #0ea5e9;
+      --brand-dark: #0369a1;
+      --text: #f8fafc;
+      --text2: #cbd5e1;
+      --text3: #94a3b8;
+      --border: #334155;
+      --font: 'Inter', sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+    }
+    body {
+      margin: 0; padding: 0;
+      background-color: var(--bg-deep);
+      color: var(--text);
+      font-family: var(--font);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .map-topbar {
+      height: 56px;
+      background: #0f172a;
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      border-bottom: 2px solid var(--brand-dark);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    .brand-row { display: flex; align-items: center; gap: 12px; }
+    .brand-row h1 { font-size: 16px; font-weight: 700; letter-spacing: 0.5px; color: #fff; text-transform: uppercase; margin:0; }
+    .subtitle { font-size: 11px; color: var(--text2); font-family: var(--font); font-weight: 500; }
+    
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    
+    h2 { color: var(--brand-blue); border-bottom: 1px solid var(--border); padding-bottom: 10px; font-size: 20px; text-transform: uppercase; letter-spacing: 1px; margin-top: 40px; }
+    h2:first-child { margin-top: 0; }
+    
+    .log-box {
+      background: #0f172a;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 20px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text2);
+      height: 300px;
+      overflow-y: auto;
+      margin-bottom: 40px;
+    }
+    .log-line { margin-bottom: 6px; }
+    .log-time { color: var(--brand-blue); margin-right: 12px; }
+    .log-info { color: #10b981; }
+    .log-warn { color: #f59e0b; }
+    .log-err { color: #ef4444; }
+    
+    .changelog-item {
+      margin-bottom: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px dashed var(--border);
+    }
+    .changelog-version { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .changelog-date { font-size: 12px; color: var(--text3); margin-bottom: 12px; font-family: var(--mono); }
+    .changelog-list { padding-left: 20px; color: var(--text2); font-size: 14px; line-height: 1.6; }
+    .changelog-list li { margin-bottom: 6px; }
+  </style>
+</head>
+<body>
+
+  <!-- Top bar -->
+  <div class="map-topbar">
+    <div class="brand-row">
+      <div style="background:#fff; color:#0f172a; font-weight:800; padding:4px 8px; border-radius:2px; font-size:14px; letter-spacing:1px;">NCPOR</div>
+      <div>
+        <h1>ANTARCTIC ICEBERG DRIFT DSS</h1>
+        <span class="subtitle">Physics Engine v1.0 · MoES, Govt. of India</span>
+      </div>
+    </div>
+    
+    <div class="nav-menu" style="display:flex; gap:24px; align-items:center; margin-left: auto; margin-right: 32px;">
+       <a href="index.html" style="color:var(--text2); text-decoration:none; font-size:12px; font-weight:500;">Dashboard</a>
+       <a href="logs.html" style="color:#fff; text-decoration:none; font-size:12px; font-weight:600; border-bottom:2px solid var(--brand-blue); padding-bottom:4px;">Logs & Version</a>
+       <a href="info.html" style="color:var(--text2); text-decoration:none; font-size:12px; font-weight:500;">Methodology</a>
+       <a href="low_bandwidth.html" style="color:#d97706; text-decoration:none; font-size:12px; font-weight:600; border:1px solid #d97706; padding:4px 8px; border-radius:4px; margin-left:12px;">Low Bandwidth</a>
+    </div>
+  </div>
+  
+  <div class="content">
+    
+    <h2>System Event Logs</h2>
+    <div class="log-box" id="systemLogs">
+      <!-- Simulated Logs -->
+      <div class="log-line"><span class="log-time">[2026-09-12 14:00:00 UTC]</span> <span class="log-info">[INFO]</span> DSS System Initialized. Target framework v1.0.</div>
+      <div class="log-line"><span class="log-time">[2026-09-12 14:00:05 UTC]</span> <span class="log-info">[INFO]</span> Established connection to Copernicus Marine Environment Monitoring Service (CMEMS).</div>
+      <div class="log-line"><span class="log-time">[2026-09-12 14:00:12 UTC]</span> <span class="log-info">[INFO]</span> Established connection to ECMWF ERA5 Meteorological dataset API.</div>
+      <div class="log-line"><span class="log-time">[2026-09-12 14:00:45 UTC]</span> <span class="log-info">[INFO]</span> Ingesting telemetry... Found 71 iceberg drift targets.</div>
+      <div class="log-line"><span class="log-time">[2026-09-12 14:01:20 UTC]</span> <span class="log-warn">[WARN]</span> Intermittent connectivity with NSIDC AMSR2 Sea Ice endpoint. Retrying...</div>
+      <div class="log-line"><span class="log-time">[2026-09-12 14:01:25 UTC]</span> <span class="log-info">[INFO]</span> NSIDC Sea Ice connection restored. Syncing daily concentration matrices.</div>
+      <div class="log-line"><span class="log-time">[2026-09-12 14:02:10 UTC]</span> <span class="log-info">[INFO]</span> U-Net Machine Learning module loaded. Tensor processing unit available.</div>
+      <div class="log-line"><span class="log-time">[2026-09-12 14:03:00 UTC]</span> <span class="log-info">[INFO]</span> Generating RK45 trajectory forecasts. Step size = 15m.</div>
+      <div class="log-line"><span class="log-time">[2026-09-12 14:05:00 UTC]</span> <span class="log-info">[INFO]</span> Simulation matrix finalized. Entering passive monitor mode.</div>
+      <div class="log-line"><span class="log-time">[2026-09-12 14:15:00 UTC]</span> <span class="log-info">[INFO]</span> Refreshing ERA5 wind conditions...</div>
+    </div>
+    
+    <h2>Version History & Changelog</h2>
+    
+    <div class="changelog-item">
+      <div class="changelog-version">v1.2.0 - Hybrid AI & Dynamic Routing Pipeline</div>
+      <div class="changelog-date">13 SEP 2026</div>
+      <ul class="changelog-list">
+        <li>Trained and deployed a PyTorch LSTM model for high-precision time-series iceberg drift forecasting.</li>
+        <li>Implemented A* (A-Star) Pathfinding algorithm with U-Net semantic segmentation for intelligent hazard avoidance.</li>
+        <li>Added "Google Maps-style" dynamic auto-redirecting for moving iceberg traffic.</li>
+        <li>Integrated Gemini API for autonomous tactical briefings and natural language risk assessment.</li>
+        <li>Added fluid, glassy UI/UX components with dynamic pulsing markers for vessels and stations.</li>
+        <li>Restricted global Leaflet map bounds to strictly anchor to the Earth's geometry, preventing infinite panning.</li>
+      </ul>
+    </div>
+    
+    <div class="changelog-item">
+      <div class="changelog-version">v1.1.0 - Institutional Redesign & Tactical Modes</div>
+      <div class="changelog-date">12 SEP 2026</div>
+      <ul class="changelog-list">
+        <li>Completely overhauled UI/UX to match DARPA/NASA/NCPOR institutional design standards.</li>
+        <li>Replaced neon "cyber" aesthetic with a professional Navy, Blue, and White palette.</li>
+        <li>Removed OpenStreetMap and integrated Google Maps (Satellite, Terrain, Hybrid) APIs.</li>
+        <li>Introduced native Calendar Date Picker for querying 365 days of historical generated drift datasets.</li>
+        <li>Added manual coordinate entry capability to Voyage Planner.</li>
+        <li>Introduced integrated Open-Meteo Route Weather forecasting module with automated risk detection.</li>
+        <li>Added new "Low Bandwidth Mode" for tactical operations in areas with restricted satellite internet (Antarctica).</li>
+      </ul>
+    </div>
+    
+    <div class="changelog-item">
+      <div class="changelog-version">v1.0.0 - Initial Physics Engine Deployment</div>
+      <div class="changelog-date">14 JAN 2026</div>
+      <ul class="changelog-list">
+        <li>Deployed core Runge-Kutta 4th Order (RK45) physics simulation engine.</li>
+        <li>Integrated Leaflet mapping interface with U-Net predictive uncertainty cones.</li>
+        <li>Implemented vessel specification calculator (Fuel Transit Estimates) for S.A. Agulhas II, Shirase, Polarstern, and Xue Long 2.</li>
+        <li>Deployed dynamic risk meters based on proximity to pack ice and grounding lines.</li>
+      </ul>
+    </div>
+    
+  </div>
+
+</body>
+</html>

@@ -29,6 +29,15 @@ synthetic data (no external files required).
 ```bash
 cd project
 pip install -e .
+pip install -r requirements.txt        # install API dependencies (fastapi, uvicorn, etc.)
+python -m uvicorn api_server:app --port 8080 & # start the ML/Physics API backend
+python -m http.server 8000             # start the frontend
+```
+
+Now open [http://localhost:8000/frontend/index.html](http://localhost:8000/frontend/index.html) to interact with the system.
+
+Other commands:
+```bash
 pytest -q                              # run the test suite (81 tests)
 python examples/synthetic_iceberg.py   # inspect mass/buoyancy for sample icebergs
 python examples/synthetic_environment.py  # inspect a sampled environmental state

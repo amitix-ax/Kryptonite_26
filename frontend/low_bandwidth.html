@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tactical Mode (Low Bandwidth) - DSS</title>
+  <style>
+    body {
+      font-family: monospace;
+      background-color: #000;
+      color: #0f0;
+      margin: 0;
+      padding: 10px;
+    }
+    .header {
+      border-bottom: 1px solid #0f0;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+    }
+    a { color: #fff; text-decoration: underline; margin-right: 15px; }
+    h1, h2 { margin: 5px 0; font-size: 14px; text-transform: uppercase; }
+    .grid { display: flex; flex-direction: column; gap: 15px; }
+    .panel { border: 1px dashed #333; padding: 10px; }
+    .warn { color: #f00; font-weight: bold; }
+    .btn { background: #0f0; color: #000; border: none; padding: 5px 10px; cursor: pointer; font-family: monospace; font-weight: bold; }
+    input { background: #111; color: #0f0; border: 1px solid #333; padding: 4px; font-family: monospace; width: 100px;}
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid #333; padding: 4px; text-align: left; }
+    th { color: #fff; }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>ANTARCTIC DSS - TACTICAL (LOW BANDWIDTH)</h1>
+    <div style="margin-top: 10px;">
+      <a href="index.html">Exit Tactical</a>
+      <a href="logs.html">Logs</a>
+      <span style="color:#666">Map Graphics Disabled</span>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <h2>1. ROUTE INPUT</h2>
+      <div style="margin-bottom:10px;">
+        Start (Lat, Lon): <input type="text" id="lbStart" value="-69.50, 12.00">
+      </div>
+      <div style="margin-bottom:10px;">
+        End (Lat, Lon): &nbsp;&nbsp;<input type="text" id="lbEnd" value="-68.00, 15.00">
+      </div>
+      <button class="btn" id="lbCalcBtn">CALCULATE ROUTE</button>
+    </div>
+
+    <div class="panel">
+      <h2>2. TEXT DIRECTIONS & ESTIMATE</h2>
+      <div id="lbOutput" style="white-space: pre-wrap; margin-top:10px; color:#ccc;">Awaiting calculation...</div>
+    </div>
+    
+    <div class="panel">
+      <h2>3. ICEBERG PROXIMITY ALERT (TEXT ONLY)</h2>
+      <div id="lbIcebergs" style="color:#ccc;">Loading nearest threats...</div>
+    </div>
+  </div>
+
+  <script src="low_bandwidth.js"></script>
+</body>
+</html>

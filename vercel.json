@@ -1,12 +1,13 @@
 {
   "version": 2,
-  "public": true,
   "builds": [
+    { "src": "api/index.py", "use": "@vercel/python" },
     { "src": "index.html", "use": "@vercel/static" },
     { "src": "frontend/**/*", "use": "@vercel/static" },
     { "src": "data/**/*", "use": "@vercel/static" }
   ],
   "routes": [
+    { "src": "/api/(.*)", "dest": "api/index.py" },
     { "src": "/", "dest": "/frontend/index.html" },
     { "src": "/frontend/(.*)", "dest": "/frontend/$1" },
     { "src": "/data/(.*)", "dest": "/data/$1" }
