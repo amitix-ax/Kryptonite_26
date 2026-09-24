@@ -1,0 +1,10 @@
+[build]
+  # Set the base directory for the build process to the frontend folder
+  base = "frontend"
+  
+  # The directory to publish relative to the base directory
+  publish = "."
+
+[build.environment]
+  # Optional: ensure Netlify ignores android build files
+  NETLIFY_USE_YARN = "false"
